@@ -1,9 +1,15 @@
+#include <chrono>
+
 #include <stdio.h>
 #include <getopt.h>
+
 #include "window.h"
 #include "vec3.h"
 #include "raytracer.h"
 #include "sphere.h"
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
 
 #define degtorad(angle) angle * MPI / 180
 
@@ -14,12 +20,12 @@ void print_usage()
 			"usage: \ttrayracer [-h] [-w <w x h>] [-o <path>] [-r <rays>]\n"
 		       "\t[-n <name>] [-x <seed>] [-b <bounces>]\n\n"
 		       "options:\n"
-		       "\t-w <w x h>: Specify the resolution of the render.\n"
-		       "\t-o <path>: Specify an (optional)  output path for the finished image.\n"
-		       "\t-r <rays>: Select the number of rays to fire per pixel in the image (default = 1).\n"
-		       "\t-n <name>: Specify the OpenGL window name.\n"
-		       "\t-x <seed>: An optional seed for placing the spheres in the scene.\n"
-		       "\t-b <bounces>: The number of bounces to perform per ray. Higher gives improved reflections.\n\n"
+		       "\t-w <w x h>: \tSpecify the resolution of the render.\n"
+		       "\t-o <path>: \tSpecify an (optional)  output path for the finished image.\n"
+		       "\t-r <rays>: \tSelect the number of rays to fire per pixel in the image (default = 1).\n"
+		       "\t-n <name>: \tSpecify the OpenGL window name.\n"
+		       "\t-x <seed>: \tAn optional seed for placing the spheres in the scene.\n"
+		       "\t-b <bounces>: \tThe number of bounces to perform per ray. Higher gives improved reflections.\n\n"
 	      );
 }
 
@@ -27,7 +33,7 @@ int main(int argc, char* argv[])
 {
 	
 	unsigned width = 256;
-		unsigned height = 256;
+	unsigned height = 256;
 
 	int rays = 1;
 	int seed = 1337;
@@ -180,6 +186,14 @@ int main(int argc, char* argv[])
 	printf("Starting trace...\n");
 	rt.Raytrace();
 	printf("Trace complete in X seconds.\n");
+
+	if (output_path != nullptr)
+	{
+		if (stbi_write_png(output_path, width, height, 3, &framebuffer.at(0), width * 3) == 0)
+			fprintf(stderr, "Failed to write file to '%s'.\n", output_path);
+		else
+			printf("File written to '%s'\n", output_path);
+	}
 
 	// rendering loop
 	while (wnd.IsOpen() && !exit)

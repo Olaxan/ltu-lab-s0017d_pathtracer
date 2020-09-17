@@ -53,8 +53,9 @@ SET(files
 SOURCE_GROUP("trayracer" FILES ${files})
 
 ADD_EXECUTABLE(trayracer ${files})
-ADD_DEPENDENCIES(trayracer glew glfw)
+ADD_DEPENDENCIES(trayracer stb glew glfw)
+
+TARGET_LINK_LIBRARIES(trayracer PUBLIC exts stb glew glfw ${OPENGL_LIBS})
 
 SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-TARGET_LINK_LIBRARIES(trayracer PUBLIC exts glew glfw ${OPENGL_LIBS})
