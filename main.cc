@@ -34,6 +34,8 @@ int main(int argc, char* argv[])
 
 #define CHANNEL_COUNT 3
 	
+	typedef std::chrono::duration<float> duration;
+
 	unsigned width = 256;
 	unsigned height = 256;
 
@@ -99,7 +101,6 @@ int main(int argc, char* argv[])
 	if (optind == argc - 1)
 		spheres = atoi(argv[optind]);
 
-	printf("Tracing %i spheres to buffer of size %ux%u with %i rays, %i bounces.\n", spheres, width, height, rays, bounces);
 
 	Display::Window wnd;
 	
@@ -185,9 +186,16 @@ int main(int argc, char* argv[])
 
 	rt.SetViewMatrix(cameraTransform);
 
-	printf("Starting trace...\n");
+	printf("Tracing %i spheres to buffer of size %ux%u with %i rays, %i bounces...\n", spheres, width, height, rays, bounces);
+
+	auto t1 = std::chrono::high_resolution_clock::now();
 	rt.Raytrace();
-	printf("Trace complete in X seconds.\n");
+	auto t2 = std::chrono::high_resolution_clock::now();
+	duration elapsed = t2 - t1;
+
+	float mrs = float(width * height * rays) / (elapsed.count() * 1000000);
+
+	printf("Trace complete in %f seconds, %f MRay/s.\n", elapsed.count(), mrs);
 
 	if (output_path != nullptr)
 	{
