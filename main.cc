@@ -192,13 +192,16 @@ int main(int argc, char* argv[])
 	if (output_path != nullptr)
 	{
 		uint8_t* pixels = new uint8_t[width * height * 3];
-		
-		for (int i = 0; i < width * height; i += 3)
+	
+		int index = 0;	
+		for (int i = 0; i < width * height; i++)
 		{
-			pixels[i]     = 255.0f * framebuffer[i].r;
-			pixels[i + 1] = 255.0f * framebuffer[i].g;
-			pixels[i + 2] = 255.0f * framebuffer[i].b;
+			pixels[index++] = 255.0f * framebuffer[i].r;
+			pixels[index++] = 255.0f * framebuffer[i].g;
+			pixels[index++] = 255.0f * framebuffer[i].b;
 		}
+
+		stbi_flip_vertically_on_write(1);
 
 		if (stbi_write_png(output_path, width, height, 3, pixels, width * 3) == 0)
 			fprintf(stderr, "Failed to write file to '%s'.\n", output_path);
