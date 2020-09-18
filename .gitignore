@@ -1,5 +1,5 @@
 .vscode/*
-.clang/*
+.clangd/*
 build/*
 bin/*
 
