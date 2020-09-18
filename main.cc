@@ -101,7 +101,6 @@ int main(int argc, char* argv[])
 	if (optind == argc - 1)
 		spheres = atoi(argv[optind]);
 
-
 	Display::Window wnd;
 	
 	wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
@@ -160,7 +159,6 @@ int main(int argc, char* argv[])
 	bool exit = false;
 
 	// camera
-	bool resetFramebuffer = false;
 	vec3 camPos = { 0,1.0f,10.0f };
 	vec3 moveDir = { 0,0,0 };
 
