@@ -31,6 +31,8 @@ void print_usage()
 
 int main(int argc, char* argv[])
 {
+
+#define CHANNEL_COUNT 3
 	
 	unsigned width = 256;
 	unsigned height = 256;
@@ -189,10 +191,21 @@ int main(int argc, char* argv[])
 
 	if (output_path != nullptr)
 	{
-		if (stbi_write_png(output_path, width, height, 3, &framebuffer.at(0), width * 3) == 0)
+		uint8_t* pixels = new uint8_t[width * height * 3];
+		
+		for (int i = 0; i < width * height; i += 3)
+		{
+			pixels[i]     = 255.0f * framebuffer[i].r;
+			pixels[i + 1] = 255.0f * framebuffer[i].g;
+			pixels[i + 2] = 255.0f * framebuffer[i].b;
+		}
+
+		if (stbi_write_png(output_path, width, height, 3, pixels, width * 3) == 0)
 			fprintf(stderr, "Failed to write file to '%s'.\n", output_path);
 		else
 			printf("File written to '%s'\n", output_path);
+
+		delete[] pixels;
 	}
 
 	// rendering loop
