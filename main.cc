@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include <chrono>
 
 #include <stdio.h>
@@ -104,7 +106,6 @@ int main(int argc, char* argv[])
 		spheres = atoi(argv[optind]);
 
 	rng.seed(seed);
-	printf("PRNG seeded with %d, first output %f, second %f.\n", seed, rng.fnext(), rng.fnext());
 
 	Display::Window wnd;
 	

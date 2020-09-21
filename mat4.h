@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstring>
-
 #include "vec3.h"
 
 //------------------------------------------------------------------------------
@@ -143,6 +141,12 @@ det(mat4 m)
 		+(m.m02 * m.m13 - m.m03 * m.m12) * (m.m20 * m.m31 - m.m21 * m.m30);
 }
 
+inline mat4
+identity()
+{
+	return {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+}
+
 //------------------------------------------------------------------------------
 /**
 	Calculate inverse of matrix
@@ -154,7 +158,7 @@ inverse(mat4 m)
    
 
 	if (s == 0.0f) 
-		return {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1}; // cannot inverse, make it identity matrix
+		return identity();  // cannot inverse, make it identity matrix
 
 	s = 1.0f / s;
 

@@ -94,7 +94,8 @@ namespace xrng
 		
 		float fnext()
 		{
-			return to_float(next());
+			uint32_t n = next();
+			return to_float(n);
 		}
 	};
 }

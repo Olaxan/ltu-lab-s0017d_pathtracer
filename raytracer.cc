@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "raytracer.h"
 #include "xrng.h"
 
@@ -9,7 +11,9 @@ Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, un
 	rpp(rpp),
 	bounces(bounces),
 	width(w),
-	height(h)
+	height(h),
+	view(identity()),
+	frustum(identity())
 {
 	// empty
 }

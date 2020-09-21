@@ -1,3 +1,5 @@
+VALGRIND:
+
 1. Conditional jump or move depends on uninitialised value(s):
 	cameraTransform for SetViewMatrix contained uninitialized values; fix by initializing as identity matrix (could have created constructor for mat4 as well, probably better solution).
 
@@ -10,3 +12,13 @@
 
 5. Memory leak:
 	Recursive TracePath function never deletes dynamically allocated Ray objects; remove unnessecary 'new' statement for simple struct.
+
+PVS STUDIO:
+
+6. raytracer.cc and window.cc have members not being initialized in constructor; initialize to 0.
+
+CPP-CHECK:
+No errors.
+
+CLANG-TIDY:
+Vec3 error (The left operand of '*' is a garbage value), disregarded for now.

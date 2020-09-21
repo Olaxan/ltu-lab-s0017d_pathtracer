@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 //------------------------------------------------------------------------------
 // window.cc
 // (C) 2015-2020 Individual contributors, see AUTHORS file
@@ -62,7 +64,9 @@ Window::Window() :
 	window(nullptr),
 	width(1024),
 	height(768),
-	title("Trayracer")
+	title("Trayracer"),
+	frameCopy(0),
+	texture(0)
 {
 	
 }
@@ -209,7 +213,7 @@ Window::Open()
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(GLDebugCallback, NULL);
-		GLuint unusedIds;
+		GLuint unusedIds = 0;
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, true);
 
 		// setup stuff
