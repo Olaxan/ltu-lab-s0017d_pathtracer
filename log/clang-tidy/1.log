@@ -1,0 +1,153 @@
+/home/fredr/source/trayracer/vec3.h:74:20: warning: The left operand of '*' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+    double a = v.x * v.x;
+                   ^
+/home/fredr/source/trayracer/main.cc:59:9: note: Assuming the condition is false
+        while ((c = getopt (argc, argv, "hw:o:r:n:x:b:")) != -1)
+               ^
+/home/fredr/source/trayracer/main.cc:59:2: note: Loop condition is false. Execution continues on line 105
+        while ((c = getopt (argc, argv, "hw:o:r:n:x:b:")) != -1)
+        ^
+/home/fredr/source/trayracer/main.cc:105:6: note: Assuming the condition is false
+        if (optind == argc - 1)
+            ^
+/home/fredr/source/trayracer/main.cc:105:2: note: Taking false branch
+        if (optind == argc - 1)
+        ^
+/home/fredr/source/trayracer/main.cc:112:15: note: '?' condition is true
+        wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
+                     ^
+/home/fredr/source/trayracer/main.cc:114:6: note: Assuming the condition is false
+        if (!wnd.Open())
+            ^
+/home/fredr/source/trayracer/main.cc:114:2: note: Taking false branch
+        if (!wnd.Open())
+        ^
+/home/fredr/source/trayracer/main.cc:168:16: note: Calling constructor for 'vec3'
+        vec3 camPos = { 0,1.0f,10.0f };
+                      ^
+/home/fredr/source/trayracer/vec3.h:25:16: note: Assuming the condition is true
+        assert(il.size() == 3);
+               ^
+/usr/include/assert.h:90:27: note: expanded from macro 'assert'
+     (static_cast <bool> (expr)                                         \
+                          ^
+/home/fredr/source/trayracer/vec3.h:25:9: note: '?' condition is true
+        assert(il.size() == 3);
+        ^
+/usr/include/assert.h:90:7: note: expanded from macro 'assert'
+     (static_cast <bool> (expr)                                         \
+      ^
+/home/fredr/source/trayracer/vec3.h:28:21: note: Assuming '__begin1' is equal to '__end1'
+        for (auto v : il)
+                    ^
+/home/fredr/source/trayracer/vec3.h:36:9: note: Calling 'vec3::UpdateIsNormalizedVariable'
+        this->UpdateIsNormalizedVariable();
+        ^
+/home/fredr/source/trayracer/vec3.h:94:9: note: Calling 'len'
+    if (len(*this) == 1.0)
+        ^
+/home/fredr/source/trayracer/vec3.h:74:20: note: The left operand of '*' is a garbage value
+    double a = v.x * v.x;
+                   ^
+/home/fredr/source/trayracer/vec3.h:75:17: warning: The left operand of '*' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+    a = a + v.y * v.y;
+                ^
+/home/fredr/source/trayracer/main.cc:59:9: note: Assuming the condition is false
+        while ((c = getopt (argc, argv, "hw:o:r:n:x:b:")) != -1)
+               ^
+/home/fredr/source/trayracer/main.cc:59:2: note: Loop condition is false. Execution continues on line 105
+        while ((c = getopt (argc, argv, "hw:o:r:n:x:b:")) != -1)
+        ^
+/home/fredr/source/trayracer/main.cc:105:6: note: Assuming the condition is false
+        if (optind == argc - 1)
+            ^
+/home/fredr/source/trayracer/main.cc:105:2: note: Taking false branch
+        if (optind == argc - 1)
+        ^
+/home/fredr/source/trayracer/main.cc:112:15: note: '?' condition is true
+        wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
+                     ^
+/home/fredr/source/trayracer/main.cc:114:6: note: Assuming the condition is false
+        if (!wnd.Open())
+            ^
+/home/fredr/source/trayracer/main.cc:114:2: note: Taking false branch
+        if (!wnd.Open())
+        ^
+/home/fredr/source/trayracer/main.cc:168:16: note: Calling constructor for 'vec3'
+        vec3 camPos = { 0,1.0f,10.0f };
+                      ^
+/home/fredr/source/trayracer/vec3.h:25:16: note: Assuming the condition is true
+        assert(il.size() == 3);
+               ^
+/usr/include/assert.h:90:27: note: expanded from macro 'assert'
+     (static_cast <bool> (expr)                                         \
+                          ^
+/home/fredr/source/trayracer/vec3.h:25:9: note: '?' condition is true
+        assert(il.size() == 3);
+        ^
+/usr/include/assert.h:90:7: note: expanded from macro 'assert'
+     (static_cast <bool> (expr)                                         \
+      ^
+/home/fredr/source/trayracer/vec3.h:28:21: note: Assuming '__begin1' is not equal to '__end1'
+        for (auto v : il)
+                    ^
+/home/fredr/source/trayracer/vec3.h:36:9: note: Calling 'vec3::UpdateIsNormalizedVariable'
+        this->UpdateIsNormalizedVariable();
+        ^
+/home/fredr/source/trayracer/vec3.h:94:9: note: Calling 'len'
+    if (len(*this) == 1.0)
+        ^
+/home/fredr/source/trayracer/vec3.h:75:17: note: The left operand of '*' is a garbage value
+    a = a + v.y * v.y;
+                ^
+/home/fredr/source/trayracer/vec3.h:76:17: warning: The left operand of '*' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+    a = a + v.z * v.z;
+                ^
+/home/fredr/source/trayracer/main.cc:59:9: note: Assuming the condition is false
+        while ((c = getopt (argc, argv, "hw:o:r:n:x:b:")) != -1)
+               ^
+/home/fredr/source/trayracer/main.cc:59:2: note: Loop condition is false. Execution continues on line 105
+        while ((c = getopt (argc, argv, "hw:o:r:n:x:b:")) != -1)
+        ^
+/home/fredr/source/trayracer/main.cc:105:6: note: Assuming the condition is false
+        if (optind == argc - 1)
+            ^
+/home/fredr/source/trayracer/main.cc:105:2: note: Taking false branch
+        if (optind == argc - 1)
+        ^
+/home/fredr/source/trayracer/main.cc:112:15: note: '?' condition is true
+        wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
+                     ^
+/home/fredr/source/trayracer/main.cc:114:6: note: Assuming the condition is false
+        if (!wnd.Open())
+            ^
+/home/fredr/source/trayracer/main.cc:114:2: note: Taking false branch
+        if (!wnd.Open())
+        ^
+/home/fredr/source/trayracer/main.cc:168:16: note: Calling constructor for 'vec3'
+        vec3 camPos = { 0,1.0f,10.0f };
+                      ^
+/home/fredr/source/trayracer/vec3.h:25:16: note: Assuming the condition is true
+        assert(il.size() == 3);
+               ^
+/usr/include/assert.h:90:27: note: expanded from macro 'assert'
+     (static_cast <bool> (expr)                                         \
+                          ^
+/home/fredr/source/trayracer/vec3.h:25:9: note: '?' condition is true
+        assert(il.size() == 3);
+        ^
+/usr/include/assert.h:90:7: note: expanded from macro 'assert'
+     (static_cast <bool> (expr)                                         \
+      ^
+/home/fredr/source/trayracer/vec3.h:28:21: note: Assuming '__begin1' is not equal to '__end1'
+        for (auto v : il)
+                    ^
+/home/fredr/source/trayracer/vec3.h:36:9: note: Calling 'vec3::UpdateIsNormalizedVariable'
+        this->UpdateIsNormalizedVariable();
+        ^
+/home/fredr/source/trayracer/vec3.h:94:9: note: Calling 'len'
+    if (len(*this) == 1.0)
+        ^
+/home/fredr/source/trayracer/vec3.h:76:17: note: The left operand of '*' is a garbage value
+    a = a + v.z * v.z;
+                ^
