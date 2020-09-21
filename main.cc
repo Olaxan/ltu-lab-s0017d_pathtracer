@@ -7,6 +7,7 @@
 #include "vec3.h"
 #include "raytracer.h"
 #include "sphere.h"
+#include "xors.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -100,6 +101,9 @@ int main(int argc, char* argv[])
 
 	if (optind == argc - 1)
 		spheres = atoi(argv[optind]);
+
+	prng::xoshiro128_plus xrng(seed);
+	printf("PRNG seeded with %d, first output %f, second %f\n", seed, xrng.fnext(), xrng.fnext());
 
 	Display::Window wnd;
 	

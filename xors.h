@@ -1,36 +1,66 @@
 #include <stdint.h>
 
-namespace xorshift
+#include <functional>
+
+namespace prng
 {
 
-	static inline uint32_t rotl(const uint32_t x, int k) 
+	class xoshiro128_plus
 	{
-		return (x << k) | (x >> (32 - k));
-	}
+	private:
 
-	static uint32_t s[4];
+		static inline uint32_t rotl(const uint32_t x, int k) 
+		{
+			return (x << k) | (x >> (32 - k));
+		}
 
-	uint32_t next() 
-	{
-		const uint32_t result = s[0] + s[3];
+		uint32_t s[4];
 
-		const uint32_t t = s[1] << 9;
+	public:
 
-		s[2] ^= s[0];
-		s[3] ^= s[1];
-		s[1] ^= s[2];
-		s[0] ^= s[3];
+		xoshiro128_plus(uint32_t seed)
+		{
+			this->seed(seed);
+		}
 
-		s[2] ^= t;
+		uint32_t next() 
+		{
+			const uint32_t result = s[0] + s[3];
 
-		s[3] = rotl(s[3], 11);
+			const uint32_t t = s[1] << 9;
 
-		return result;
-	}
+			s[2] ^= s[0];
+			s[3] ^= s[1];
+			s[1] ^= s[2];
+			s[0] ^= s[3];
 
-	float fnext()
-	{
-		return (float)next();
-	}
+			s[2] ^= t;
 
+			s[3] = rotl(s[3], 11);
+
+			return result;
+		}
+
+		void seed(uint32_t seed)
+		{
+			// I'd love to see the face of the terrible nerds behind this generator
+			// When they see what's happening here
+
+			s[0] = seed;
+			s[1] = (seed += 31 * std::hash<uint32_t>()(seed));
+			s[2] = (seed += 31 * std::hash<uint32_t>()(seed));
+			s[3] = (seed += 31 * std::hash<uint32_t>()(seed));
+		}
+
+		float fnext()
+		{
+			return to_float(next());
+		}
+
+		float to_float(uint32_t x) 
+		{
+			const union { uint32_t i; float f; } u = { .i = UINT32_C(0x7F) << 23 | x >> 9 };
+			return u.f - 1.0;
+		}
+	};
 } 
