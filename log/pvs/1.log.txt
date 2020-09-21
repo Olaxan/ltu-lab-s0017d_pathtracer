@@ -1,0 +1,6 @@
+www.viva64.com/en/w	1	err	Help: The documentation for all analyzer warnings is available here: https://www.viva64.com/en/w/.
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h	1348	err	V781 The value of the 'i' index is checked after it was used. Perhaps there is a mistake in program logic.
+/home/fredr/source/trayracer/main.cc	109	warn	V681 The language standard does not define an order in which the 'fnext' functions will be called during evaluation of arguments.
+/home/fredr/source/trayracer/raytracer.cc	9	err	V730 Not all members of a class are initialized inside the constructor. Consider inspecting: view, frustum.
+/home/fredr/source/trayracer/window.cc	215	err	V614 Uninitialized variable 'unusedIds' used. Consider checking the fifth actual argument of the '__glewDebugMessageControl' function.
+/home/fredr/source/trayracer/window.cc	63	err	V730 Not all members of a class are initialized inside the constructor. Consider inspecting: frameCopy, texture.

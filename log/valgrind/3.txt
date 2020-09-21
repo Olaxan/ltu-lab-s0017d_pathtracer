@@ -1,0 +1,23 @@
+==21020== Memcheck, a memory error detector
+==21020== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==21020== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==21020== Command: ./trayracer
+==21020== Parent PID: 2083
+==21020== 
+==21020== Warning: unimplemented fcntl command: 1033
+==21020== 
+==21020== HEAP SUMMARY:
+==21020==     in use at exit: 38,439 bytes in 422 blocks
+==21020==   total heap usage: 182,292 allocs, 181,870 frees, 273,397,055 bytes allocated
+==21020== 
+==21020== LEAK SUMMARY:
+==21020==    definitely lost: 0 bytes in 0 blocks
+==21020==    indirectly lost: 0 bytes in 0 blocks
+==21020==      possibly lost: 0 bytes in 0 blocks
+==21020==    still reachable: 38,439 bytes in 422 blocks
+==21020==         suppressed: 0 bytes in 0 blocks
+==21020== Reachable blocks (those to which a pointer was found) are not shown.
+==21020== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==21020== 
+==21020== For lists of detected and suppressed errors, rerun with: -s
+==21020== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -1,0 +1,109 @@
+==17662== Memcheck, a memory error detector
+==17662== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17662== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==17662== Command: ./trayracer
+==17662== Parent PID: 2083
+==17662== 
+==17662== Warning: unimplemented fcntl command: 1033
+==17662== Conditional jump or move depends on uninitialised value(s)
+==17662==    at 0x165202: inverse(mat4) (mat4.h:152)
+==17662==    by 0x16457B: Raytracer::UpdateMatrices() (raytracer.cc:135)
+==17662==    by 0x160986: Raytracer::SetViewMatrix(mat4) (raytracer.h:78)
+==17662==    by 0x15E854: main (main.cc:192)
+==17662==  Uninitialised value was created by a stack allocation
+==17662==    at 0x15D8FF: main (main.cc:34)
+==17662== 
+==17662== Conditional jump or move depends on uninitialised value(s)
+==17662==    at 0x165210: inverse(mat4) (mat4.h:152)
+==17662==    by 0x16457B: Raytracer::UpdateMatrices() (raytracer.cc:135)
+==17662==    by 0x160986: Raytracer::SetViewMatrix(mat4) (raytracer.h:78)
+==17662==    by 0x15E854: main (main.cc:192)
+==17662==  Uninitialised value was created by a stack allocation
+==17662==    at 0x15D8FF: main (main.cc:34)
+==17662== 
+==17662== 
+==17662== HEAP SUMMARY:
+==17662==     in use at exit: 2,506,723 bytes in 38,964 blocks
+==17662==   total heap usage: 220,465 allocs, 181,501 frees, 275,851,575 bytes allocated
+==17662== 
+==17662== 64 bytes in 1 blocks are possibly lost in loss record 45 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x163E67: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:67)
+==17662==    by 0x163AE9: Raytracer::Raytrace() (raytracer.cc:39)
+==17662==    by 0x15E8AA: main (main.cc:197)
+==17662== 
+==17662== 522 (104 direct, 418 indirect) bytes in 1 blocks are definitely lost in loss record 76 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x15DEC0: main (main.cc:127)
+==17662== 
+==17662== 522 (104 direct, 418 indirect) bytes in 1 blocks are definitely lost in loss record 77 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x15E047: main (main.cc:134)
+==17662== 
+==17662== 522 (104 direct, 418 indirect) bytes in 1 blocks are definitely lost in loss record 78 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x15E1C7: main (main.cc:141)
+==17662== 
+==17662== 522 (104 direct, 418 indirect) bytes in 1 blocks are definitely lost in loss record 79 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x15E363: main (main.cc:149)
+==17662== 
+==17662== 522 (104 direct, 418 indirect) bytes in 1 blocks are definitely lost in loss record 80 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x15E4E7: main (main.cc:156)
+==17662== 
+==17662== 522 (104 direct, 418 indirect) bytes in 1 blocks are definitely lost in loss record 81 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x15E667: main (main.cc:163)
+==17662== 
+==17662== 29,696 bytes in 464 blocks are definitely lost in loss record 93 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x163E67: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:67)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163AE9: Raytracer::Raytrace() (raytracer.cc:39)
+==17662==    by 0x15E8AA: main (main.cc:197)
+==17662== 
+==17662== 53,248 bytes in 832 blocks are definitely lost in loss record 94 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x163E67: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:67)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163AE9: Raytracer::Raytrace() (raytracer.cc:39)
+==17662==    by 0x15E8AA: main (main.cc:197)
+==17662== 
+==17662== 101,824 bytes in 1,591 blocks are definitely lost in loss record 95 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x163E67: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:67)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163AE9: Raytracer::Raytrace() (raytracer.cc:39)
+==17662==    by 0x15E8AA: main (main.cc:197)
+==17662== 
+==17662== 164,160 bytes in 2,565 blocks are definitely lost in loss record 96 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x163E67: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:67)
+==17662==    by 0x163F12: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:70)
+==17662==    by 0x163AE9: Raytracer::Raytrace() (raytracer.cc:39)
+==17662==    by 0x15E8AA: main (main.cc:197)
+==17662== 
+==17662== 2,116,160 bytes in 33,065 blocks are definitely lost in loss record 97 of 97
+==17662==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==17662==    by 0x163E67: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:67)
+==17662==    by 0x163AE9: Raytracer::Raytrace() (raytracer.cc:39)
+==17662==    by 0x15E8AA: main (main.cc:197)
+==17662== 
+==17662== LEAK SUMMARY:
+==17662==    definitely lost: 2,465,712 bytes in 38,523 blocks
+==17662==    indirectly lost: 2,508 bytes in 18 blocks
+==17662==      possibly lost: 64 bytes in 1 blocks
+==17662==    still reachable: 38,439 bytes in 422 blocks
+==17662==         suppressed: 0 bytes in 0 blocks
+==17662== Reachable blocks (those to which a pointer was found) are not shown.
+==17662== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==17662== 
+==17662== For lists of detected and suppressed errors, rerun with: -s
+==17662== ERROR SUMMARY: 14 errors from 14 contexts (suppressed: 0 from 0)

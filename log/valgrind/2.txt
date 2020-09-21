@@ -1,0 +1,63 @@
+==20660== Memcheck, a memory error detector
+==20660== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==20660== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+==20660== Command: ./trayracer
+==20660== Parent PID: 2083
+==20660== 
+==20660== Warning: unimplemented fcntl command: 1033
+==20660== 
+==20660== HEAP SUMMARY:
+==20660==     in use at exit: 2,503,591 bytes in 38,940 blocks
+==20660==   total heap usage: 220,260 allocs, 181,320 frees, 275,848,015 bytes allocated
+==20660== 
+==20660== 29,696 bytes in 464 blocks are definitely lost in loss record 68 of 72
+==20660==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==20660==    by 0x163EF1: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:73)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163B73: Raytracer::Raytrace() (raytracer.cc:45)
+==20660==    by 0x15E97A: main (main.cc:195)
+==20660== 
+==20660== 53,248 bytes in 832 blocks are definitely lost in loss record 69 of 72
+==20660==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==20660==    by 0x163EF1: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:73)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163B73: Raytracer::Raytrace() (raytracer.cc:45)
+==20660==    by 0x15E97A: main (main.cc:195)
+==20660== 
+==20660== 101,824 bytes in 1,591 blocks are definitely lost in loss record 70 of 72
+==20660==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==20660==    by 0x163EF1: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:73)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163B73: Raytracer::Raytrace() (raytracer.cc:45)
+==20660==    by 0x15E97A: main (main.cc:195)
+==20660== 
+==20660== 164,160 bytes in 2,565 blocks are definitely lost in loss record 71 of 72
+==20660==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==20660==    by 0x163EF1: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:73)
+==20660==    by 0x163F9C: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:76)
+==20660==    by 0x163B73: Raytracer::Raytrace() (raytracer.cc:45)
+==20660==    by 0x15E97A: main (main.cc:195)
+==20660== 
+==20660== 2,116,224 bytes in 33,066 blocks are definitely lost in loss record 72 of 72
+==20660==    at 0x483ADEF: operator new(unsigned long) (vg_replace_malloc.c:342)
+==20660==    by 0x163EF1: Raytracer::TracePath(Ray, unsigned int) (raytracer.cc:73)
+==20660==    by 0x163B73: Raytracer::Raytrace() (raytracer.cc:45)
+==20660==    by 0x15E97A: main (main.cc:195)
+==20660== 
+==20660== LEAK SUMMARY:
+==20660==    definitely lost: 2,465,152 bytes in 38,518 blocks
+==20660==    indirectly lost: 0 bytes in 0 blocks
+==20660==      possibly lost: 0 bytes in 0 blocks
+==20660==    still reachable: 38,439 bytes in 422 blocks
+==20660==         suppressed: 0 bytes in 0 blocks
+==20660== Reachable blocks (those to which a pointer was found) are not shown.
+==20660== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==20660== 
+==20660== For lists of detected and suppressed errors, rerun with: -s
+==20660== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)
