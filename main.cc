@@ -5,9 +5,9 @@
 
 #include "window.h"
 #include "vec3.h"
-#include "raytracer.h"
 #include "sphere.h"
-#include "xors.h"
+#include "xrng.h"
+#include "raytracer.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
@@ -33,9 +33,10 @@ void print_usage()
 int main(int argc, char* argv[])
 {
 
-#define CHANNEL_COUNT 3
-	
 	typedef std::chrono::duration<float> duration;
+	typedef std::chrono::high_resolution_clock clock;
+
+	xrng::xoshiro128_plus rng;
 
 	unsigned width = 256;
 	unsigned height = 256;
@@ -102,8 +103,8 @@ int main(int argc, char* argv[])
 	if (optind == argc - 1)
 		spheres = atoi(argv[optind]);
 
-	prng::xoshiro128_plus xrng(seed);
-	printf("PRNG seeded with %d, first output %f, second %f\n", seed, xrng.fnext(), xrng.fnext());
+	rng.seed(seed);
+	printf("PRNG seeded with %d, first output %f, second %f.\n", seed, rng.fnext(), rng.fnext());
 
 	Display::Window wnd;
 	
@@ -178,10 +179,7 @@ int main(int argc, char* argv[])
 		}
 	});
 
-	// number of accumulated frames
-	int frameIndex = 0;
-
-	mat4 cameraTransform;
+	mat4 cameraTransform = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
 	cameraTransform.m30 = camPos.x;
 	cameraTransform.m31 = camPos.y;
 	cameraTransform.m32 = camPos.z;
@@ -190,10 +188,9 @@ int main(int argc, char* argv[])
 
 	printf("Tracing %i spheres to buffer of size %ux%u with %i rays, %i bounces...\n", spheres, width, height, rays, bounces);
 
-	auto t1 = std::chrono::high_resolution_clock::now();
+	auto begin_time = clock::now();
 	rt.Raytrace();
-	auto t2 = std::chrono::high_resolution_clock::now();
-	duration elapsed = t2 - t1;
+	duration elapsed = clock::now() - begin_time;
 
 	float mrs = float(width * height * rays) / (elapsed.count() * 1000000);
 

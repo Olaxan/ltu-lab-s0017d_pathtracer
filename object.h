@@ -46,7 +46,7 @@ public:
     virtual ~Object()
     {
         // clean up name!
-        delete name;
+        delete[] name;
     }
 
     virtual bool Intersect(HitResult& hit, Ray ray, float maxDist) = 0;

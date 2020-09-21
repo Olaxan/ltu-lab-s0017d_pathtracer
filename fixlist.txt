@@ -1,0 +1,12 @@
+1. Conditional jump or move depends on uninitialised value(s):
+	cameraTransform for SetViewMatrix contained uninitialized values; fix by initializing as identity matrix (could have created constructor for mat4 as well, probably better solution).
+
+2. Memory leak:
+	Vector of Object* never deleted; loop through in RT destructor and delete.
+
+3. Misuse of virtual destructor in Object/Sphere - derived class overrides virtual parent destructor.
+
+4. Delete mismatch in Object - call delete[] to remove char array.
+
+5. Memory leak:
+	Recursive TracePath function never deletes dynamically allocated Ray objects; remove unnessecary 'new' statement for simple struct.

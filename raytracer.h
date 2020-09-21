@@ -14,7 +14,7 @@ class Raytracer
 {
 public:
     Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces);
-    ~Raytracer() { }
+    ~Raytracer();
 
     // start raytracing!
     void Raytrace();
