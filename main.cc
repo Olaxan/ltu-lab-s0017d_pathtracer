@@ -19,16 +19,19 @@
 void print_usage()
 {
 	printf("This utility renders a single frame of a raytraced scene, "
-			"displaying it in an OpenGL window and optionally saving the finished result to a file.\n\n"
-			"usage: \ttrayracer [-h] [-w <w x h>] [-o <path>] [-r <rays>]\n"
-		       "\t[-n <name>] [-x <seed>] [-b <bounces>]\n\n"
+			"optionally displaying it in an OpenGL window, and saving the finished result to a file.\n\n"
+			"usage: \ttrayracer [-h] [-s] [-w <wxh>] [-o <path>] [-r <rays>]\n"
+		       "\t[-n <name>] [-x <seed>] [-b <bounces>] <spheres>\n\n"
 		       "options:\n"
-		       "\t-w <w x h>: \tSpecify the resolution of the render.\n"
+		       "\t-h:\t\tShows this help.\n"
+		       "\t-s:\t\tRun without opening a render window. Use -o to specify an output path.\n"
+		       "\t-w <wxh>: \tSpecify the resolution of the render. Example: 1920x1080 - no spaces allowed.\n"
 		       "\t-o <path>: \tSpecify an (optional)  output path for the finished image.\n"
 		       "\t-r <rays>: \tSelect the number of rays to fire per pixel in the image (default = 1).\n"
 		       "\t-n <name>: \tSpecify the OpenGL window name.\n"
 		       "\t-x <seed>: \tAn optional seed for placing the spheres in the scene.\n"
-		       "\t-b <bounces>: \tThe number of bounces to perform per ray. Higher gives improved reflections.\n\n"
+		       "\t-b <bounces>: \tThe number of bounces to perform per ray. Higher gives improved reflections.\n"
+		       "\t<spheres>:\tThe number of spheres to render randomly.\n\nn"
 	      );
 }
 
@@ -39,6 +42,8 @@ int main(int argc, char* argv[])
 	typedef std::chrono::high_resolution_clock clock;
 
 	xrng::xoshiro128_plus rng;
+
+	bool silent = false;
 
 	unsigned width = 256;
 	unsigned height = 256;
@@ -56,13 +61,16 @@ int main(int argc, char* argv[])
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "hw:o:r:n:x:b:")) != -1)
+	while ((c = getopt (argc, argv, "hsw:o:r:n:x:b:")) != -1)
 	{
 		switch (c)
 		{
 			case 'h':
 				print_usage();
 				return 0;
+			case 's':
+				silent = true;
+				break;
 			case 'w':
 				if (sscanf(optarg, "%ux%u", &width, &height) != 2)
 				{
@@ -105,14 +113,7 @@ int main(int argc, char* argv[])
 	if (optind == argc - 1)
 		spheres = atoi(argv[optind]);
 
-	rng.seed(seed);
-
-	Display::Window wnd;
-	
-	wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
-	
-	if (!wnd.Open())
-		return 1;
+	rng.seed(seed);	
 
 	std::vector<Color> framebuffer(width * height);
 	
@@ -166,19 +167,7 @@ int main(int argc, char* argv[])
 
 	// camera
 	vec3 camPos = { 0,1.0f,10.0f };
-	vec3 moveDir = { 0,0,0 };
-
-	wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
-	{
-		switch (key)
-		{
-		case GLFW_KEY_ESCAPE:
-			exit = true;
-			break;
-		default:
-			break;
-		}
-	});
+	vec3 moveDir = { 0,0,0 };	
 
 	mat4 cameraTransform = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
 	cameraTransform.m30 = camPos.x;
@@ -218,6 +207,28 @@ int main(int argc, char* argv[])
 
 		delete[] pixels;
 	}
+
+	if (silent)
+		return 0;
+
+	Display::Window wnd;
+	
+	wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
+	
+	if (!wnd.Open())
+		return 1;
+
+	wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+	{
+		switch (key)
+		{
+		case GLFW_KEY_ESCAPE:
+			exit = true;
+			break;
+		default:
+			break;
+		}
+	});
 
 	// rendering loop
 	while (wnd.IsOpen() && !exit)
