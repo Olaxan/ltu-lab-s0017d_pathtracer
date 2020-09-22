@@ -22,3 +22,8 @@ No errors.
 
 CLANG-TIDY:
 Vec3 error (The left operand of '*' is a garbage value), disregarded for now.
+
+AMD uProf + KCacheGrind:
+vec3.len() is heavy, called in constructor by UpdateIsNormalizedVariable() and UpdateIsZeroVariable();
+
+These methods don't check with epsilon, and will most likely always fail regardless.

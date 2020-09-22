@@ -1,11 +1,11 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+#include "shared.h"
 #include "material.h"
+
 #include "pbr.h"
-#include <time.h>
 #include "mat4.h"
 #include "sphere.h"
-#include "random.h"
 
 //------------------------------------------------------------------------------
 /**
@@ -15,10 +15,10 @@ BSDF(Material const* const material, Ray ray, vec3 point, vec3 normal)
 {
     float cosTheta = -dot(normalize(ray.m), normalize(normal));
 
-    if (material->type != "Dielectric")
+    if (material->type != MaterialType::Dielectric)
     {
         float F0 = 0.04f;
-        if (material->type == "Conductor")
+        if (material->type == MaterialType::Conductor)
         {
             F0 = 0.95f;
         }
@@ -26,19 +26,23 @@ BSDF(Material const* const material, Ray ray, vec3 point, vec3 normal)
         // probability that a ray will reflect on a microfacet
         float F = FresnelSchlick(cosTheta, F0, material->roughness);
 
-        float r = RandomFloat();
+        float r = rng.fnext();
 
         if (r < F)
         {
             mat4 basis = TBN(normal);
             // importance sample with brdf specular lobe
-            vec3 H = ImportanceSampleGGX_VNDF(RandomFloat(), RandomFloat(), material->roughness, ray.m, basis);
+            vec3 H = ImportanceSampleGGX_VNDF(rng.fnext(), rng.fnext(), material->roughness, ray.m, basis);
             vec3 reflected = reflect(ray.m, H);
             return { point, normalize(reflected) };
         }
         else
         {
-            return { point, normalize(normalize(normal) + random_point_on_unit_sphere()) };
+		float x = rng.fnext(-1, 1);
+		float y = rng.fnext(-1, 1);
+		float z = rng.fnext(-1, 1);
+		vec3 v( x, y, z );
+            	return { point, normalize(normalize(normal) + normalize(v)) };
         }
     }
     else
@@ -73,7 +77,7 @@ BSDF(Material const* const material, Ray ray, vec3 point, vec3 normal)
         {
             reflect_prob = 1.0;
         }
-        if (RandomFloat() < reflect_prob)
+        if (rng.fnext() < reflect_prob)
         {
             vec3 reflected = reflect(rayDir, normal);
             return { point, reflected };

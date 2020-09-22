@@ -6,7 +6,6 @@
 
 #include "vec3.h"
 #include "mat4.h"
-#include "color.h"
 #include "ray.h"
 #include "object.h"
 

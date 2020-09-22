@@ -1,22 +1,13 @@
 #pragma once
+
 #include "object.h"
 #include <stdlib.h>
 #include <time.h>
+
 #include "mat4.h"
 #include "pbr.h"
-#include "random.h"
 #include "ray.h"
 #include "material.h"
-
-// returns a random point on the surface of a unit sphere
-inline vec3 random_point_on_unit_sphere()
-{
-	float x = RandomFloatNTP();
-	float y = RandomFloatNTP();
-	float z = RandomFloatNTP();
-	vec3 v( x, y, z );
-	return normalize(v);
-}
 
 // a spherical object
 class Sphere : public Object

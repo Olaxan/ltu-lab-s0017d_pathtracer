@@ -1,7 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+#include "shared.h"
 #include "raytracer.h"
-#include "xrng.h"
 
 //------------------------------------------------------------------------------
 /**
@@ -30,7 +30,7 @@ Raytracer::~Raytracer()
 void
 Raytracer::Raytrace()
 {
-	xrng::xoshiro128_plus rng;
+	vec3 cam_pos = get_position(this->view);
 
 	for (int x = 0; x < this->width; ++x)
 	{
@@ -45,9 +45,8 @@ Raytracer::Raytrace()
 				vec3 direction = vec3(u, v, -1.0f);
 				direction = transform(direction, this->frustum);
 				
-				Ray* ray = new Ray(get_position(this->view), direction);
-				color += this->TracePath(*ray, 0);
-				delete ray;
+				Ray ray(cam_pos, direction);
+				color += this->TracePath(ray, 0);
 			}
 
 			// divide by number of samples per pixel, to get the average of the distribution
@@ -152,7 +151,7 @@ Raytracer::UpdateMatrices()
 Color
 Raytracer::Skybox(vec3 direction)
 {
-	float t = 0.5*(direction.y + 1.0);
-	vec3 vec = vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t;
-	return {(float)vec.x, (float)vec.y, (float)vec.z};
+	float t = 0.5 * (direction.y + 1.0);
+	return Color(vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t);
+	// Could perhaps optimize further, this may actually result in worse performance.
 }

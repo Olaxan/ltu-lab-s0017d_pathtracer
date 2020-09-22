@@ -75,9 +75,8 @@ namespace xrng
 
 		void seed(uint32_t seed)
 		{
-			// I'd love to see the face of the terrible nerds behind this generator
-			// When they see what's happening here
-
+			// This isn't likely to be good is it
+			
 			s[0] = seed;
 			s[1] = (seed += 31 * std::hash<uint32_t>()(seed));
 			s[2] = (seed += 31 * std::hash<uint32_t>()(seed));
@@ -96,6 +95,12 @@ namespace xrng
 		{
 			uint32_t n = next();
 			return to_float(n);
+		}
+
+		float fnext(float min, float max)
+		{
+			float n = fnext();
+			return n * (max - min) + min;
 		}
 	};
 }

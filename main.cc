@@ -1,18 +1,20 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-#include <chrono>
-
-#include <stdio.h>
-#include <getopt.h>
+#include "shared.h"
 
 #include "window.h"
 #include "vec3.h"
 #include "sphere.h"
-#include "xrng.h"
 #include "raytracer.h"
+#include "xrng.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
+
+#include <stdio.h>
+#include <getopt.h>
+
+#include <chrono>
 
 #define degtorad(angle) angle * MPI / 180
 
@@ -35,13 +37,13 @@ void print_usage()
 	      );
 }
 
+xrng::xoshiro128_plus rng = xrng::xoshiro128_plus();
+
 int main(int argc, char* argv[])
 {
 
 	typedef std::chrono::duration<float> duration;
 	typedef std::chrono::high_resolution_clock clock;
-
-	xrng::xoshiro128_plus rng;
 
 	bool silent = false;
 
@@ -119,30 +121,35 @@ int main(int argc, char* argv[])
 	
 	Raytracer rt = Raytracer(width, height, framebuffer, rays, bounces);
 
+	for (int i = 0; i < spheres; i++)
+	{
+
+	}
+
 	// Create some objects
 	Material* mat = new Material();
-	mat->type = "Lambertian";
+	mat->type = MaterialType::Lambertian;
 	mat->color = { 0.5,0.5,0.5 };
 	mat->roughness = 0.3;
 	Sphere* ground = new Sphere(1000, { 0,-1000, -1 }, mat);
 	rt.AddObject(ground);
 	
 	mat = new Material();
-	mat->type = "Conductor";
+	mat->type = MaterialType::Conductor;
 	mat->color = {1,1,1};
 	mat->roughness = 0.2f;
 	Sphere* test = new Sphere(1, { 0,1,0 }, mat);
 	rt.AddObject(test);
 
 	mat = new Material();
-	mat->type = "Lambertian";
+	mat->type = MaterialType::Lambertian;
 	mat->color = { 0,0.4,0.6 };
 	mat->roughness = 0.2;
 	test = new Sphere(1, { -4,1,0 }, mat);
 	rt.AddObject(test);
 
 	mat = new Material();
-	mat->type = "Dielectric";
+	mat->type = MaterialType::Dielectric;
 	mat->color = { 1,0.8,0.7 };
 	mat->roughness = 0.95;
 	mat->refractionIndex = 1.65;
@@ -150,14 +157,14 @@ int main(int argc, char* argv[])
 	rt.AddObject(test);
 
 	mat = new Material();
-	mat->type = "Lambertian";
+	mat->type = MaterialType::Lambertian;
 	mat->color = { 1,0,0.2 };
 	mat->roughness = 0.04;
 	test = new Sphere(1, { 1,1, -3 }, mat);
 	rt.AddObject(test);
 
 	mat = new Material();
-	mat->type = "Lambertian";
+	mat->type = MaterialType::Lambertian;
 	mat->color = { 1,1,1 };
 	mat->roughness = 0.0;
 	test = new Sphere(1, { 4,1, 0 }, mat);
