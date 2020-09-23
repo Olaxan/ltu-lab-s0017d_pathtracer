@@ -9,6 +9,13 @@
 #include "ray.h"
 #include "object.h"
 
+struct ThreadData
+{
+	size_t offset;
+	size_t count;
+};
+
+
 //------------------------------------------------------------------------------
 /**
 */
@@ -20,6 +27,8 @@ public:
 
 	// start raytracing!
 	void trace();
+
+	void* trace_helper(void* params);
 
 	// single raycast, find object
 	bool raycast(size_t ray_index);

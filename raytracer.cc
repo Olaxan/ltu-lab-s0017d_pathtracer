@@ -2,6 +2,10 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "shared.h"
 #include "raytracer.h"
+#include "tracer.h"
+
+#include <thread>
+#include <pthread.h>
 
 //------------------------------------------------------------------------------
 /**
@@ -49,27 +53,28 @@ Raytracer::trace()
 		rays[i] = Ray(cam_pos, direction);	
 	}
 
-	int shadow;
+	int thread_count = std::thread::hardware_concurrency();
+	std::vector<pthread_t> tids(thread_count);
+	std::vector<ThreadData> data(thread_count);
+
 	for (int b = 0; b < bounces; b++)
 	{
-		shadow = (b < bounces - 1);
+		int shadow = (b < bounces - 1);
+		size_t rays_per_thread = ray_count / thread_count;
 
-		for (int r = 0; r < ray_count; r++)
+		for (int t = 0; t < thread_count; t++)
 		{
-			if (rays[r].f)
-				continue;
+			data[t] = { t * rays_per_thread, rays_per_thread };
 
-			if (raycast(r))
-			{
-				auto& res = results[r];
-				rays[r].c *= res.object->GetColor() * shadow;
-				res.object->ScatterRay(rays[r], res.p, res.normal);
-			}
-			else
-			{
-				rays[r].f = true;
-				rays[r].c *= skybox(rays[r].m);
-			}
+			int err = pthread_create(&tids[t], NULL, &Raytracer::trace_helper, data[t]);
+			if (err > 0)
+				fprintf (stderr, "A thread error occured: %d", err);
+
+		}
+
+		for (int t = 0; t < thread_count; t++)
+		{
+			pthread_join(tids[t], NULL);
 		}
 	}
 
@@ -83,6 +88,30 @@ Raytracer::trace()
 		frameBuffer[i] /= rpp;
 	}
 
+}
+
+void*
+Raytracer::trace_helper(void* params)
+{
+	ThreadData* data = (ThreadData*)params;
+
+	for (int r = data->offset; r < data->count; r++)
+	{
+		if (rays[r].f)
+			continue;
+
+		if (raycast(r))
+		{
+			auto& res = results[r];
+			rays[r].c *= res.object->GetColor();
+			res.object->ScatterRay(rays[r], res.p, res.normal);
+		}
+		else
+		{
+			rays[r].f = true;
+			rays[r].c *= skybox(rays[r].m);
+		}
+	}
 }
 
 //------------------------------------------------------------------------------
