@@ -28,7 +28,7 @@ Raytracer::~Raytracer()
 /**
 */
 void
-Raytracer::Raytrace()
+Raytracer::Raytrace() const
 {
 	vec3 cam_pos = get_position(this->view);
 
@@ -64,14 +64,14 @@ Raytracer::Raytrace()
  * @parameter n - the current bounce level
 */
 Color
-Raytracer::TracePath(Ray ray, unsigned n)
+Raytracer::TracePath(const Ray& ray, unsigned n) const
 {
 	vec3 hitPoint;
 	vec3 hitNormal;
 	Object* hitObject = nullptr;
 	float distance = FLT_MAX;
 
-	if (Raycast(ray, hitPoint, hitNormal, hitObject, distance, this->objects))
+	if (Raycast(ray, hitPoint, hitNormal, hitObject, distance))
 	{
 		Ray scatteredRay(hitObject->ScatterRay(ray, hitPoint, hitNormal));
 		if (n < this->bounces)
@@ -92,12 +92,14 @@ Raytracer::TracePath(Ray ray, unsigned n)
 /**
 */
 bool
-Raytracer::Raycast(Ray ray, vec3& hitPoint, vec3& hitNormal, Object*& hitObject, float& distance, std::vector<Object*> world)
+Raytracer::Raycast(const Ray& ray, vec3& hitPoint, vec3& hitNormal, Object*& hitObject, float& distance) const
 {
 	bool isHit = false;
 	HitResult closestHit;
 	int numHits = 0;
 	HitResult hit;
+
+	const auto& world = this->objects;
 
 	for (size_t i = 0; i < world.size(); ++i)
 	{
@@ -119,6 +121,16 @@ Raytracer::Raycast(Ray ray, vec3& hitPoint, vec3& hitNormal, Object*& hitObject,
 	return isHit;
 }
 
+//------------------------------------------------------------------------------
+/**
+*/
+Color
+Raytracer::Skybox(vec3 direction) const
+{
+	float t = 0.5 * (direction.y + 1.0);
+	vec3 vec = vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t;
+    	return {(float)vec.x, (float)vec.y, (float)vec.z};	
+}
 
 //------------------------------------------------------------------------------
 /**
@@ -143,15 +155,4 @@ Raytracer::UpdateMatrices()
 	mat4 inverseView = inverse(this->view); 
 	mat4 basis = transpose(inverseView);
 	this->frustum = basis;
-}
-
-//------------------------------------------------------------------------------
-/**
-*/
-Color
-Raytracer::Skybox(vec3 direction)
-{
-	float t = 0.5 * (direction.y + 1.0);
-	return Color(vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t);
-	// Could perhaps optimize further, this may actually result in worse performance.
 }

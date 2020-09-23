@@ -33,7 +33,7 @@ public:
 		return material->color;
 	}
 
-	bool Intersect(HitResult& hit, Ray ray, float maxDist) override
+	bool Intersect(HitResult& hit, const Ray& ray, float maxDist) override
 	{
 		vec3 oc = ray.b - this->center;
 		vec3 dir = ray.m;
@@ -76,7 +76,7 @@ public:
 		return false;
 	}
 
-	Ray ScatterRay(Ray ray, vec3 point, vec3 normal) override
+	Ray ScatterRay(const Ray& ray, vec3 point, vec3 normal) override
 	{
 		return BSDF(this->material, ray, point, normal);
 	}

@@ -19,7 +19,7 @@ public:
 
     }
 
-    vec3 PointAt(float t)
+    vec3 PointAt(float t) const
     {
         return {b + m * t};
     }
