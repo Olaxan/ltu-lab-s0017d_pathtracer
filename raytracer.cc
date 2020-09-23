@@ -16,7 +16,7 @@ Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, un
 	frustum(identity())
 {
 	rays.reserve(w * h * rpp);
-	//results.reserve(w * h * rpp);
+	results.resize(w * h * rpp);
 }
 
 Raytracer::~Raytracer()
@@ -29,7 +29,7 @@ Raytracer::~Raytracer()
 /**
 */
 void
-Raytracer::Raytrace()
+Raytracer::trace()
 {
 	vec3 cam_pos = get_position(this->view);
 
@@ -37,8 +37,8 @@ Raytracer::Raytrace()
 
 	for (int i = 0; i < ray_count; i++)
 	{
-		int x = i % width;
-		int y = i / width;
+		int x = (i / rpp) % width;
+		int y = (i / rpp) / width;
 
 		float u = ((float(x + rng.fnext()) * (1.0f / this->width)) * 2.0f) - 1.0f;
 		float v = ((float(y + rng.fnext()) * (1.0f / this->height)) * 2.0f) - 1.0f;
@@ -49,23 +49,26 @@ Raytracer::Raytrace()
 		rays[i] = Ray(cam_pos, direction);	
 	}
 
+	int shadow;
 	for (int b = 0; b < bounces; b++)
 	{
+		shadow = (b < bounces - 1);
+
 		for (int r = 0; r < ray_count; r++)
 		{
 			if (rays[r].f)
 				continue;
 
-			HitResult res;
-			if (raycast(r, res))
+			if (raycast(r))
 			{
-				rays[r].c *= res.object->GetColor();
+				auto& res = results[r];
+				rays[r].c *= res.object->GetColor() * shadow;
 				res.object->ScatterRay(rays[r], res.p, res.normal);
 			}
 			else
 			{
 				rays[r].f = true;
-				rays[r].c *= Skybox(rays[r].m);
+				rays[r].c *= skybox(rays[r].m);
 			}
 		}
 	}
@@ -80,34 +83,16 @@ Raytracer::Raytrace()
 		frameBuffer[i] /= rpp;
 	}
 
-//	for (int x = 0; x < this->width; ++x)
-//	{
-//		for (int y = 0; y < this->height; ++y)
-//		{
-//			Color color;
-//			for (int i = 0; i < this->rpp; ++i)
-//			{
-//				
-//				color += this->TracePath(ray, 0);
-//			}
-//
-//			// divide by number of samples per pixel, to get the average of the distribution
-//			color.r /= this->rpp;
-//			color.g /= this->rpp;
-//			color.b /= this->rpp;
-//
-//			this->frameBuffer[y * this->width + x] += color;
-//		}
-//	}
 }
 
 //------------------------------------------------------------------------------
 /**
 */
 bool
-Raytracer::raycast(size_t ray_index, HitResult& result)
+Raytracer::raycast(size_t ray_index)
 {
 	bool isHit = false;
+	auto& result = results[ray_index];
 
 	const auto& world = this->objects;
 
@@ -125,42 +110,9 @@ Raytracer::raycast(size_t ray_index, HitResult& result)
 
 //------------------------------------------------------------------------------
 /**
- * @parameter n - the current bounce level
 */
 Color
-Raytracer::trace_step(size_t ray_index)
-{
-	vec3 hitPoint;
-	vec3 hitNormal;
-	Object* hitObject = nullptr;
-	float distance = FLT_MAX;
-
-	
-
-//	if (raycast(ray_index, hitPoint, hitNormal, hitObject, distance))
-//	{
-//		hitObject->ScatterRay(rays[ray_index], hitPoint, hitNormal);
-//		if (n < this->bounces)
-//		{
-//			return hitObject->GetColor() * this->TracePath(scatteredRay, n + 1);
-//		}
-//
-//		if (n == this->bounces)
-//		{
-//			return {0,0,0};
-//		}
-//	}
-//
-//	return this->Skybox(ray.m);
-	
-	return {0,0,0};
-}
-
-//------------------------------------------------------------------------------
-/**
-*/
-Color
-Raytracer::Skybox(vec3 direction) const
+Raytracer::skybox(vec3 direction) const
 {
 	float t = 0.5 * (direction.y + 1.0);
 	vec3 vec = vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t;
@@ -171,7 +123,7 @@ Raytracer::Skybox(vec3 direction) const
 /**
 */
 void
-Raytracer::Clear()
+Raytracer::clear()
 {
 	for (auto& color : this->frameBuffer)
 	{
@@ -185,7 +137,7 @@ Raytracer::Clear()
 /**
 */
 void
-Raytracer::UpdateMatrices()
+Raytracer::update_matrices()
 {
 	mat4 inverseView = inverse(this->view); 
 	mat4 basis = transpose(inverseView);

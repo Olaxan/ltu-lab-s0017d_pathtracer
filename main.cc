@@ -132,21 +132,21 @@ int main(int argc, char* argv[])
 	mat->color = { 0.5,0.5,0.5 };
 	mat->roughness = 0.3;
 	Sphere* ground = new Sphere(1000, { 0,-1000, -1 }, mat);
-	rt.AddObject(ground);
+	rt.add_object(ground);
 	
 	mat = new Material();
 	mat->type = MaterialType::Conductor;
 	mat->color = {1,1,1};
 	mat->roughness = 0.2f;
 	Sphere* test = new Sphere(1, { 0,1,0 }, mat);
-	rt.AddObject(test);
+	rt.add_object(test);
 
 	mat = new Material();
 	mat->type = MaterialType::Lambertian;
 	mat->color = { 0,0.4,0.6 };
 	mat->roughness = 0.2;
 	test = new Sphere(1, { -4,1,0 }, mat);
-	rt.AddObject(test);
+	rt.add_object(test);
 
 	mat = new Material();
 	mat->type = MaterialType::Dielectric;
@@ -154,39 +154,39 @@ int main(int argc, char* argv[])
 	mat->roughness = 0.95;
 	mat->refractionIndex = 1.65;
 	test = new Sphere(1, { -4,1, 2 }, mat);
-	rt.AddObject(test);
+	rt.add_object(test);
 
 	mat = new Material();
 	mat->type = MaterialType::Lambertian;
 	mat->color = { 1,0,0.2 };
 	mat->roughness = 0.04;
 	test = new Sphere(1, { 1,1, -3 }, mat);
-	rt.AddObject(test);
+	rt.add_object(test);
 
 	mat = new Material();
 	mat->type = MaterialType::Lambertian;
 	mat->color = { 1,1,1 };
 	mat->roughness = 0.0;
 	test = new Sphere(1, { 4,1, 0 }, mat);
-	rt.AddObject(test);
+	rt.add_object(test);
 
 	bool exit = false;
 
 	// camera
-	vec3 camPos = { 0,1.0f,10.0f };
-	vec3 moveDir = { 0,0,0 };	
+	vec3 camPos = { 0, 1.0f ,10.0f };
+	vec3 moveDir = { 0, 0, 0 };	
 
-	mat4 cameraTransform = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+	mat4 cameraTransform = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
 	cameraTransform.m30 = camPos.x;
 	cameraTransform.m31 = camPos.y;
 	cameraTransform.m32 = camPos.z;
 
-	rt.SetViewMatrix(cameraTransform);
+	rt.set_view_matrix(cameraTransform);
 
 	printf("Tracing %i spheres to buffer of size %ux%u with %i rays, %i bounces...\n", spheres, width, height, rays, bounces);
 
 	auto begin_time = clock::now();
-	rt.Raytrace();
+	rt.trace();
 	duration elapsed = clock::now() - begin_time;
 
 	float mrs = float(width * height * rays) / (elapsed.count() * 1000000);
