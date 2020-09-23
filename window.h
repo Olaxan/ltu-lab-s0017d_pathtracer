@@ -53,8 +53,8 @@ public:
 	void SetMouseEnterLeaveFunction(const std::function<void(bool)>& func);
 	/// set mouse scroll function callback
 	void SetMouseScrollFunction(const std::function<void(double, double)>& func);
-    /// set window resize function callback
-    void SetWindowResizeFunction(const std::function<void(int32_t, int32_t)>& func);
+    	/// set window resize function callback
+    	void SetWindowResizeFunction(const std::function<void(int32_t, int32_t)>& func);
 	/// bit block transfer from buffer to screen. data buffer must be exactly w * h * 3 large!
 	void Blit(float const* data, int w, int h);
 

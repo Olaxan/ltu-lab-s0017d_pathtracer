@@ -19,14 +19,14 @@ public:
 	~Raytracer();
 
 	// start raytracing!
-	void Raytrace() const;
+	void Raytrace();
 
 	// trace a path and return intersection color
 	// n is bounce depth
-	Color TracePath(const Ray& ray, unsigned n) const;	
+	Color trace_step(size_t ray_index);	
 
 	// single raycast, find object
-	bool Raycast(const Ray& ray, vec3& hitPoint, vec3& hitNormal, Object*& hitObject, float& distance) const;
+	bool raycast(size_t ray_index, HitResult& result);
 
 	// get the color of the skybox in a direction
 	Color Skybox(vec3 direction) const;
@@ -42,8 +42,6 @@ public:
 
 	// update matrices. Called automatically after setting view matrix
 	void UpdateMatrices(); 	
-
-	std::vector<Color>& frameBuffer;
 	
 	// rays per pixel
 	unsigned rpp;
@@ -66,7 +64,11 @@ public:
 	mat4 frustum;
 
 private:
+
+	std::vector<Color>& frameBuffer;
 	std::vector<Object*> objects;
+	std::vector<Ray> rays;
+	//std::vector<HitResult> results;
 };
 
 inline void Raytracer::AddObject(Object* o)

@@ -76,9 +76,9 @@ public:
 		return false;
 	}
 
-	Ray ScatterRay(const Ray& ray, vec3 point, vec3 normal) override
+	void ScatterRay(Ray& ray, const vec3& point, const vec3& normal) override
 	{
-		return BSDF(this->material, ray, point, normal);
+		ray = BSDF(this->material, ray, point, normal);
 	}
 
 };

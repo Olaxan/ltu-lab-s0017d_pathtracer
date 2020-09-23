@@ -35,5 +35,5 @@ public:
 
     virtual bool Intersect(HitResult& hit, const Ray& ray, float maxDist) = 0;
     virtual Color GetColor() = 0;
-    virtual Ray ScatterRay(const Ray& ray, vec3 point, vec3 normal) = 0;
+    virtual void ScatterRay(Ray& ray, const vec3& point, const vec3& normal) = 0;
 };
