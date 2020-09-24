@@ -46,7 +46,7 @@ private:
 };
 
 // Get length of 3D vector
-inline double len(vec3 const& v)
+inline double len(const vec3& v)
 {
 	double a = v.x * v.x;
 	a = a + v.y * v.y;
@@ -56,7 +56,7 @@ inline double len(vec3 const& v)
 }
 
 // Get normalized version of v
-inline vec3 normalize(vec3 v)
+inline vec3 normalize(const vec3& v)
 {
 	double l = len(v);
 	if (l == 0)
@@ -73,22 +73,22 @@ inline vec3 mul(const vec3& a, const vec3& b)
 }
 
 // piecewise add between two vectors
-inline vec3 add(vec3 a, vec3 b)
+inline vec3 add(const vec3& a, const vec3& b)
 {
 	return {a.x + b.x, a.y + b.y, a.z + b.z};
 }
 
-inline float dot(vec3 a, vec3 b)
+inline float dot(const vec3& a, const vec3& b)
 {
 	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-inline vec3 reflect(vec3 v, vec3 n)
+inline vec3 reflect(const vec3& v, const vec3& n)
 {
 	return v - n * (2 * dot(v,n));
 }
 
-inline vec3 cross(vec3 a, vec3 b)
+inline vec3 cross(const vec3& a, const vec3& b)
 {
 	return 
 	{ 

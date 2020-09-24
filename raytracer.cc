@@ -211,7 +211,7 @@ Raytracer::raycast(size_t ray_index)
 /**
 */
 Color
-Raytracer::skybox(vec3 direction) const
+Raytracer::skybox(const vec3& direction) const
 {
 	float t = 0.5 * (direction.y + 1.0);
 	vec3 vec = vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t;

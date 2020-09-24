@@ -28,7 +28,7 @@ public:
 	static void* render_helper(void*); 
 
 	// get the color of the skybox in a direction
-	Color skybox(vec3 direction) const;
+	Color skybox(const vec3& direction) const;
 
 	// set camera matrix
 	void set_view_matrix(mat4 val);
