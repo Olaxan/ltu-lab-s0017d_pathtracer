@@ -13,7 +13,7 @@ struct ThreadData
 	Raytracer* owner;
 	size_t offset;
 	size_t count;
-	int data;
+	size_t data;
 };
 
 
@@ -67,38 +67,33 @@ Raytracer::trace()
 		
 		rays[i] = Ray(cam_pos, direction);	
 	}
-
-	for (int b = 0; b < bounces; b++)
+	
+	if (max_threads > 0)
 	{
-		int shadow = (b < bounces - 1);
 
-		if (max_threads > 0)
+		size_t rays_per_thread = ray_count / max_threads;
+
+		for (int t = 0; t < max_threads; t++)
 		{
+			pthread_t tid;
+			data[t] = { this, t * rays_per_thread, rays_per_thread, bounces };
 
-			size_t rays_per_thread = ray_count / max_threads;
+			int err = pthread_create(&tids[t], NULL, &trace_helper, &data[t]);
 
-			for (int t = 0; t < max_threads; t++)
-			{
-				pthread_t tid;
-				data[t] = { this, t * rays_per_thread, rays_per_thread, shadow };
+			if (err > 0)
+				fprintf (stderr, "A thread error occured while tracing: %d\n", err);
 
-				int err = pthread_create(&tids[t], NULL, &trace_helper, &data[t]);
-
-				if (err > 0)
-					fprintf (stderr, "A thread error occured while tracing: %d\n", err);
-
-			}
-
-			for (int t = 0; t < max_threads; t++)
-			{
-				pthread_join(tids[t], NULL);
-			}	
 		}
-		else
+
+		for (int t = 0; t < max_threads; t++)
 		{
-			ThreadData data = { this, 0, ray_count, shadow };
-			trace_helper(&data);
-		}
+			pthread_join(tids[t], NULL);
+		}	
+	}
+	else
+	{
+		ThreadData data = { this, 0, ray_count, bounces };
+		trace_helper(&data);
 	}
 
 	if (max_threads > 0)
@@ -135,9 +130,15 @@ Raytracer::trace_helper(void* params)
 	ThreadData* data = (ThreadData*)params;
 	Raytracer* owner = data->owner;
 	
-	for (size_t r = 0; r < data->count; r++)
+	int bounces = data->data;
+	int count = data->count;
+	int shadow_pass;
+
+	for (size_t r = 0; r < count * bounces; r++)
 	{
-		size_t ray_index = r + data->offset;	
+		shadow_pass = (r < count * (bounces - 1));
+		size_t ray_index = (r % count) + data->offset;
+
 		Ray& ray = owner->rays[ray_index];
 
 		if (ray.f)
@@ -146,7 +147,7 @@ Raytracer::trace_helper(void* params)
 		if (owner->raycast(ray_index))
 		{
 			auto& res = owner->results[ray_index];
-			ray.c *= res.object->GetColor() * data->data;
+			ray.c *= res.object->GetColor() * shadow_pass;
 			
 			res.object->ScatterRay(ray, res.p, res.normal);
 		}
