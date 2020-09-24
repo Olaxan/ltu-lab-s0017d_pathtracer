@@ -78,7 +78,7 @@ public:
 
 	void ScatterRay(Ray& ray, const vec3& point, const vec3& normal) override
 	{
-		ray = BSDF(this->material, ray, point, normal);
+		BSDF(this->material, ray, point, normal);
 	}
 
 };

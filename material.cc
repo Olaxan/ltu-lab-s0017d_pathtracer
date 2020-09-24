@@ -10,8 +10,8 @@
 //------------------------------------------------------------------------------
 /**
 */
-Ray
-BSDF(Material const* const material, Ray ray, const vec3& point, const vec3& normal)
+void
+BSDF(Material const* const material, Ray& ray, const vec3& point, const vec3& normal)
 {
     float cosTheta = -dot(normalize(ray.m), normalize(normal));
 
@@ -34,7 +34,8 @@ BSDF(Material const* const material, Ray ray, const vec3& point, const vec3& nor
             // importance sample with brdf specular lobe
             vec3 H = ImportanceSampleGGX_VNDF(rng.fnext(), rng.fnext(), material->roughness, ray.m, basis);
             vec3 reflected = reflect(ray.m, H);
-            return { point, normalize(reflected) };
+	    ray.b = point;
+	    ray.m = normalize(reflected);
         }
         else
         {
@@ -42,7 +43,8 @@ BSDF(Material const* const material, Ray ray, const vec3& point, const vec3& nor
 		float y = rng.fnext(-1, 1);
 		float z = rng.fnext(-1, 1);
 		vec3 v( x, y, z );
-            	return { point, normalize(normalize(normal) + normalize(v)) };
+		ray.b = point;
+		ray.m = normalize(normalize(normal) + normalize(v));
         }
     }
     else
@@ -80,11 +82,13 @@ BSDF(Material const* const material, Ray ray, const vec3& point, const vec3& nor
         if (rng.fnext() < reflect_prob)
         {
             vec3 reflected = reflect(rayDir, normal);
-            return { point, reflected };
+	    ray.b = point;
+	    ray.m = reflected;
         }
         else
         {
-            return { point, refracted };
+		ray.b = point;
+		ray.m = refracted;
         }
     }
 }

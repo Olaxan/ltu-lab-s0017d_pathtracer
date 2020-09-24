@@ -13,6 +13,7 @@ struct ThreadData
 	Raytracer* owner;
 	size_t offset;
 	size_t count;
+	int data;
 };
 
 
@@ -79,7 +80,7 @@ Raytracer::trace()
 			for (int t = 0; t < max_threads; t++)
 			{
 				pthread_t tid;
-				data[t] = { this, t * rays_per_thread, rays_per_thread };
+				data[t] = { this, t * rays_per_thread, rays_per_thread, shadow };
 
 				int err = pthread_create(&tids[t], NULL, &trace_helper, &data[t]);
 
@@ -95,7 +96,7 @@ Raytracer::trace()
 		}
 		else
 		{
-			ThreadData data = { this, 0, ray_count };
+			ThreadData data = { this, 0, ray_count, shadow };
 			trace_helper(&data);
 		}
 	}
@@ -107,7 +108,7 @@ Raytracer::trace()
 		for (int t = 0; t < max_threads; t++)
 		{
 			pthread_t tid;
-			data[t] = { this, t * pixels_per_thread, pixels_per_thread };
+			data[t] = { this, t * pixels_per_thread, pixels_per_thread, 0 };
 
 			int err = pthread_create(&tids[t], NULL, &render_helper, &data[t]);
 
@@ -122,7 +123,7 @@ Raytracer::trace()
 	}
 	else
 	{
-		ThreadData data = { this, 0, frameBuffer.size() };
+		ThreadData data = { this, 0, frameBuffer.size(), 0 };
 		render_helper(&data);
 	}
 
@@ -136,7 +137,7 @@ Raytracer::trace_helper(void* params)
 	
 	for (size_t r = 0; r < data->count; r++)
 	{
-		size_t ray_index = r + data->offset;
+		size_t ray_index = r + data->offset;	
 		Ray& ray = owner->rays[ray_index];
 
 		if (ray.f)
@@ -145,7 +146,8 @@ Raytracer::trace_helper(void* params)
 		if (owner->raycast(ray_index))
 		{
 			auto& res = owner->results[ray_index];
-			ray.c *= res.object->GetColor();
+			ray.c *= res.object->GetColor() * data->data;
+			
 			res.object->ScatterRay(ray, res.p, res.normal);
 		}
 		else
@@ -169,7 +171,7 @@ Raytracer::render_helper(void* params)
 
 	for (int i = 0; i < data->count; i++)
 	{
-		size_t pixel_index = i + data->offset;
+		size_t pixel_index = i + data->offset;	
 
 		for (int j = 0; j < rpp; j++)
 		{

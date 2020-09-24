@@ -6,21 +6,28 @@ struct Color
 	float g = 0;
 	float b = 0;
 
-	void operator += (Color const& rhs)
+	void operator += (const Color& rhs)
 	{
 		this->r += rhs.r;
 		this->g += rhs.g;
 		this->b += rhs.b;
 	}
 
-	void operator *= (Color const& rhs)
+	void operator *= (const Color& rhs)
 	{
 		this->r *= rhs.r;
 		this->g *= rhs.g;
 		this->b *= rhs.b;	
 	}
 
-	void operator /= (int rhs)
+	void operator *= (const float& rhs)
+	{
+		this->r *= rhs;
+		this->g *= rhs;
+		this->b *= rhs;	
+	}
+
+	void operator /= (const float& rhs)
 	{
 		this->r /= rhs;
 		this->g /= rhs;
@@ -34,6 +41,16 @@ struct Color
 			this->r + rhs.r,
 			this->g + rhs.g,
 			this->b + rhs.b
+		};
+	}
+
+	Color operator - (Color const& rhs) const
+	{
+		return 
+		{
+			this->r - rhs.r,
+			this->g - rhs.g,
+			this->b - rhs.b
 		};
 	}
 
@@ -54,6 +71,16 @@ struct Color
 			this->r * rhs,
 			this->g * rhs,
 			this->b * rhs
+		};
+	}
+
+	Color operator - (const float& rhs) const
+	{
+		return 
+		{
+			this->r - rhs,
+			this->g - rhs,
+			this->b - rhs
 		};
 	}
 };
