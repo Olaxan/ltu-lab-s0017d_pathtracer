@@ -32,7 +32,6 @@ Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, un
 	frustum(identity())
 {
 	rays.reserve(w * h * rpp);
-	results.resize(w * h * rpp);
 }
 
 Raytracer::~Raytracer()
@@ -134,6 +133,7 @@ Raytracer::trace_helper(void* params)
 	int count = data->count;
 	int shadow_pass;
 
+	HitResult res;
 	for (size_t r = 0; r < count * bounces; r++)
 	{
 		shadow_pass = (r < count * (bounces - 1));
@@ -144,11 +144,9 @@ Raytracer::trace_helper(void* params)
 		if (ray.f)
 			continue;
 
-		if (owner->raycast(ray_index))
+		if (owner->raycast(ray_index, res))
 		{
-			auto& res = owner->results[ray_index];
 			ray.c *= res.object->GetColor() * shadow_pass;
-			
 			res.object->ScatterRay(ray, res.p, res.normal);
 		}
 		else
@@ -189,12 +187,11 @@ Raytracer::render_helper(void* params)
 /**
 */
 bool
-Raytracer::raycast(size_t ray_index)
+Raytracer::raycast(size_t ray_index, HitResult& result)
 {
 	bool isHit = false;
-	auto& result = results[ray_index];
-
 	const auto& world = this->objects;
+	result.t = FLT_MAX;
 
 	for (size_t i = 0; i < world.size(); ++i)
 	{

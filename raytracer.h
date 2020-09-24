@@ -22,7 +22,7 @@ public:
 	void trace();
 
 	// single raycast, find object
-	bool raycast(size_t ray_index);
+	bool raycast(size_t ray_index, HitResult& result);
 
 	static void* trace_helper(void*);
 	static void* render_helper(void*); 
@@ -69,7 +69,6 @@ private:
 	std::vector<Color>& frameBuffer;
 	std::vector<Object*> objects;
 	std::vector<Ray> rays;
-	std::vector<HitResult> results;
 };
 
 inline void Raytracer::add_object(Object* o)
