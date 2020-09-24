@@ -9,29 +9,23 @@
 #include "ray.h"
 #include "object.h"
 
-struct ThreadData
-{
-	size_t offset;
-	size_t count;
-};
-
-
 //------------------------------------------------------------------------------
 /**
 */
 class Raytracer
 {
 public:
-	Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces);
+	Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces, unsigned max_threads);
 	~Raytracer();
 
 	// start raytracing!
 	void trace();
 
-	void* trace_helper(void* params);
-
 	// single raycast, find object
 	bool raycast(size_t ray_index);
+
+	static void* trace_helper(void*);
+	static void* render_helper(void*); 
 
 	// get the color of the skybox in a direction
 	Color skybox(vec3 direction) const;
@@ -57,6 +51,8 @@ public:
 	const unsigned width;
 	// height of framebuffer
 	const unsigned height;
+
+	const unsigned max_threads;
 	
 	const vec3 lowerLeftCorner = { -2.0, -1.0, -1.0 };
 	const vec3 horizontal = { 4.0, 0.0, 0.0 };

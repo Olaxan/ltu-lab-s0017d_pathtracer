@@ -15,6 +15,7 @@
 #include <getopt.h>
 
 #include <chrono>
+#include <thread>
 
 #define degtorad(angle) angle * MPI / 180
 
@@ -23,16 +24,17 @@ void print_usage()
 	printf("This utility renders a single frame of a raytraced scene, "
 			"optionally displaying it in an OpenGL window, and saving the finished result to a file.\n\n"
 			"usage: \ttrayracer [-h] [-s] [-w <wxh>] [-o <path>] [-r <rays>]\n"
-		       "\t[-n <name>] [-x <seed>] [-b <bounces>] <spheres>\n\n"
+		       "\t[-n <name>] [-x <seed>] [-b <bounces>] [-t <threads>] <spheres>\n\n"
 		       "options:\n"
 		       "\t-h:\t\tShows this help.\n"
 		       "\t-s:\t\tRun without opening a render window. Use -o to specify an output path.\n"
 		       "\t-w <wxh>: \tSpecify the resolution of the render. Example: 1920x1080 - no spaces allowed.\n"
 		       "\t-o <path>: \tSpecify an (optional)  output path for the finished image.\n"
-		       "\t-r <rays>: \tSelect the number of rays to fire per pixel in the image (default = 1).\n"
+		       "\t-r <rays>: \tSelect the number of rays to fire per pixel in the image.\n"
 		       "\t-n <name>: \tSpecify the OpenGL window name.\n"
 		       "\t-x <seed>: \tAn optional seed for placing the spheres in the scene.\n"
 		       "\t-b <bounces>: \tThe number of bounces to perform per ray. Higher gives improved reflections.\n"
+		       "\t-t <threads>: \tThe number of threads available for tracing, 0 to disable. Default all cores.\n"
 		       "\t<spheres>:\tThe number of spheres to render randomly.\n\nn"
 	      );
 }
@@ -53,8 +55,9 @@ int main(int argc, char* argv[])
 	int rays = 1;
 	int seed = 1337;
 	int bounces = 5;
-	int spheres = 8;	
-	
+	int spheres = 8;
+	int max_threads = std::thread::hardware_concurrency();
+
 	char* window_name = nullptr;
 	char* output_path = nullptr;
 	
@@ -63,7 +66,7 @@ int main(int argc, char* argv[])
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "hsw:o:r:n:x:b:")) != -1)
+	while ((c = getopt (argc, argv, "hsw:o:r:n:x:b:t:")) != -1)
 	{
 		switch (c)
 		{
@@ -99,6 +102,13 @@ int main(int argc, char* argv[])
 			case 'b':
 				bounces = atoi(optarg);
 				break;
+			case 't':
+				if ((max_threads = atoi(optarg)) < 0)
+				{
+					fprintf(stderr, "Invalid thread count for '-%c': Must be positive integer or 0.\n", c);
+					return 1;
+				}
+				break;
 			case '?':
 				if (optopt == 'c')
 					fprintf (stderr, "Option '-%c' requires an argument.\n", optopt);
@@ -119,7 +129,7 @@ int main(int argc, char* argv[])
 
 	std::vector<Color> framebuffer(width * height);
 	
-	Raytracer rt = Raytracer(width, height, framebuffer, rays, bounces);
+	Raytracer rt = Raytracer(width, height, framebuffer, rays, bounces, max_threads);
 
 	for (int i = 0; i < spheres; i++)
 	{

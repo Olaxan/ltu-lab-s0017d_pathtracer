@@ -2,11 +2,10 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "shared.h"
 #include "raytracer.h"
+#include "tracer.h"
 
 #include <thread>
 #include <pthread.h>
-#include <unistd.h>
-#include <sys/types.h>
 
 struct ThreadData
 {
@@ -15,18 +14,39 @@ struct ThreadData
 	size_t count;
 };
 
+void* trace_helper(void* params)
+{
+	ThreadData* data = (ThreadData*)params;
+	Raytracer* owner = params->owner;
 
+	for (int r = data->offset; r < data->count; r++)
+	{
+		if (owner->rays[r].f)
+			continue;
+
+		if (raycast(r))
+		{
+			auto& res = results[r];
+			rays[r].c *= res.object->GetColor();
+			res.object->ScatterRay(rays[r], res.p, res.normal);
+		}
+		else
+		{
+			rays[r].f = true;
+			rays[r].c *= skybox(rays[r].m);
+		}
+	}	
+}
 
 //------------------------------------------------------------------------------
 /**
 */
-Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces, unsigned max_threads) :
+Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces) :
 	frameBuffer(frameBuffer),
 	rpp(rpp),
 	bounces(bounces),
 	width(w),
 	height(h),
-	max_threads(max_threads),
 	view(identity()),
 	frustum(identity())
 {
@@ -50,9 +70,6 @@ Raytracer::trace()
 
 	size_t ray_count = width * height * rpp;
 
-	std::vector<pthread_t> tids(max_threads);
-	std::vector<ThreadData> data(max_threads);
-
 	for (int i = 0; i < ray_count; i++)
 	{
 		int x = (i / rpp) % width;
@@ -67,63 +84,39 @@ Raytracer::trace()
 		rays[i] = Ray(cam_pos, direction);	
 	}
 
+	int thread_count = std::thread::hardware_concurrency();
+	std::vector<pthread_t> tids(thread_count);
+	std::vector<ThreadData> data(thread_count);
+
 	for (int b = 0; b < bounces; b++)
 	{
 		int shadow = (b < bounces - 1);
+		size_t rays_per_thread = ray_count / thread_count;
 
-		if (max_threads > 0)
+		for (int t = 0; t < thread_count; t++)
 		{
+			data[t] = { t * rays_per_thread, rays_per_thread };
 
-			size_t rays_per_thread = ray_count / max_threads;
-
-			for (int t = 0; t < max_threads; t++)
-			{
-				pthread_t tid;
-				data[t] = { this, t * rays_per_thread, rays_per_thread };
-
-				int err = pthread_create(&tids[t], NULL, &trace_helper, &data[t]);
-
-				if (err > 0)
-					fprintf (stderr, "A thread error occured while tracing: %d\n", err);
-
-			}
-
-			for (int t = 0; t < max_threads; t++)
-			{
-				pthread_join(tids[t], NULL);
-			}	
-		}
-		else
-		{
-			ThreadData data = { this, 0, ray_count };
-			trace_helper(&data);
-		}
-	}
-
-	if (max_threads > 0)
-	{
-		size_t pixels_per_thread = frameBuffer.size() / max_threads;
-
-		for (int t = 0; t < max_threads; t++)
-		{
-			pthread_t tid;
-			data[t] = { this, t * pixels_per_thread, pixels_per_thread };
-
-			int err = pthread_create(&tids[t], NULL, &render_helper, &data[t]);
-
+			int err = pthread_create(&tids[t], NULL, &Raytracer::trace_helper, data[t]);
 			if (err > 0)
-				fprintf(stderr, "A thread error occured while rendering: %d\n", err);
+				fprintf (stderr, "A thread error occured: %d", err);
+
 		}
 
-		for (int t = 0; t < max_threads; t++)
+		for (int t = 0; t < thread_count; t++)
 		{
 			pthread_join(tids[t], NULL);
-		}	
+		}
 	}
-	else
+
+	for (int i = 0; i < frameBuffer.size(); i++)
 	{
-		ThreadData data = { this, 0, frameBuffer.size() };
-		render_helper(&data);
+		for (int j = 0; j < rpp; j++)
+		{
+			frameBuffer[i] += rays[i * rpp + j].c;
+		}
+
+		frameBuffer[i] /= rpp;
 	}
 
 }
@@ -131,55 +124,7 @@ Raytracer::trace()
 void*
 Raytracer::trace_helper(void* params)
 {
-	ThreadData* data = (ThreadData*)params;
-	Raytracer* owner = data->owner;
 	
-	for (size_t r = 0; r < data->count; r++)
-	{
-		size_t ray_index = r + data->offset;
-		Ray& ray = owner->rays[ray_index];
-
-		if (ray.f)
-			continue;
-
-		if (owner->raycast(ray_index))
-		{
-			auto& res = owner->results[ray_index];
-			ray.c *= res.object->GetColor();
-			res.object->ScatterRay(ray, res.p, res.normal);
-		}
-		else
-		{
-			ray.f = true;
-			ray.c *= owner->skybox(ray.m);
-		}
-	}
-
-	return EXIT_SUCCESS;	
-}
-
-void*
-Raytracer::render_helper(void* params)
-{
-	ThreadData* data = (ThreadData*)params;
-	Raytracer* owner = data->owner;
-
-	auto& frameBuffer = owner->frameBuffer;
-	size_t rpp = owner->rpp;
-
-	for (int i = 0; i < data->count; i++)
-	{
-		size_t pixel_index = i + data->offset;
-
-		for (int j = 0; j < rpp; j++)
-		{
-			frameBuffer[pixel_index] += owner->rays[pixel_index * rpp + j].c;
-		}
-
-		frameBuffer[pixel_index] /= rpp;
-	}
-
-	return EXIT_SUCCESS;
 }
 
 //------------------------------------------------------------------------------
