@@ -13,24 +13,22 @@
 class Sphere : public Object
 {
 public:
-	float radius;
-	vec3 center;
-	Material const* const material;
+	const float radius;
+	const vec3 center;
+	const Material material;
 
-	Sphere(float radius, vec3 center, Material const* const material) : 
+	Sphere(float radius, vec3 center, Material material) : 
 		radius(radius),
 		center(center),
 		material(material)
 	{ }
 
 	~Sphere()
-	{
-		delete material;	
-	}
+	{ }
 
 	Color GetColor() override
 	{
-		return material->color;
+		return material.color;
 	}
 
 	bool Intersect(HitResult& hit, const Ray& ray, float maxDist) override

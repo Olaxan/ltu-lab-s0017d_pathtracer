@@ -44,6 +44,12 @@ namespace xrng
 			return result;
 		}
 
+		uint32_t next(int a, int b)
+		{
+			// Bad way of doing it but whatever
+			return next() % b + a;	
+		}
+
 		void jump() 
 		{
 			static const uint32_t JUMP[] = { 0x8764000b, 0xf542d2d3, 0x6fa035c3, 0x77f2db5b };
