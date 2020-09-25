@@ -61,7 +61,6 @@ int main(int argc, char* argv[])
 	char* window_name = nullptr;
 	char* output_path = nullptr;
 	
-	int index;
 	int c;
 
 	opterr = 0;
@@ -213,8 +212,8 @@ int main(int argc, char* argv[])
 	{
 		uint8_t* pixels = new uint8_t[width * height * 3];
 	
-		int index = 0;	
-		for (int i = 0; i < width * height; i++)
+		size_t index = 0;	
+		for (size_t i = 0; i < width * height; i++)
 		{
 			pixels[index++] = 255.0f * framebuffer[i].r;
 			pixels[index++] = 255.0f * framebuffer[i].g;
@@ -241,7 +240,7 @@ int main(int argc, char* argv[])
 	if (!wnd.Open())
 		return 1;
 
-	wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+	wnd.SetKeyPressFunction([&exit](int key, int, int, int)
 	{
 		switch (key)
 		{

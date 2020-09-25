@@ -1,0 +1,156 @@
+[ 61%] Built target glfw
+[ 69%] Built target stb
+[ 76%] Built target glew
+Scanning dependencies of target trayracer
+[ 80%] Building CXX object CMakeFiles/trayracer.dir/main.cc.o
+In file included from /home/fredr/source/trayracer/main.cc:12:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘void stbiw__write1(stbi__write_context*, unsigned char)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:400:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+  400 |    if (s->buf_used + 1 > sizeof(s->buffer))
+      |        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘void stbiw__write3(stbi__write_context*, unsigned char, unsigned char, unsigned char)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:408:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+  408 |    if (s->buf_used + 3 > sizeof(s->buffer))
+      |        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_bmp_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  502 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_bmp(const char*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  510 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_tga_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  601 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_tga(const char*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  609 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_hdr_to_func(void (*)(void*, void*, int), void*, int, int, int, const float*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  775 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_hdr(const char*, int, int, int, const float*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  783 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_jpg_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*, int)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+ 1579 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_jpg(const char*, int, int, int, const void*, int)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+ 1588 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/main.cc: In function ‘int main(int, char**)’:
+/home/fredr/source/trayracer/main.cc:217:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Wsign-compare]
+  217 |   for (int i = 0; i < width * height; i++)
+      |                   ~~^~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/main.cc: In lambda function:
+/home/fredr/source/trayracer/main.cc:244:47: warning: unused parameter ‘scancode’ [-Wunused-parameter]
+  244 |  wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+      |                                           ~~~~^~~~~~~~
+/home/fredr/source/trayracer/main.cc:244:61: warning: unused parameter ‘action’ [-Wunused-parameter]
+  244 |  wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+      |                                                         ~~~~^~~~~~
+/home/fredr/source/trayracer/main.cc:244:73: warning: unused parameter ‘mods’ [-Wunused-parameter]
+  244 |  wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+      |                                                                     ~~~~^~~~
+/home/fredr/source/trayracer/main.cc: In function ‘int main(int, char**)’:
+/home/fredr/source/trayracer/main.cc:64:6: warning: unused variable ‘index’ [-Wunused-variable]
+   64 |  int index;
+      |      ^~~~~
+[ 84%] Building CXX object CMakeFiles/trayracer.dir/window.cc.o
+/home/fredr/source/trayracer/window.cc: In function ‘void Display::GLDebugCallback(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar*, const void*)’:
+/home/fredr/source/trayracer/window.cc:23:24: warning: unused parameter ‘source’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                 ~~~~~~~^~~~~~
+/home/fredr/source/trayracer/window.cc:23:52: warning: unused parameter ‘id’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                                             ~~~~~~~^~
+/home/fredr/source/trayracer/window.cc:23:81: warning: unused parameter ‘length’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                                                                         ~~~~~~~~^~~~~~
+/home/fredr/source/trayracer/window.cc:23:124: warning: unused parameter ‘userParam’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                                                                                                                ~~~~~~~~~~~~^~~~~~~~~
+In file included from /home/fredr/source/trayracer/window.cc:7:
+/home/fredr/source/trayracer/window.h: In constructor ‘Display::Window::Window()’:
+/home/fredr/source/trayracer/window.h:99:14: warning: ‘Display::Window::window’ will be initialized after [-Wreorder]
+   99 |  GLFWwindow* window;
+      |              ^~~~~~
+/home/fredr/source/trayracer/window.h:96:10: warning:   ‘int32_t Display::Window::width’ [-Wreorder]
+   96 |  int32_t width;
+      |          ^~~~~
+/home/fredr/source/trayracer/window.cc:63:1: warning:   when initialized here [-Wreorder]
+   63 | Window::Window() :
+      | ^~~~~~
+[ 88%] Building CXX object CMakeFiles/trayracer.dir/raytracer.cc.o
+In file included from /home/fredr/source/trayracer/raytracer.cc:4:
+/home/fredr/source/trayracer/raytracer.h: In constructor ‘Raytracer::Raytracer(unsigned int, unsigned int, std::vector<Color>&, unsigned int, unsigned int, unsigned int)’:
+/home/fredr/source/trayracer/raytracer.h:69:22: warning: ‘Raytracer::frameBuffer’ will be initialized after [-Wreorder]
+   69 |  std::vector<Color>& frameBuffer;
+      |                      ^~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.h:46:11: warning:   ‘unsigned int Raytracer::rpp’ [-Wreorder]
+   46 |  unsigned rpp;
+      |           ^~~
+/home/fredr/source/trayracer/raytracer.cc:24:1: warning:   when initialized here [-Wreorder]
+   24 | Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces, unsigned max_threads) :
+      | ^~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc: In member function ‘void Raytracer::trace()’:
+/home/fredr/source/trayracer/raytracer.cc:56:20: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+   56 |  for (int i = 0; i < ray_count; i++)
+      |                  ~~^~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:75:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+   75 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:77:14: warning: unused variable ‘tid’ [-Wunused-variable]
+   77 |    pthread_t tid;
+      |              ^~~
+/home/fredr/source/trayracer/raytracer.cc:87:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+   87 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:102:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+  102 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:104:14: warning: unused variable ‘tid’ [-Wunused-variable]
+  104 |    pthread_t tid;
+      |              ^~~
+/home/fredr/source/trayracer/raytracer.cc:113:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+  113 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc: In static member function ‘static void* Raytracer::trace_helper(void*)’:
+/home/fredr/source/trayracer/raytracer.cc:137:23: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  137 |  for (size_t r = 0; r < count * bounces; r++)
+      |                     ~~^~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:139:20: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  139 |   shadow_pass = (r < count * (bounces - 1));
+      |                  ~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc: In static member function ‘static void* Raytracer::render_helper(void*)’:
+/home/fredr/source/trayracer/raytracer.cc:171:20: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  171 |  for (int i = 0; i < data->count; i++)
+      |                  ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:175:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  175 |   for (int j = 0; j < rpp; j++)
+      |                   ~~^~~~~
+[ 92%] Building CXX object CMakeFiles/trayracer.dir/material.cc.o
+[ 96%] Linking CXX executable trayracer
+[100%] Built target trayracer

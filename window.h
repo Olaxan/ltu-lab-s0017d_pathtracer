@@ -33,7 +33,7 @@ public:
 	/// close window
 	void Close();
 	/// returns true if window is open
-	const bool IsOpen() const;
+	bool IsOpen() const;
 
 	/// make this window current, meaning all draws will direct to this window context
 	void MakeCurrent();
@@ -100,7 +100,7 @@ private:
 
 private:
 	GLuint frameCopy;
-    GLuint texture;
+    	GLuint texture;
 };
 
 //------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ Window::SetTitle(const std::string& title)
 //------------------------------------------------------------------------------
 /**
 */
-inline const bool
+inline bool
 Window::IsOpen() const
 {
 	return nullptr != this->window;

@@ -1,0 +1,7 @@
+[ 61%] Built target glfw
+[ 69%] Built target stb
+[ 76%] Built target glew
+Scanning dependencies of target trayracer
+[ 80%] Building CXX object CMakeFiles/trayracer.dir/window.cc.o
+[ 84%] Linking CXX executable trayracer
+[100%] Built target trayracer

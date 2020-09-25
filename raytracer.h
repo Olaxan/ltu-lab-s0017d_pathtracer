@@ -40,18 +40,19 @@ public:
 	void add_object(Object* obj);
 
 	// update matrices. Called automatically after setting view matrix
-	void update_matrices(); 	
-	
+	void update_matrices(); 		
+
+private:
+
 	// rays per pixel
 	unsigned rpp;
 	// max number of bounces before termination
 	unsigned bounces = 5;
-
 	// width of framebuffer
 	const unsigned width;
 	// height of framebuffer
 	const unsigned height;
-
+	// max allowed concurrent threads
 	const unsigned max_threads;
 	
 	const vec3 lowerLeftCorner = { -2.0, -1.0, -1.0 };
@@ -63,8 +64,6 @@ public:
 	mat4 view;
 	// Go from canonical to view frustum
 	mat4 frustum;
-
-private:
 
 	std::vector<Color>& frameBuffer;
 	std::vector<Object*> objects;

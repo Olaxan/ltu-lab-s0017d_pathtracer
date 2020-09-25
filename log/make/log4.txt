@@ -1,0 +1,110 @@
+[  3%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/context.c.o
+[  7%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/init.c.o
+[ 11%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/input.c.o
+[ 15%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/monitor.c.o
+[ 19%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o
+[ 23%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/window.c.o
+[ 26%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o
+[ 30%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o
+[ 34%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o
+[ 38%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o
+[ 42%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o
+/home/fredr/source/trayracer/exts/glfw/src/linux_joystick.c: In function ‘_glfwInitJoysticksLinux’:
+/home/fredr/source/trayracer/exts/glfw/src/linux_joystick.c:226:46: warning: ‘%s’ directive output may be truncated writing up to 255 bytes into a region of size 9 [-Wformat-truncation=]
+  226 |             snprintf(path, sizeof(path), "%s/%s", dirname, entry->d_name);
+      |                                              ^~
+/home/fredr/source/trayracer/exts/glfw/src/linux_joystick.c:226:13: note: ‘snprintf’ output between 12 and 267 bytes into a destination of size 20
+  226 |             snprintf(path, sizeof(path), "%s/%s", dirname, entry->d_name);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 46%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o
+[ 50%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/posix_tls.c.o
+[ 53%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o
+[ 57%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o
+[ 61%] Linking C static library libglfw3.a
+[ 61%] Built target glfw
+[ 65%] Building CXX object exts/CMakeFiles/stb.dir/stb/stb.cc.o
+[ 69%] Linking CXX static library libstb.a
+[ 69%] Built target stb
+[ 73%] Building C object exts/glew/CMakeFiles/glew.dir/src/glew.c.o
+[ 76%] Linking C static library libglew.a
+[ 76%] Built target glew
+[ 80%] Building CXX object CMakeFiles/trayracer.dir/main.cc.o
+In file included from /home/fredr/source/trayracer/main.cc:12:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘void stbiw__write1(stbi__write_context*, unsigned char)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:400:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+  400 |    if (s->buf_used + 1 > sizeof(s->buffer))
+      |        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘void stbiw__write3(stbi__write_context*, unsigned char, unsigned char, unsigned char)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:408:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+  408 |    if (s->buf_used + 3 > sizeof(s->buffer))
+      |        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_bmp_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  502 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_bmp(const char*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  510 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_tga_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  601 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_tga(const char*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  609 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_hdr_to_func(void (*)(void*, void*, int), void*, int, int, int, const float*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  775 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_hdr(const char*, int, int, int, const float*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  783 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_jpg_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*, int)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+ 1579 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_jpg(const char*, int, int, int, const void*, int)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+ 1588 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/main.cc: In function ‘int main(int, char**)’:
+/home/fredr/source/trayracer/main.cc:216:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Wsign-compare]
+  216 |   for (int i = 0; i < width * height; i++)
+      |                   ~~^~~~~~~~~~~~~~~~
+[ 84%] Building CXX object CMakeFiles/trayracer.dir/window.cc.o
+[ 88%] Building CXX object CMakeFiles/trayracer.dir/raytracer.cc.o
+/home/fredr/source/trayracer/raytracer.cc: In member function ‘void Raytracer::trace()’:
+/home/fredr/source/trayracer/raytracer.cc:86:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+   86 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+[ 92%] Building CXX object CMakeFiles/trayracer.dir/random.cc.o
+/home/fredr/source/trayracer/random.cc: In function ‘float RandomFloat()’:
+/home/fredr/source/trayracer/random.cc:38:24: warning: suggest parentheses around arithmetic in operand of ‘|’ [-Wparentheses]
+   38 |     r.i = FastRandom() & 0x007fffff | 0x3f800000;
+      |           ~~~~~~~~~~~~~^~~~~~~~~~~~
+/home/fredr/source/trayracer/random.cc: In function ‘float RandomFloatNTP()’:
+/home/fredr/source/trayracer/random.cc:53:24: warning: suggest parentheses around arithmetic in operand of ‘|’ [-Wparentheses]
+   53 |     r.i = FastRandom() & 0x007fffff | 0x40000000;
+      |           ~~~~~~~~~~~~~^~~~~~~~~~~~
+[ 96%] Building CXX object CMakeFiles/trayracer.dir/material.cc.o
+[100%] Linking CXX executable trayracer
+[100%] Built target trayracer

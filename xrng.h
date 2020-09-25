@@ -58,9 +58,9 @@ namespace xrng
 			uint32_t s1 = 0;
 			uint32_t s2 = 0;
 			uint32_t s3 = 0;
-			for(int i = 0; i < sizeof JUMP / sizeof *JUMP; i++)
+			for(size_t i = 0; i < sizeof JUMP / sizeof *JUMP; i++)
 			{
-				for(int b = 0; b < 32; b++) 
+				for(size_t b = 0; b < 32; b++) 
 				{
 					if (JUMP[i] & UINT32_C(1) << b) 
 					{

@@ -25,6 +25,13 @@ public:
 		this->z = rhs.z;
 	}
 
+	void operator = (const vec3& rhs)
+	{ 
+		this->x = rhs.x;
+       		this->y = rhs.y;
+		this->z = rhs.z;
+	}
+
 	vec3 operator + (vec3 const& rhs) const 
 	{ return {x + rhs.x, y + rhs.y, z + rhs.z}; }
 	

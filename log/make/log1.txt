@@ -1,0 +1,451 @@
+[  3%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/context.c.o
+[  7%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/init.c.o
+[ 11%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/input.c.o
+[ 15%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/monitor.c.o
+[ 19%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o
+[ 23%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/window.c.o
+[ 26%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o
+[ 30%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o
+[ 34%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o
+[ 38%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o
+[ 42%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o
+/home/fredr/source/trayracer/exts/glfw/src/linux_joystick.c: In function ‘_glfwInitJoysticksLinux’:
+/home/fredr/source/trayracer/exts/glfw/src/linux_joystick.c:226:46: warning: ‘%s’ directive output may be truncated writing up to 255 bytes into a region of size 9 [-Wformat-truncation=]
+  226 |             snprintf(path, sizeof(path), "%s/%s", dirname, entry->d_name);
+      |                                              ^~
+/home/fredr/source/trayracer/exts/glfw/src/linux_joystick.c:226:13: note: ‘snprintf’ output between 12 and 267 bytes into a destination of size 20
+  226 |             snprintf(path, sizeof(path), "%s/%s", dirname, entry->d_name);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 46%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o
+[ 50%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/posix_tls.c.o
+[ 53%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o
+[ 57%] Building C object exts/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o
+[ 61%] Linking C static library libglfw3.a
+[ 61%] Built target glfw
+[ 65%] Building CXX object exts/CMakeFiles/stb.dir/stb/stb.cc.o
+[ 69%] Linking CXX static library libstb.a
+[ 69%] Built target stb
+[ 73%] Building C object exts/glew/CMakeFiles/glew.dir/src/glew.c.o
+[ 76%] Linking C static library libglew.a
+[ 76%] Built target glew
+[ 80%] Building CXX object CMakeFiles/trayracer.dir/main.cc.o
+In file included from /home/fredr/source/trayracer/shared.h:4,
+                 from /home/fredr/source/trayracer/main.cc:3:
+/home/fredr/source/trayracer/xrng.h: In member function ‘void xrng::xoshiro128_plus::jump()’:
+/home/fredr/source/trayracer/xrng.h:61:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+   61 |    for(int i = 0; i < sizeof JUMP / sizeof *JUMP; i++)
+      |                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/fredr/source/trayracer/main.cc:5:
+/home/fredr/source/trayracer/window.h: At global scope:
+/home/fredr/source/trayracer/window.h:36:2: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+   36 |  const bool IsOpen() const;
+      |  ^~~~~
+/home/fredr/source/trayracer/window.h:141:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+  141 | inline const bool
+      |        ^~~~~
+In file included from /home/fredr/source/trayracer/sphere.h:7,
+                 from /home/fredr/source/trayracer/main.cc:7:
+/home/fredr/source/trayracer/mat4.h: In function ‘vec3 transform(const vec3&, const mat4&)’:
+/home/fredr/source/trayracer/mat4.h:76:17: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   76 |  res = add(res,c);
+      |                 ^
+In file included from /home/fredr/source/trayracer/main.cc:6:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/sphere.h:8,
+                 from /home/fredr/source/trayracer/main.cc:7:
+/home/fredr/source/trayracer/pbr.h: In function ‘bool Refract(vec3, vec3, float, vec3&)’:
+/home/fredr/source/trayracer/pbr.h:60:73: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   60 |         refracted = ((uv - n * dt) * niOverNt) - (n * sqrt(discriminant));
+      |                                                                         ^
+In file included from /home/fredr/source/trayracer/main.cc:6:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/main.cc:7:
+/home/fredr/source/trayracer/sphere.h: In member function ‘virtual bool Sphere::Intersect(HitResult&, const Ray&, float)’:
+/home/fredr/source/trayracer/sphere.h:59:13: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   59 |     hit.p = p;
+      |             ^
+In file included from /home/fredr/source/trayracer/main.cc:6:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/main.cc:7:
+/home/fredr/source/trayracer/sphere.h:60:59: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   60 |     hit.normal = (p - this->center) * (1.0f / this->radius);
+      |                                                           ^
+In file included from /home/fredr/source/trayracer/main.cc:6:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/main.cc:7:
+/home/fredr/source/trayracer/sphere.h:67:13: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   67 |     hit.p = p;
+      |             ^
+In file included from /home/fredr/source/trayracer/main.cc:6:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/main.cc:7:
+/home/fredr/source/trayracer/sphere.h:68:59: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   68 |     hit.normal = (p - this->center) * (1.0f / this->radius);
+      |                                                           ^
+In file included from /home/fredr/source/trayracer/main.cc:6:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/main.cc:12:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘void stbiw__write1(stbi__write_context*, unsigned char)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:400:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+  400 |    if (s->buf_used + 1 > sizeof(s->buffer))
+      |        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘void stbiw__write3(stbi__write_context*, unsigned char, unsigned char, unsigned char)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:408:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+  408 |    if (s->buf_used + 3 > sizeof(s->buffer))
+      |        ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_bmp_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  502 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:502:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_bmp(const char*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  510 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:510:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_tga_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  601 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:601:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_tga(const char*, int, int, int, const void*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  609 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:609:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_hdr_to_func(void (*)(void*, void*, int), void*, int, int, int, const float*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  775 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:775:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_hdr(const char*, int, int, int, const float*)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+  783 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:783:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_jpg_to_func(void (*)(void*, void*, int), void*, int, int, int, const void*, int)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+ 1579 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1579:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h: In function ‘int stbi_write_jpg(const char*, int, int, int, const void*, int)’:
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::context’ [-Wmissing-field-initializers]
+ 1588 |    stbi__write_context s = { 0 };
+      |                                ^
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::buffer’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/exts/stb/stb_image_write.h:1588:32: warning: missing initializer for member ‘stbi__write_context::buf_used’ [-Wmissing-field-initializers]
+/home/fredr/source/trayracer/main.cc: In function ‘int main(int, char**)’:
+/home/fredr/source/trayracer/main.cc:217:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘unsigned int’ [-Wsign-compare]
+  217 |   for (int i = 0; i < width * height; i++)
+      |                   ~~^~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/main.cc: In lambda function:
+/home/fredr/source/trayracer/main.cc:244:47: warning: unused parameter ‘scancode’ [-Wunused-parameter]
+  244 |  wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+      |                                           ~~~~^~~~~~~~
+/home/fredr/source/trayracer/main.cc:244:61: warning: unused parameter ‘action’ [-Wunused-parameter]
+  244 |  wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+      |                                                         ~~~~^~~~~~
+/home/fredr/source/trayracer/main.cc:244:73: warning: unused parameter ‘mods’ [-Wunused-parameter]
+  244 |  wnd.SetKeyPressFunction([&exit](int key, int scancode, int action, int mods)
+      |                                                                     ~~~~^~~~
+/home/fredr/source/trayracer/main.cc: In function ‘int main(int, char**)’:
+/home/fredr/source/trayracer/main.cc:64:6: warning: unused variable ‘index’ [-Wunused-variable]
+   64 |  int index;
+      |      ^~~~~
+[ 84%] Building CXX object CMakeFiles/trayracer.dir/window.cc.o
+In file included from /home/fredr/source/trayracer/window.cc:7:
+/home/fredr/source/trayracer/window.h:36:2: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+   36 |  const bool IsOpen() const;
+      |  ^~~~~
+/home/fredr/source/trayracer/window.h:141:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+  141 | inline const bool
+      |        ^~~~~
+/home/fredr/source/trayracer/window.cc: In function ‘void Display::GLDebugCallback(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar*, const void*)’:
+/home/fredr/source/trayracer/window.cc:23:24: warning: unused parameter ‘source’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                 ~~~~~~~^~~~~~
+/home/fredr/source/trayracer/window.cc:23:52: warning: unused parameter ‘id’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                                             ~~~~~~~^~
+/home/fredr/source/trayracer/window.cc:23:81: warning: unused parameter ‘length’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                                                                         ~~~~~~~~^~~~~~
+/home/fredr/source/trayracer/window.cc:23:124: warning: unused parameter ‘userParam’ [-Wunused-parameter]
+   23 | GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+      |                                                                                                                ~~~~~~~~~~~~^~~~~~~~~
+In file included from /home/fredr/source/trayracer/window.cc:7:
+/home/fredr/source/trayracer/window.h: In constructor ‘Display::Window::Window()’:
+/home/fredr/source/trayracer/window.h:99:14: warning: ‘Display::Window::window’ will be initialized after [-Wreorder]
+   99 |  GLFWwindow* window;
+      |              ^~~~~~
+/home/fredr/source/trayracer/window.h:96:10: warning:   ‘int32_t Display::Window::width’ [-Wreorder]
+   96 |  int32_t width;
+      |          ^~~~~
+/home/fredr/source/trayracer/window.cc:63:1: warning:   when initialized here [-Wreorder]
+   63 | Window::Window() :
+      | ^~~~~~
+[ 88%] Building CXX object CMakeFiles/trayracer.dir/raytracer.cc.o
+In file included from /home/fredr/source/trayracer/shared.h:4,
+                 from /home/fredr/source/trayracer/raytracer.cc:3:
+/home/fredr/source/trayracer/xrng.h: In member function ‘void xrng::xoshiro128_plus::jump()’:
+/home/fredr/source/trayracer/xrng.h:61:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+   61 |    for(int i = 0; i < sizeof JUMP / sizeof *JUMP; i++)
+      |                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/fredr/source/trayracer/raytracer.h:8,
+                 from /home/fredr/source/trayracer/raytracer.cc:4:
+/home/fredr/source/trayracer/mat4.h: In function ‘vec3 transform(const vec3&, const mat4&)’:
+/home/fredr/source/trayracer/mat4.h:76:17: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   76 |  res = add(res,c);
+      |                 ^
+In file included from /home/fredr/source/trayracer/raytracer.h:7,
+                 from /home/fredr/source/trayracer/raytracer.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/raytracer.cc:4:
+/home/fredr/source/trayracer/raytracer.h: In constructor ‘Raytracer::Raytracer(unsigned int, unsigned int, std::vector<Color>&, unsigned int, unsigned int, unsigned int)’:
+/home/fredr/source/trayracer/raytracer.h:69:22: warning: ‘Raytracer::frameBuffer’ will be initialized after [-Wreorder]
+   69 |  std::vector<Color>& frameBuffer;
+      |                      ^~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.h:46:11: warning:   ‘unsigned int Raytracer::rpp’ [-Wreorder]
+   46 |  unsigned rpp;
+      |           ^~~
+/home/fredr/source/trayracer/raytracer.cc:24:1: warning:   when initialized here [-Wreorder]
+   24 | Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces, unsigned max_threads) :
+      | ^~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc: In member function ‘void Raytracer::trace()’:
+/home/fredr/source/trayracer/raytracer.cc:56:20: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+   56 |  for (int i = 0; i < ray_count; i++)
+      |                  ~~^~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:65:49: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   65 |   direction = transform(direction, this->frustum);
+      |                                                 ^
+In file included from /home/fredr/source/trayracer/raytracer.h:7,
+                 from /home/fredr/source/trayracer/raytracer.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/raytracer.cc:75:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+   75 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:77:14: warning: unused variable ‘tid’ [-Wunused-variable]
+   77 |    pthread_t tid;
+      |              ^~~
+/home/fredr/source/trayracer/raytracer.cc:87:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+   87 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:102:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+  102 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:104:14: warning: unused variable ‘tid’ [-Wunused-variable]
+  104 |    pthread_t tid;
+      |              ^~~
+/home/fredr/source/trayracer/raytracer.cc:113:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const unsigned int’ [-Wsign-compare]
+  113 |   for (int t = 0; t < max_threads; t++)
+      |                   ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc: In static member function ‘static void* Raytracer::trace_helper(void*)’:
+/home/fredr/source/trayracer/raytracer.cc:137:23: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  137 |  for (size_t r = 0; r < count * bounces; r++)
+      |                     ~~^~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:139:20: warning: comparison of integer expressions of different signedness: ‘size_t’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  139 |   shadow_pass = (r < count * (bounces - 1));
+      |                  ~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc: In static member function ‘static void* Raytracer::render_helper(void*)’:
+/home/fredr/source/trayracer/raytracer.cc:171:20: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  171 |  for (int i = 0; i < data->count; i++)
+      |                  ~~^~~~~~~~~~~~~
+/home/fredr/source/trayracer/raytracer.cc:175:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+  175 |   for (int j = 0; j < rpp; j++)
+      |                   ~~^~~~~
+[ 92%] Building CXX object CMakeFiles/trayracer.dir/random.cc.o
+/home/fredr/source/trayracer/random.cc: In function ‘float RandomFloat()’:
+/home/fredr/source/trayracer/random.cc:38:24: warning: suggest parentheses around arithmetic in operand of ‘|’ [-Wparentheses]
+   38 |     r.i = FastRandom() & 0x007fffff | 0x3f800000;
+      |           ~~~~~~~~~~~~~^~~~~~~~~~~~
+/home/fredr/source/trayracer/random.cc: In function ‘float RandomFloatNTP()’:
+/home/fredr/source/trayracer/random.cc:53:24: warning: suggest parentheses around arithmetic in operand of ‘|’ [-Wparentheses]
+   53 |     r.i = FastRandom() & 0x007fffff | 0x40000000;
+      |           ~~~~~~~~~~~~~^~~~~~~~~~~~
+[ 96%] Building CXX object CMakeFiles/trayracer.dir/material.cc.o
+In file included from /home/fredr/source/trayracer/shared.h:4,
+                 from /home/fredr/source/trayracer/material.cc:3:
+/home/fredr/source/trayracer/xrng.h: In member function ‘void xrng::xoshiro128_plus::jump()’:
+/home/fredr/source/trayracer/xrng.h:61:21: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+   61 |    for(int i = 0; i < sizeof JUMP / sizeof *JUMP; i++)
+      |                   ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/fredr/source/trayracer/pbr.h:3,
+                 from /home/fredr/source/trayracer/material.cc:6:
+/home/fredr/source/trayracer/mat4.h: In function ‘vec3 transform(const vec3&, const mat4&)’:
+/home/fredr/source/trayracer/mat4.h:76:17: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   76 |  res = add(res,c);
+      |                 ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/material.cc:6:
+/home/fredr/source/trayracer/pbr.h: In function ‘bool Refract(vec3, vec3, float, vec3&)’:
+/home/fredr/source/trayracer/pbr.h:60:73: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   60 |         refracted = ((uv - n * dt) * niOverNt) - (n * sqrt(discriminant));
+      |                                                                         ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/material.cc:8:
+/home/fredr/source/trayracer/sphere.h: In member function ‘virtual bool Sphere::Intersect(HitResult&, const Ray&, float)’:
+/home/fredr/source/trayracer/sphere.h:59:13: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   59 |     hit.p = p;
+      |             ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/material.cc:8:
+/home/fredr/source/trayracer/sphere.h:60:59: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   60 |     hit.normal = (p - this->center) * (1.0f / this->radius);
+      |                                                           ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/material.cc:8:
+/home/fredr/source/trayracer/sphere.h:67:13: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   67 |     hit.p = p;
+      |             ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+In file included from /home/fredr/source/trayracer/material.cc:8:
+/home/fredr/source/trayracer/sphere.h:68:59: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   68 |     hit.normal = (p - this->center) * (1.0f / this->radius);
+      |                                                           ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc: In function ‘void BSDF(const Material&, Ray&, const vec3&, const vec3&)’:
+/home/fredr/source/trayracer/material.cc:37:14: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   37 |      ray.b = point;
+      |              ^~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:38:33: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   38 |      ray.m = normalize(reflected);
+      |                                 ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:46:11: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   46 |   ray.b = point;
+      |           ^~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:47:53: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   47 |   ray.m = normalize(normalize(normal) + normalize(v));
+      |                                                     ^
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:61:30: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   61 |             outwardNormal = -normal;
+      |                              ^~~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:67:29: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   67 |             outwardNormal = normal;
+      |                             ^~~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:85:14: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   85 |      ray.b = point;
+      |              ^~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:86:14: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   86 |      ray.m = reflected;
+      |              ^~~~~~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:90:11: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   90 |   ray.b = point;
+      |           ^~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+/home/fredr/source/trayracer/material.cc:91:11: warning: implicitly-declared ‘constexpr vec3& vec3::operator=(const vec3&)’ is deprecated [-Wdeprecated-copy]
+   91 |   ray.m = refracted;
+      |           ^~~~~~~~~
+In file included from /home/fredr/source/trayracer/ray.h:2,
+                 from /home/fredr/source/trayracer/material.h:3,
+                 from /home/fredr/source/trayracer/material.cc:4:
+/home/fredr/source/trayracer/vec3.h:21:2: note: because ‘vec3’ has user-provided ‘vec3::vec3(const vec3&)’
+   21 |  vec3(vec3 const& rhs)
+      |  ^~~~
+[100%] Linking CXX executable trayracer
+[100%] Built target trayracer

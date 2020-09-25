@@ -45,8 +45,7 @@ SET(files
 		raytracer.h
 		raytracer.cc
 		sphere.h
-		random.h
-		random.cc
+		xrng.h
 		material.h
 		material.cc
 	)
@@ -58,4 +57,7 @@ ADD_DEPENDENCIES(trayracer stb glew glfw)
 TARGET_LINK_LIBRARIES(trayracer PUBLIC exts stb glew glfw ${OPENGL_LIBS})
 
 SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+SET(CMAKE_CXX_FLAGS "-Wall -Wextra")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 

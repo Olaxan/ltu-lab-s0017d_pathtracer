@@ -20,7 +20,7 @@ namespace Display
 /**
 */
 static void GLAPIENTRY
-GLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+GLDebugCallback(GLenum, GLenum type, GLuint, GLenum severity, GLsizei, const GLchar* message, const void*)
 {
 	std::string msg("[OPENGL DEBUG MESSAGE] ");
 
@@ -61,10 +61,10 @@ int32_t Window::WindowCount = 0;
 /**
 */
 Window::Window() :
-	window(nullptr),
 	width(1024),
 	height(768),
 	title("Trayracer"),
+	window(nullptr),
 	frameCopy(0),
 	texture(0)
 {

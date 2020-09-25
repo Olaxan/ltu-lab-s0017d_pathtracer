@@ -22,14 +22,14 @@ struct ThreadData
 /**
 */
 Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces, unsigned max_threads) :
-	frameBuffer(frameBuffer),
 	rpp(rpp),
 	bounces(bounces),
 	width(w),
 	height(h),
 	max_threads(max_threads),
 	view(identity()),
-	frustum(identity())
+	frustum(identity()),
+	frameBuffer(frameBuffer)
 {
 	rays.reserve(w * h * rpp);
 }
@@ -53,7 +53,7 @@ Raytracer::trace()
 	std::vector<pthread_t> tids(max_threads);
 	std::vector<ThreadData> data(max_threads);
 
-	for (int i = 0; i < ray_count; i++)
+	for (size_t i = 0; i < ray_count; i++)
 	{
 		int x = (i / rpp) % width;
 		int y = (i / rpp) / width;
@@ -72,9 +72,8 @@ Raytracer::trace()
 
 		size_t rays_per_thread = ray_count / max_threads;
 
-		for (int t = 0; t < max_threads; t++)
+		for (size_t t = 0; t < max_threads; t++)
 		{
-			pthread_t tid;
 			data[t] = { this, t * rays_per_thread, rays_per_thread, bounces };
 
 			int err = pthread_create(&tids[t], NULL, &trace_helper, &data[t]);
@@ -84,7 +83,7 @@ Raytracer::trace()
 
 		}
 
-		for (int t = 0; t < max_threads; t++)
+		for (size_t t = 0; t < max_threads; t++)
 		{
 			pthread_join(tids[t], NULL);
 		}	
@@ -99,9 +98,8 @@ Raytracer::trace()
 	{
 		size_t pixels_per_thread = frameBuffer.size() / max_threads;
 
-		for (int t = 0; t < max_threads; t++)
+		for (size_t t = 0; t < max_threads; t++)
 		{
-			pthread_t tid;
 			data[t] = { this, t * pixels_per_thread, pixels_per_thread, 0 };
 
 			int err = pthread_create(&tids[t], NULL, &render_helper, &data[t]);
@@ -110,7 +108,7 @@ Raytracer::trace()
 				fprintf(stderr, "A thread error occured while rendering: %d\n", err);
 		}
 
-		for (int t = 0; t < max_threads; t++)
+		for (size_t t = 0; t < max_threads; t++)
 		{
 			pthread_join(tids[t], NULL);
 		}	
@@ -129,30 +127,34 @@ Raytracer::trace_helper(void* params)
 	ThreadData* data = (ThreadData*)params;
 	Raytracer* owner = data->owner;
 	
-	int bounces = data->data;
-	int count = data->count;
-	int shadow_pass;
-
+	size_t bounces = data->data;
+	size_t count = data->count;
+	
 	HitResult res;
-	for (size_t r = 0; r < count * bounces; r++)
+	int shadow_pass;
+	for (size_t b = 0; b < bounces; b++)
 	{
-		shadow_pass = (r < count * (bounces - 1));
-		size_t ray_index = (r % count) + data->offset;
+		shadow_pass = (b < (bounces - 1));
 
-		Ray& ray = owner->rays[ray_index];
-
-		if (ray.f)
-			continue;
-
-		if (owner->raycast(ray_index, res))
+		for (size_t r = 0; r < count; r++)
 		{
-			ray.c *= res.object->GetColor() * shadow_pass;
-			res.object->ScatterRay(ray, res.p, res.normal);
-		}
-		else
-		{
-			ray.f = true;
-			ray.c *= owner->skybox(ray.m);
+			size_t ray_index = r + data->offset;
+
+			Ray& ray = owner->rays[ray_index];
+
+			if (ray.f)
+				continue;
+
+			if (owner->raycast(ray_index, res))
+			{
+				ray.c *= res.object->GetColor() * shadow_pass;
+				res.object->ScatterRay(ray, res.p, res.normal);
+			}
+			else
+			{
+				ray.f = true;
+				ray.c *= owner->skybox(ray.m);
+			}
 		}
 	}
 
@@ -168,11 +170,11 @@ Raytracer::render_helper(void* params)
 	auto& frameBuffer = owner->frameBuffer;
 	size_t rpp = owner->rpp;
 
-	for (int i = 0; i < data->count; i++)
+	for (size_t i = 0; i < data->count; i++)
 	{
 		size_t pixel_index = i + data->offset;	
 
-		for (int j = 0; j < rpp; j++)
+		for (size_t j = 0; j < rpp; j++)
 		{
 			frameBuffer[pixel_index] += owner->rays[pixel_index * rpp + j].c;
 		}
