@@ -130,6 +130,15 @@ int main(int argc, char* argv[])
 	
 	Raytracer rt = Raytracer(width, height, framebuffer, rays, bounces, max_threads);
 
+	// Ground plane
+	Material mat = Material();
+	mat.type = MaterialType::Lambertian;
+	mat.color = { 0.5,0.5,0.5 };
+	mat.roughness = 0.3;
+	Sphere* ground = new Sphere(1000, { 0,-1000, -1 }, mat);
+	rt.add_object(ground);
+
+	// Random spheres
 	for (int i = 0; i < spheres; i++)
 	{
 		Material mat = Material();
@@ -139,51 +148,7 @@ int main(int argc, char* argv[])
 		vec3 center = { rng.fnext(-5, 5), rng.fnext(0, 3), rng.fnext(0, 5) };
 		Sphere* test = new Sphere(rng.fnext(0, 2), center, mat);
 		rt.add_object(test);
-	}
-
-	// Create some objects
-	Material mat = Material();
-	mat.type = MaterialType::Lambertian;
-	mat.color = { 0.5,0.5,0.5 };
-	mat.roughness = 0.3;
-	Sphere* ground = new Sphere(1000, { 0,-1000, -1 }, mat);
-	rt.add_object(ground);
-	
-	//mat = new Material();
-	//mat->type = MaterialType::Conductor;
-	//mat->color = {1,1,1};
-	//mat->roughness = 0.2f;
-	//Sphere* test = new Sphere(1, { 0,1,0 }, mat);
-	//rt.add_object(test);
-
-	//mat = new Material();
-	//mat->type = MaterialType::Lambertian;
-	//mat->color = { 0,0.4,0.6 };
-	//mat->roughness = 0.2;
-	//test = new Sphere(1, { -4,1,0 }, mat);
-	//rt.add_object(test);
-
-	//mat = new Material();
-	//mat->type = MaterialType::Dielectric;
-	//mat->color = { 1,0.8,0.7 };
-	//mat->roughness = 0.95;
-	//mat->refractionIndex = 1.65;
-	//test = new Sphere(1, { -4,1, 2 }, mat);
-	//rt.add_object(test);
-
-	//mat = new Material();
-	//mat->type = MaterialType::Lambertian;
-	//mat->color = { 1,0,0.2 };
-	//mat->roughness = 0.04;
-	//test = new Sphere(1, { 1,1, -3 }, mat);
-	//rt.add_object(test);
-
-	//mat = new Material();
-	//mat->type = MaterialType::Lambertian;
-	//mat->color = { 1,1,1 };
-	//mat->roughness = 0.0;
-	//test = new Sphere(1, { 4,1, 0 }, mat);
-	//rt.add_object(test);
+	}	
 
 	bool exit = false;
 
