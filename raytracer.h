@@ -9,13 +9,22 @@
 #include "ray.h"
 #include "object.h"
 
+struct TraceData
+{
+	size_t width;
+	size_t height;
+	size_t rays_per_pixel;
+	size_t bounces;
+	size_t max_threads;
+};
+
 //------------------------------------------------------------------------------
 /**
 */
 class Raytracer
 {
 public:
-	Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces, unsigned max_threads);
+	Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const TraceData& data);
 	~Raytracer();
 
 	// start raytracing!
@@ -31,7 +40,7 @@ public:
 	Color skybox(const vec3& direction) const;
 
 	// set camera matrix
-	void set_view_matrix(mat4 val);
+	void set_view_matrix(const mat4& val);
 
 	// clear screen
 	void clear();
@@ -45,13 +54,15 @@ public:
 private:
 
 	// rays per pixel
-	unsigned rpp;
+	const unsigned rpp;
 	// max number of bounces before termination
-	unsigned bounces = 5;
+	const unsigned bounces = 5;
 	// width of framebuffer
 	const unsigned width;
 	// height of framebuffer
 	const unsigned height;
+	// ray count for convenience
+	const unsigned ray_count;
 	// max allowed concurrent threads
 	const unsigned max_threads;
 	
@@ -61,9 +72,9 @@ private:
 	const vec3 origin = { 0.0, 2.0, 10.0f };
 
 	// view matrix
-	mat4 view;
+	const mat4 view;
 	// Go from canonical to view frustum
-	mat4 frustum;
+	const mat4 frustum;
 
 	std::vector<Color>& frameBuffer;
 	std::vector<Object*> objects;
@@ -73,10 +84,4 @@ private:
 inline void Raytracer::add_object(Object* o)
 {
 	this->objects.push_back(o);
-}
-
-inline void Raytracer::set_view_matrix(mat4 val)
-{
-	this->view = val;
-	this->update_matrices();
 }

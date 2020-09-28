@@ -287,3 +287,9 @@ rotationy(const float& angle)
 		0, 0, 0, 1 
 	};
 }
+
+inline mat4 get_frustum(const mat4& view)
+{
+	mat4 inverseView = inverse(view); 
+	return transpose(inverseView);
+}

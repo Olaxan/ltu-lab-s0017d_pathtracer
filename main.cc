@@ -49,19 +49,20 @@ int main(int argc, char* argv[])
 
 	bool silent = false;
 
-	unsigned width = 256;
-	unsigned height = 256;
+	size_t width = 256;
+	size_t height = 256;
 
-	int rays = 1;
-	int seed = 1337;
-	int bounces = 5;
-	int spheres = 8;
-	int max_threads = std::thread::hardware_concurrency();
+	size_t rays = 1;
+	size_t seed = 1337;
+	size_t bounces = 5;
+	size_t spheres = 8;
+	size_t max_threads = std::thread::hardware_concurrency();
 
 	char* window_name = nullptr;
 	char* output_path = nullptr;
 	
 	int c;
+	int argval;
 
 	opterr = 0;
 
@@ -76,7 +77,7 @@ int main(int argc, char* argv[])
 				silent = true;
 				break;
 			case 'w':
-				if (sscanf(optarg, "%ux%u", &width, &height) != 2)
+				if (sscanf(optarg, "%lux%lu", &width, &height) != 2)
 				{
 					fprintf(stderr, "Invalid resolution format for '-%c': use 'WxH'\n", c);
 					return 1;
@@ -99,14 +100,22 @@ int main(int argc, char* argv[])
 				seed = atoi(optarg);
 				break;
 			case 'b':
-				bounces = atoi(optarg);
+				argval = atoi(optarg);
+				if (argval < 1)
+				{
+					fprintf(stderr, "Invalid bounce count for '-%c': Must be at least 1.\n", c);
+					return 1;
+				}
+				bounces = argval;
 				break;
 			case 't':
-				if ((max_threads = atoi(optarg)) < 0)
+				argval = atoi(optarg);
+				if (argval < 0)
 				{
 					fprintf(stderr, "Invalid thread count for '-%c': Must be positive integer or 0.\n", c);
 					return 1;
 				}
+				max_threads = argval;
 				break;
 			case '?':
 				if (optopt == 'c')
@@ -124,11 +133,27 @@ int main(int argc, char* argv[])
 	if (optind == argc - 1)
 		spheres = atoi(argv[optind]);
 
+	auto begin_time = clock::now();
 	rng.seed(seed);	
+
+	// camera
+	vec3 camPos = { 0, 1.0f ,10.0f };
+	mat4 cameraTransform = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+	cameraTransform.m30 = camPos.x;
+	cameraTransform.m31 = camPos.y;
+	cameraTransform.m32 = camPos.z;
 
 	std::vector<Color> framebuffer(width * height);
 	
-	Raytracer rt = Raytracer(width, height, framebuffer, rays, bounces, max_threads);
+	TraceData data = {
+		width,
+		height,
+		rays,
+		bounces,
+		max_threads
+	};
+
+	Raytracer rt = Raytracer(cameraTransform, framebuffer, data);
 
 	// Ground plane
 	Material mat = Material();
@@ -139,7 +164,7 @@ int main(int argc, char* argv[])
 	rt.add_object(ground);
 
 	// Random spheres
-	for (int i = 0; i < spheres; i++)
+	for (size_t i = 0; i < spheres; i++)
 	{
 		Material mat = Material();
 		mat.type = static_cast<MaterialType>(rng.next(0, 2));
@@ -150,28 +175,15 @@ int main(int argc, char* argv[])
 		rt.add_object(test);
 	}	
 
-	bool exit = false;
+	printf("Tracing %lu spheres to buffer of size %lux%lu with %lu rays, %lu bounces...\n", spheres, width, height, rays, bounces);
 
-	// camera
-	vec3 camPos = { 0, 1.0f ,10.0f };
-	vec3 moveDir = { 0, 0, 0 };	
-
-	mat4 cameraTransform = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
-	cameraTransform.m30 = camPos.x;
-	cameraTransform.m31 = camPos.y;
-	cameraTransform.m32 = camPos.z;
-
-	rt.set_view_matrix(cameraTransform);
-
-	printf("Tracing %i spheres to buffer of size %ux%u with %i rays, %i bounces...\n", spheres, width, height, rays, bounces);
-
-	auto begin_time = clock::now();
 	rt.trace();
 	duration elapsed = clock::now() - begin_time;
 
-	float mrs = float(width * height * rays) / (elapsed.count() * 1000000);
+	float mrs = float(width * height * rays) / (elapsed.count() * 1000000.0f);
+	float bmrs = mrs * bounces;
 
-	printf("Trace complete in %f seconds, %f MRay/s.\n", elapsed.count(), mrs);
+	printf("Trace complete in %f seconds, %f / %f MRay/s [complete / per-bounce].\n", elapsed.count(), mrs, bmrs);
 
 	if (output_path != nullptr)
 	{
@@ -199,6 +211,7 @@ int main(int argc, char* argv[])
 		return 0;
 
 	Display::Window wnd;
+	bool exit = false;	
 	
 	wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
 	

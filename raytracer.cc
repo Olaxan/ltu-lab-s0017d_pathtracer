@@ -16,22 +16,21 @@ struct ThreadData
 	size_t data;
 };
 
-
-
 //------------------------------------------------------------------------------
 /**
 */
-Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces, unsigned max_threads) :
-	rpp(rpp),
-	bounces(bounces),
-	width(w),
-	height(h),
-	max_threads(max_threads),
-	view(identity()),
-	frustum(identity()),
+Raytracer::Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const TraceData& data) :
+	rpp(data.rays_per_pixel),
+	bounces(data.bounces),
+	width(data.width),
+	height(data.height),
+	ray_count(width * height * rpp),
+	max_threads(data.max_threads),
+	view(view),
+	frustum(get_frustum(view)),
 	frameBuffer(frameBuffer)
 {
-	rays.reserve(w * h * rpp);
+	rays.reserve(ray_count);	
 }
 
 Raytracer::~Raytracer()
@@ -48,8 +47,6 @@ Raytracer::trace()
 {
 	vec3 cam_pos = get_position(this->view);
 
-	size_t ray_count = width * height * rpp;
-
 	std::vector<pthread_t> tids(max_threads);
 	std::vector<ThreadData> data(max_threads);
 
@@ -61,7 +58,7 @@ Raytracer::trace()
 		float u = ((float(x + rng.fnext()) * (1.0f / this->width)) * 2.0f) - 1.0f;
 		float v = ((float(y + rng.fnext()) * (1.0f / this->height)) * 2.0f) - 1.0f;
 
-		vec3 direction = vec3(u, v, -1.0f);
+		vec3 direction(u, v, -1.0f);
 		direction = transform(direction, this->frustum);
 		
 		rays[i] = Ray(cam_pos, direction);	
@@ -238,7 +235,5 @@ Raytracer::clear()
 void
 Raytracer::update_matrices()
 {
-	mat4 inverseView = inverse(this->view); 
-	mat4 basis = transpose(inverseView);
-	this->frustum = basis;
+	
 }
