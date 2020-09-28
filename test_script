@@ -1,0 +1,11 @@
+#!/bin/bash
+
+LOG_DIR="../log/run/1.txt"
+
+echo "Enter changes: "
+read MSG
+echo -e "\n${MSG}\n" >> "$LOG_DIR"
+for i in {0..5..1}
+do
+	./trayracer -s -w 500x500 -r 8 -b 5 8 >> $LOG_DIR
+done

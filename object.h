@@ -1,39 +1,24 @@
 #pragma once
-#include "ray.h"
-#include "color.h"
+#include "vec3.h"
 #include <float.h>
-#include <string>
 
-class Object;
+enum class Shapes
+{
+	None,
+	Sphere
+};
 
-//------------------------------------------------------------------------------
-/**
-*/
 struct HitResult
 {
-    // hit point
-    vec3 p;
-    // normal
-    vec3 normal;
-    // hit object, or nullptr
-    Object* object = nullptr;
-    // intersection distance
-    float t = FLT_MAX;
+	// hit point
+	vec3 p;
+	// normal
+	vec3 normal;
+	// type of hit object
+	Shapes shape = Shapes::None;
+	// index of hit object
+	size_t index;
+	// intersection distance
+	float dist = FLT_MAX;
 };
 
-//------------------------------------------------------------------------------
-/**
-*/
-class Object
-{
-public:
-    Object()
-    { }
-
-    virtual ~Object()
-    { }
-
-    virtual bool Intersect(HitResult& hit, const Ray& ray, float maxDist) = 0;
-    virtual Color GetColor() = 0;
-    virtual void ScatterRay(Ray& ray, const vec3& point, const vec3& normal) = 0;
-};

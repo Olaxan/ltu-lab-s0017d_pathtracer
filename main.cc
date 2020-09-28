@@ -16,6 +16,7 @@
 
 #include <chrono>
 #include <thread>
+#include <math.h>
 
 #define degtorad(angle) angle * MPI / 180
 
@@ -156,23 +157,27 @@ int main(int argc, char* argv[])
 	Raytracer rt = Raytracer(cameraTransform, framebuffer, data);
 
 	// Ground plane
-	Material mat = Material();
-	mat.type = MaterialType::Lambertian;
-	mat.color = { 0.5,0.5,0.5 };
-	mat.roughness = 0.3;
-	Sphere* ground = new Sphere(1000, { 0,-1000, -1 }, mat);
-	rt.add_object(ground);
+	Material ground_mat = 
+	{
+		MaterialType::Lambertian,
+		{ 0.5,0.5,0.5 },
+		0.3
+	};
+
+	rt.add_sphere({0, -1000, -1}, 1000, rt.add_material(ground_mat));
 
 	// Random spheres
 	for (size_t i = 0; i < spheres; i++)
 	{
-		Material mat = Material();
-		mat.type = static_cast<MaterialType>(rng.next(0, 2));
-		mat.color = {rng.fnext(),rng.fnext(),rng.fnext()};
-		mat.roughness = rng.fnext();
+		Material mat = 
+		{
+			static_cast<MaterialType>(int(round(rng.fnext() * 3))),
+			{rng.fnext(),rng.fnext(),rng.fnext()},
+			rng.fnext()
+		};
+
 		vec3 center = { rng.fnext(-5, 5), rng.fnext(0, 3), rng.fnext(0, 5) };
-		Sphere* test = new Sphere(rng.fnext(0, 2), center, mat);
-		rt.add_object(test);
+		rt.add_sphere(center, rng.fnext(0, 2), rt.add_material(mat));
 	}	
 
 	printf("Tracing %zu spheres to buffer of size %zux%zu with %zu rays, %zu bounces...\n", spheres, width, height, rays, bounces);

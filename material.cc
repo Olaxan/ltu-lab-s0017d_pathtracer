@@ -5,44 +5,39 @@
 
 #include "pbr.h"
 #include "mat4.h"
-#include "sphere.h"
 
 //------------------------------------------------------------------------------
 /**
 */
 void
-BSDF(const Material& material, Ray& ray, const vec3& point, const vec3& normal)
+BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal)
 {
-	float cosTheta = -dot(normalize(ray.m), normalize(normal));
+	const float cosTheta = -dot(normalize(ray.m), normalize(normal));
 
 	if (material.type != MaterialType::Dielectric)
 	{
-		float F0 = 0.04f;
-		if (material.type == MaterialType::Conductor)
-		{
-			F0 = 0.95f;
-		}
+		const float F0 = material.type == MaterialType::Conductor ? 0.95f : 0.04f;
 
 		// probability that a ray will reflect on a microfacet
-		float F = FresnelSchlick(cosTheta, F0, material.roughness);
+		const float F = FresnelSchlick(cosTheta, F0, material.roughness);
 
-		float r = rng.fnext();
+		const float r = rng.fnext();
 
 		if (r < F)
 		{
-			mat4 basis = TBN(normal);
+			const mat4 basis = TBN(normal);
 			// importance sample with brdf specular lobe
-			vec3 H = ImportanceSampleGGX_VNDF(rng.fnext(), rng.fnext(), material.roughness, ray.m, basis);
-			vec3 reflected = reflect(ray.m, H);
+			const vec3 H = ImportanceSampleGGX_VNDF(rng.fnext(), rng.fnext(), material.roughness, ray.m, basis);
+			const vec3 reflected = reflect(ray.m, H);
 			ray.b = point;
 			ray.m = normalize(reflected);
 		}
 		else
 		{
-			float x = rng.fnext(-1, 1);
-			float y = rng.fnext(-1, 1);
-			float z = rng.fnext(-1, 1);
-			vec3 v( x, y, z );
+			const float x = rng.fnext(-1, 1);
+			const float y = rng.fnext(-1, 1);
+			const float z = rng.fnext(-1, 1);
+			const vec3 v( x, y, z );
 			ray.b = point;
 			ray.m = normalize(normalize(normal) + normalize(v));
 		}
@@ -79,6 +74,7 @@ BSDF(const Material& material, Ray& ray, const vec3& point, const vec3& normal)
 		{
 			reflect_prob = 1.0;
 		}
+
 		if (rng.fnext() < reflect_prob)
 		{
 			vec3 reflected = reflect(rayDir, normal);

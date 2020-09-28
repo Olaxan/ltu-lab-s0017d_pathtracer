@@ -1,10 +1,8 @@
 #pragma once
+
 #include "color.h"
 #include "ray.h"
 #include "vec3.h"
-
-#include <string>
-
 
 enum class MaterialType
 {
@@ -36,4 +34,4 @@ struct Material
 /**
 	Scatter ray against material
 */
-void BSDF(const Material& material, Ray& ray, const vec3& point, const vec3& normal);
+void BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal);

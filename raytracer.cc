@@ -3,6 +3,7 @@
 #include "shared.h"
 #include "raytracer.h"
 
+#include <cstdio>
 #include <thread>
 #include <pthread.h>
 #include <unistd.h>
@@ -31,12 +32,6 @@ Raytracer::Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const Tr
 	frameBuffer(frameBuffer)
 {
 	rays.reserve(ray_count);	
-}
-
-Raytracer::~Raytracer()
-{
-	for (Object* p : objects)
-		delete p;
 }
 
 //------------------------------------------------------------------------------
@@ -138,19 +133,36 @@ Raytracer::trace_helper(void* params)
 			size_t ray_index = r + data->offset;
 
 			Ray& ray = owner->rays[ray_index];
-
+		
+			res.dist = FLT_MAX;
+			res.shape = Shapes::None;
+			
 			if (ray.f)
 				continue;
 
-			if (owner->raycast(ray_index, res))
+			owner->raycast_spheres(ray_index, res);
+
+			// Add raycast functions for additional shapes here
+
+			switch (res.shape)
 			{
-				ray.c *= res.object->GetColor() * shadow_pass;
-				res.object->ScatterRay(ray, res.p, res.normal);
-			}
-			else
-			{
-				ray.f = true;
-				ray.c *= owner->skybox(ray.m);
+				case Shapes::None:
+				{
+					ray.f = true;
+					ray.c *= owner->skybox(ray.m);
+					break;
+				}
+				case Shapes::Sphere:
+				{
+					Sphere& obj = owner->spheres[res.index];
+					Material& mat = owner->materials[obj.material_index];
+					ray.c *= mat.color * shadow_pass;
+					BSDF(ray, mat, res.p, res.normal);
+					break;
+				}
+				default:
+					fprintf(stderr, "Undefined shape type %u hit!\n", res.shape);
+					break;
 			}
 		}
 	}
@@ -186,18 +198,16 @@ Raytracer::render_helper(void* params)
 /**
 */
 bool
-Raytracer::raycast(size_t ray_index, HitResult& result)
+Raytracer::raycast_spheres(size_t ray_index, HitResult& result)
 {
 	bool isHit = false;
-	const auto& world = this->objects;
-	result.t = FLT_MAX;
 
-	for (size_t i = 0; i < world.size(); ++i)
+	for (size_t i = 0; i < spheres.size(); ++i)
 	{
-		if (world[i]->Intersect(result, rays[ray_index], result.t))
+		if (spheres[i].intersect(rays[ray_index], result.dist, result))
 		{
-			result.object = world[i];
 			isHit = true;
+			result.index = i;
 		}
 	}
 	

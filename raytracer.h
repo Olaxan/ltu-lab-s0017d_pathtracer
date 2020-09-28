@@ -8,6 +8,9 @@
 #include "mat4.h"
 #include "ray.h"
 #include "object.h"
+#include "sphere.h"
+
+#include <cstdio>
 
 struct TraceData
 {
@@ -25,13 +28,10 @@ class Raytracer
 {
 public:
 	Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const TraceData& data);
-	~Raytracer();
+	~Raytracer() = default;
 
 	// start raytracing!
 	void trace();
-
-	// single raycast, find object
-	bool raycast(size_t ray_index, HitResult& result);
 
 	static void* trace_helper(void*);
 	static void* render_helper(void*); 
@@ -45,8 +45,12 @@ public:
 	// clear screen
 	void clear();
 
+	size_t add_material(Material mat);
+
 	// add object to scene
-	void add_object(Object* obj);
+	size_t add_sphere(const vec3& center, float radius, size_t material);
+	// single raycast, find object
+	bool raycast_spheres(size_t ray_index, HitResult& result);
 
 	// update matrices. Called automatically after setting view matrix
 	void update_matrices(); 		
@@ -77,11 +81,21 @@ private:
 	const mat4 frustum;
 
 	std::vector<Color>& frameBuffer;
-	std::vector<Object*> objects;
+	std::vector<Material> materials;
 	std::vector<Ray> rays;
+	
+	// Shape vectors
+	std::vector<Sphere> spheres;
 };
 
-inline void Raytracer::add_object(Object* o)
+inline size_t Raytracer::add_material(Material mat)
 {
-	this->objects.push_back(o);
+	this->materials.push_back(mat);
+	return materials.size() - 1;
+}
+
+inline size_t Raytracer::add_sphere(const vec3& center, float radius, size_t material)
+{
+	this->spheres.push_back(Sphere(radius, center, material));
+	return spheres.size() - 1;
 }

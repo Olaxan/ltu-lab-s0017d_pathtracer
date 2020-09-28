@@ -1,43 +1,36 @@
 #pragma once
 
-#include "object.h"
 #include <stdlib.h>
 #include <time.h>
 
+#include "object.h"
 #include "mat4.h"
-#include "pbr.h"
 #include "ray.h"
 #include "material.h"
 
 // a spherical object
-class Sphere : public Object
+class Sphere
 {
 public:
 	const float radius;
 	const vec3 center;
-	const Material material;
+	const size_t material_index;
 
-	Sphere(float radius, vec3 center, Material material) : 
+	Sphere(float radius, const vec3& center, size_t material_index) : 
 		radius(radius),
 		center(center),
-		material(material)
+		material_index(material_index)
 	{ }
 
-	~Sphere()
-	{ }
+	~Sphere() = default;
 
-	Color GetColor() override
-	{
-		return material.color;
-	}
-
-	bool Intersect(HitResult& hit, const Ray& ray, float maxDist) override
+	bool intersect(const Ray& ray, float maxDist, HitResult& hit)
 	{
 		const vec3 oc = ray.b - this->center;
 		const vec3 dir = ray.m;
 		const float b = dot(oc, dir);
 	
-		// early out if sphere is "behind" ray
+		// early out if this->is "behind" ray
 		if (b > 0)
 			return false;
 
@@ -58,7 +51,8 @@ public:
 				const vec3 p = ray.PointAt(temp);
 				hit.p = p;
 				hit.normal = (p - this->center) * (1.0f / this->radius);
-				hit.t = temp;
+				hit.shape = Shapes::Sphere;
+				hit.dist = temp;
 				return true;
 			}
 			if (temp2 < maxDist && temp2 > minDist)
@@ -66,17 +60,12 @@ public:
 				const vec3 p = ray.PointAt(temp2);
 				hit.p = p;
 				hit.normal = (p - this->center) * (1.0f / this->radius);
-				hit.t = temp2;
+				hit.shape = Shapes::Sphere;
+				hit.dist = temp2;
 				return true;
 			}
 		}
 
 		return false;
 	}
-
-	void ScatterRay(Ray& ray, const vec3& point, const vec3& normal) override
-	{
-		BSDF(this->material, ray, point, normal);
-	}
-
 };
