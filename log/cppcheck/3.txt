@@ -1,0 +1,124 @@
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c ...
+bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c:0:0: information: Too many #ifdef configurations - cppcheck only checks 12 of 113 configurations. Use --force to check all configurations. [toomanyconfigs]
+
+^
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: INT_178B;__INTEGRITY...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: MPRAS;_MPRAS...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: SCO_SV;_SCO_SV;sco_sv...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: SDCC;__SDCC_VERSION_MAJOR...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: SDCC;__SDCC_VERSION_MAJOR;__SDCC_VERSION_MAJOR...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: SIMULATE_VERSION_TWEAK...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: WIN32;_WIN32;__WIN32__...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: XENIX;_XENIX;__XENIX__...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: _AIX;__AIX;__AIX__;__aix;__aix__...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: _BEOS;__BEOS__;__BeOS...
+Checking bin/CMakeFiles/3.18.3/CompilerIdC/CMakeCCompilerId.c: _CRAYC...
+1/6 files checked 32% done
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp ...
+bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp:0:0: information: Too many #ifdef configurations - cppcheck only checks 12 of 111 configurations. Use --force to check all configurations. [toomanyconfigs]
+
+^
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: INT_178B;__INTEGRITY...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: MPRAS;_MPRAS...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: SCO_SV;_SCO_SV;sco_sv...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: SIMULATE_VERSION_TWEAK...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: WIN32;_WIN32;__WIN32__...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: XENIX;_XENIX;__XENIX__...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: _AIX;__AIX;__AIX__;__aix;__aix__...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: _BEOS;__BEOS__;__BeOS...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: _CRAYC...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: _MSC_BUILD;_MSC_VER...
+Checking bin/CMakeFiles/3.18.3/CompilerIdCXX/CMakeCXXCompilerId.cpp: _MSC_FULL_VER;_MSC_VER...
+2/6 files checked 64% done
+Checking main.cc ...
+vec3.h:28:2: style: 'vec3::operator=' should return 'vec3 &'. [operatorEq]
+ void operator = (const vec3& rhs)
+ ^
+main.cc:90:31: style: Checking if unsigned expression 'rays=atoi(optarg)' is less than zero. [unsignedLessThanZero]
+    if ((rays = atoi(optarg)) <= 0)
+                              ^
+main.cc:169:12: style: Local variable 'mat' shadows outer variable [shadowVariable]
+  Material mat = Material();
+           ^
+main.cc:159:11: note: Shadowed declaration
+ Material mat = Material();
+          ^
+main.cc:169:12: note: Shadow variable
+  Material mat = Material();
+           ^
+ray.h:18:11: performance: Function parameter 'startpoint' should be passed by const reference. [passedByValue]
+ Ray(vec3 startpoint, vec3 dir) :
+          ^
+ray.h:18:28: performance: Function parameter 'dir' should be passed by const reference. [passedByValue]
+ Ray(vec3 startpoint, vec3 dir) :
+                           ^
+sphere.h:20:28: performance: Function parameter 'center' should be passed by const reference. [passedByValue]
+ Sphere(float radius, vec3 center, Material material) :
+                           ^
+sphere.h:20:45: performance: Function parameter 'material' should be passed by const reference. [passedByValue]
+ Sphere(float radius, vec3 center, Material material) :
+                                            ^
+3/6 files checked 74% done
+Checking material.cc ...
+4/6 files checked 78% done
+Checking raytracer.cc ...
+raytracer.cc:124:21: style: C-style pointer casting [cstyleCast]
+ ThreadData* data = (ThreadData*)params;
+                    ^
+raytracer.cc:164:21: style: C-style pointer casting [cstyleCast]
+ ThreadData* data = (ThreadData*)params;
+                    ^
+raytracer.cc:131:6: style: The scope of the variable 'shadow_pass' can be reduced. [variableScope]
+ int shadow_pass;
+     ^
+raytracer.cc:90:14: style: Local variable 'data' shadows outer variable [shadowVariable]
+  ThreadData data = { this, 0, ray_count, bounces };
+             ^
+raytracer.cc:51:26: note: Shadowed declaration
+ std::vector<ThreadData> data(max_threads);
+                         ^
+raytracer.cc:90:14: note: Shadow variable
+  ThreadData data = { this, 0, ray_count, bounces };
+             ^
+raytracer.cc:115:14: style: Local variable 'data' shadows outer variable [shadowVariable]
+  ThreadData data = { this, 0, frameBuffer.size(), 0 };
+             ^
+raytracer.cc:51:26: note: Shadowed declaration
+ std::vector<ThreadData> data(max_threads);
+                         ^
+raytracer.cc:115:14: note: Shadow variable
+  ThreadData data = { this, 0, frameBuffer.size(), 0 };
+             ^
+5/6 files checked 86% done
+Checking window.cc ...
+window.cc:88:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:99:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:110:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:121:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:132:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:143:22: style: C-style pointer casting [cstyleCast]
+    Window* window = (Window*)glfwGetWindowUserPointer(win);
+                     ^
+Checking window.cc: _WIN32...
+6/6 files checked 100% done
+window.cc:281:0: style: The function 'MakeCurrent' is never used. [unusedFunction]
+
+^
+raytracer.cc:222:0: style: The function 'clear' is never used. [unusedFunction]
+
+^
+raytracer.cc:236:0: style: The function 'update_matrices' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
+

@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
 				silent = true;
 				break;
 			case 'w':
-				if (sscanf(optarg, "%lux%lu", &width, &height) != 2)
+				if (sscanf(optarg, "%zux%zu", &width, &height) != 2)
 				{
 					fprintf(stderr, "Invalid resolution format for '-%c': use 'WxH'\n", c);
 					return 1;
@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 		rt.add_object(test);
 	}	
 
-	printf("Tracing %lu spheres to buffer of size %lux%lu with %lu rays, %lu bounces...\n", spheres, width, height, rays, bounces);
+	printf("Tracing %zu spheres to buffer of size %zux%zu with %zu rays, %zu bounces...\n", spheres, width, height, rays, bounces);
 
 	rt.trace();
 	duration elapsed = clock::now() - begin_time;
