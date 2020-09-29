@@ -10,9 +10,9 @@
 /**
 */
 void
-BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal)
+BSDF(const Material& material, vec3& origin, vec3& dir, const vec3& point, const vec3& normal)
 {
-	const float cosTheta = -dot(normalize(ray.m), normalize(normal));
+	const float cosTheta = -dot(normalize(dir), normalize(normal));
 
 	if (material.type != MaterialType::Dielectric)
 	{
@@ -27,10 +27,10 @@ BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal)
 		{
 			const mat4 basis = TBN(normal);
 			// importance sample with brdf specular lobe
-			const vec3 H = ImportanceSampleGGX_VNDF(rng.fnext(), rng.fnext(), material.roughness, ray.m, basis);
-			const vec3 reflected = reflect(ray.m, H);
-			ray.b = point;
-			ray.m = normalize(reflected);
+			const vec3 H = ImportanceSampleGGX_VNDF(rng.fnext(), rng.fnext(), material.roughness, dir, basis);
+			const vec3 reflected = reflect(dir, H);
+			origin = point;
+			dir = normalize(reflected);
 		}
 		else
 		{
@@ -38,8 +38,8 @@ BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal)
 			const float y = rng.fnext(-1, 1);
 			const float z = rng.fnext(-1, 1);
 			const vec3 v( x, y, z );
-			ray.b = point;
-			ray.m = normalize(normalize(normal) + normalize(v));
+			origin = point;
+			dir = normalize(normalize(normal) + normalize(v));
 		}
 	}
 	else
@@ -49,7 +49,7 @@ BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal)
 		vec3 refracted;
 		float reflect_prob;
 		float cosine;
-		vec3 rayDir = ray.m;
+		vec3 rayDir = dir;
 
 		if (cosTheta <= 0)
 		{
@@ -78,13 +78,13 @@ BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal)
 		if (rng.fnext() < reflect_prob)
 		{
 			vec3 reflected = reflect(rayDir, normal);
-			ray.b = point;
-			ray.m = reflected;
+			origin = point;
+			dir = reflected;
 		}
 		else
 		{
-			ray.b = point;
-			ray.m = refracted;
+			origin = point;
+			dir = refracted;
 		}
 	}
 }

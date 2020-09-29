@@ -34,4 +34,4 @@ struct Material
 /**
 	Scatter ray against material
 */
-void BSDF(Ray& ray, const Material& material, const vec3& point, const vec3& normal);
+void BSDF(const Material& material, vec3& origin, vec3& dir, const vec3& point, const vec3& normal);

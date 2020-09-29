@@ -24,10 +24,9 @@ public:
 
 	~Sphere() = default;
 
-	bool intersect(const Ray& ray, float maxDist, HitResult& hit)
+	bool intersect(const vec3& point, const vec3& dir, float maxDist, HitResult& hit)
 	{
-		const vec3 oc = ray.b - this->center;
-		const vec3 dir = ray.m;
+		const vec3 oc = point - this->center;
 		const float b = dot(oc, dir);
 	
 		// early out if this->is "behind" ray
@@ -48,7 +47,7 @@ public:
 
 			if (temp < maxDist && temp > minDist)
 			{
-				const vec3 p = ray.PointAt(temp);
+				const vec3 p = { point + dir * temp };
 				hit.p = p;
 				hit.normal = (p - this->center) * (1.0f / this->radius);
 				hit.shape = Shapes::Sphere;
@@ -57,7 +56,7 @@ public:
 			}
 			if (temp2 < maxDist && temp2 > minDist)
 			{
-				const vec3 p = ray.PointAt(temp2);
+				const vec3 p = { point + dir * temp2 };
 				hit.p = p;
 				hit.normal = (p - this->center) * (1.0f / this->radius);
 				hit.shape = Shapes::Sphere;

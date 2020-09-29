@@ -19,6 +19,7 @@ struct TraceData
 	size_t rays_per_pixel;
 	size_t bounces;
 	size_t max_threads;
+	size_t max_memory;
 };
 
 //------------------------------------------------------------------------------
@@ -34,7 +35,6 @@ public:
 	void trace();
 
 	static void* trace_helper(void*);
-	static void* render_helper(void*); 
 
 	// get the color of the skybox in a direction
 	Color skybox(const vec3& direction) const;
@@ -50,7 +50,7 @@ public:
 	// add object to scene
 	size_t add_sphere(const vec3& center, float radius, size_t material);
 	// single raycast, find object
-	bool raycast_spheres(size_t ray_index, HitResult& result);
+	bool raycast_spheres(const vec3& point, const vec3& dir, HitResult& result);
 
 	// update matrices. Called automatically after setting view matrix
 	void update_matrices(); 		
@@ -58,17 +58,19 @@ public:
 private:
 
 	// rays per pixel
-	const unsigned rpp;
+	size_t rpp;
 	// max number of bounces before termination
-	const unsigned bounces = 5;
+	size_t bounces = 5;
 	// width of framebuffer
-	const unsigned width;
+	size_t width;
 	// height of framebuffer
-	const unsigned height;
+	size_t height;
 	// ray count for convenience
-	const unsigned ray_count;
+	size_t ray_count;
 	// max allowed concurrent threads
-	const unsigned max_threads;
+	size_t max_threads;
+
+	unsigned passes;
 	
 	const vec3 lowerLeftCorner = { -2.0, -1.0, -1.0 };
 	const vec3 horizontal = { 4.0, 0.0, 0.0 };

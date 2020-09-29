@@ -13,10 +13,10 @@
 
 #include <stdio.h>
 #include <getopt.h>
+#include <math.h>
 
 #include <chrono>
 #include <thread>
-#include <math.h>
 
 #define degtorad(angle) angle * MPI / 180
 
@@ -58,7 +58,8 @@ int main(int argc, char* argv[])
 	size_t bounces = 5;
 	size_t spheres = 8;
 	size_t max_threads = std::thread::hardware_concurrency();
-
+	size_t max_memory = 0;
+	
 	char* window_name = nullptr;
 	char* output_path = nullptr;
 	
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "hsw:o:r:n:x:b:t:")) != -1)
+	while ((c = getopt (argc, argv, "hsw:o:r:n:x:b:t:m:")) != -1)
 	{
 		switch (c)
 		{
@@ -118,6 +119,15 @@ int main(int argc, char* argv[])
 				}
 				max_threads = argval;
 				break;
+			case 'm':
+				argval = atoi(optarg);
+				if (argval < 0)
+				{
+					fprintf(stderr, "Invalid memory size for '%c': Must be positive integer or 0.\n", c);
+					return 1;
+				}
+				max_memory = atoi(optarg);
+				break;
 			case '?':
 				if (optopt == 'c')
 					fprintf (stderr, "Option '-%c' requires an argument.\n", optopt);
@@ -151,7 +161,8 @@ int main(int argc, char* argv[])
 		height,
 		rays,
 		bounces,
-		max_threads
+		max_threads,
+		max_memory,
 	};
 
 	Raytracer rt = Raytracer(cameraTransform, framebuffer, data);

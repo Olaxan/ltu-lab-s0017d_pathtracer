@@ -12,10 +12,18 @@
 struct ThreadData
 {
 	Raytracer* owner;
-	size_t offset;
-	size_t count;
-	size_t data;
+	size_t width;
+	size_t height;
+	size_t y_offset;
+	size_t bounces;
 };
+
+#define KB(x)   ((size_t) (x) << 10)
+#define MB(x)   ((size_t) (x) << 20)
+#define GB(x)	((size_t) (x) << 30)
+
+#define RAY_SIZE 64
+#define DEFAULT_PASSES 8
 
 //------------------------------------------------------------------------------
 /**
@@ -31,7 +39,16 @@ Raytracer::Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const Tr
 	frustum(get_frustum(view)),
 	frameBuffer(frameBuffer)
 {
-	rays.reserve(ray_count);	
+	if (data.max_memory == 0)
+	{
+		passes = DEFAULT_PASSES;
+	}
+	else
+	{
+		// If max memory is specified, do multiple passes over data.
+		passes = fmax(1, (ray_count * RAY_SIZE) / GB(data.max_memory));
+	}
+
 }
 
 //------------------------------------------------------------------------------
@@ -40,39 +57,25 @@ Raytracer::Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const Tr
 void
 Raytracer::trace()
 {
-	vec3 cam_pos = get_position(this->view);
 
 	std::vector<pthread_t> tids(max_threads);
 	std::vector<ThreadData> data(max_threads);
 
-	for (size_t i = 0; i < ray_count; i++)
-	{
-		int x = (i / rpp) % width;
-		int y = (i / rpp) / width;
-
-		float u = ((float(x + rng.fnext()) * (1.0f / this->width)) * 2.0f) - 1.0f;
-		float v = ((float(y + rng.fnext()) * (1.0f / this->height)) * 2.0f) - 1.0f;
-
-		vec3 direction(u, v, -1.0f);
-		direction = transform(direction, this->frustum);
-		
-		rays[i] = Ray(cam_pos, direction);	
-	}
+	size_t p_width = this->width / passes;
 	
 	if (max_threads > 0)
 	{
-
-		size_t rays_per_thread = ray_count / max_threads;
+		size_t t_height = this->height / max_threads;
 
 		for (size_t t = 0; t < max_threads; t++)
 		{
-			data[t] = { this, t * rays_per_thread, rays_per_thread, bounces };
+			data[t] = { this, p_width, t_height, t * t_height, bounces };
 
 			int err = pthread_create(&tids[t], NULL, &trace_helper, &data[t]);
 
 			if (err > 0)
 				fprintf (stderr, "A thread error occured while tracing: %d\n", err);
-
+			
 		}
 
 		for (size_t t = 0; t < max_threads; t++)
@@ -82,35 +85,9 @@ Raytracer::trace()
 	}
 	else
 	{
-		ThreadData data = { this, 0, ray_count, bounces };
+		ThreadData data = { this, p_width, height, 0, bounces };
 		trace_helper(&data);
 	}
-
-	if (max_threads > 0)
-	{
-		size_t pixels_per_thread = frameBuffer.size() / max_threads;
-
-		for (size_t t = 0; t < max_threads; t++)
-		{
-			data[t] = { this, t * pixels_per_thread, pixels_per_thread, 0 };
-
-			int err = pthread_create(&tids[t], NULL, &render_helper, &data[t]);
-
-			if (err > 0)
-				fprintf(stderr, "A thread error occured while rendering: %d\n", err);
-		}
-
-		for (size_t t = 0; t < max_threads; t++)
-		{
-			pthread_join(tids[t], NULL);
-		}	
-	}
-	else
-	{
-		ThreadData data = { this, 0, frameBuffer.size(), 0 };
-		render_helper(&data);
-	}
-
 }
 
 void*
@@ -119,77 +96,107 @@ Raytracer::trace_helper(void* params)
 	ThreadData* data = (ThreadData*)params;
 	Raytracer* owner = data->owner;
 	
-	size_t bounces = data->data;
-	size_t count = data->count;
-	
-	HitResult res;
-	int shadow_pass;
-	for (size_t b = 0; b < bounces; b++)
-	{
-		shadow_pass = (b < (bounces - 1));
+	size_t& bounces = data->bounces;
+	size_t& rpp = owner->rpp;
+	size_t& y_offset = data->y_offset;
 
-		for (size_t r = 0; r < count; r++)
-		{
-			size_t ray_index = r + data->offset;
-
-			Ray& ray = owner->rays[ray_index];
-		
-			res.dist = FLT_MAX;
-			res.shape = Shapes::None;
-			
-			if (ray.f)
-				continue;
-
-			owner->raycast_spheres(ray_index, res);
-
-			// Add raycast functions for additional shapes here
-
-			switch (res.shape)
-			{
-				case Shapes::None:
-				{
-					ray.f = true;
-					ray.c *= owner->skybox(ray.m);
-					break;
-				}
-				case Shapes::Sphere:
-				{
-					Sphere& obj = owner->spheres[res.index];
-					Material& mat = owner->materials[obj.material_index];
-					ray.c *= mat.color * shadow_pass;
-					BSDF(ray, mat, res.p, res.normal);
-					break;
-				}
-				default:
-					fprintf(stderr, "Undefined shape type %u hit!\n", res.shape);
-					break;
-			}
-		}
-	}
-
-	return EXIT_SUCCESS;	
-}
-
-void*
-Raytracer::render_helper(void* params)
-{
-	ThreadData* data = (ThreadData*)params;
-	Raytracer* owner = data->owner;
+	size_t ray_count = data->width * data->height * rpp;
 
 	auto& frameBuffer = owner->frameBuffer;
-	size_t rpp = owner->rpp;
+	vec3 cam_pos = get_position(owner->view);
+	
+	std::vector<vec3> origin;
+	std::vector<vec3> direction;
+	std::vector<Color> color;
+	std::vector<bool> finished;
 
-	for (size_t i = 0; i < data->count; i++)
+	origin.reserve(ray_count);
+	direction.reserve(ray_count);
+	color.reserve(ray_count);
+	finished.reserve(ray_count);
+
+	HitResult res;
+
+	for (size_t p = 0; p < owner->passes; p++)
 	{
-		size_t pixel_index = i + data->offset;	
 
-		for (size_t j = 0; j < rpp; j++)
+		printf("PASS %zu\n", p);
+
+		size_t x_offset = p * data->width;
+
+		for (size_t i = 0; i < ray_count; i++)
 		{
-			frameBuffer[pixel_index] += owner->rays[pixel_index * rpp + j].c;
+			int x = ((i / rpp) % data->width) + x_offset;
+			int y = ((i / rpp) / data->width) + y_offset;
+
+			float u = ((float(x + rng.fnext()) * (1.0f / owner->width)) * 2.0f) - 1.0f;
+			float v = ((float(y + rng.fnext()) * (1.0f / owner->height)) * 2.0f) - 1.0f;
+
+			vec3 dir(u, v, -1.0f);
+			dir = transform(dir, owner->frustum);
+			
+			origin[i] = cam_pos;
+			direction[i] = dir;
+			color[i] = { 1, 1, 1 };
+			finished[i] = false;	
 		}
 
-		frameBuffer[pixel_index] /= rpp;
-	}
+		for (size_t b = 0; b < bounces; b++)
+		{
+			int shadow_pass = (b < (bounces - 1));
+
+			for (size_t r = 0; r < ray_count; r++)
+			{
+			
+				res.dist = FLT_MAX;
+				res.shape = Shapes::None;
+				
+				if (finished[r])
+					continue;
+
+				owner->raycast_spheres(origin[r], direction[r], res);
+
+				// Add raycast functions for additional shapes here
+
+				switch (res.shape)
+				{
+					case Shapes::None:
+					{
+						finished[r] = true;
+						color[r] *= owner->skybox(direction[r]);
+						break;
+					}
+					case Shapes::Sphere:
+					{
+						Sphere& obj = owner->spheres[res.index];
+						Material& mat = owner->materials[obj.material_index];
+						color[r] *= mat.color * shadow_pass;
+						BSDF(mat, origin[r], direction[r], res.p, res.normal);
+						break;
+					}
+					default:
+						fprintf(stderr, "Undefined shape type %u hit!\n", res.shape);
+					break;
+				}
+			}
+		}
+
+		for (size_t i = 0; i < ray_count; i += rpp)
+		{
+
+			int x = ((i / rpp) % data->width) + x_offset;
+			int y = ((i / rpp) / data->width) + y_offset;
+
+			size_t pixel_index = x + owner->width * y;
+
+			for (size_t j = 0; j < rpp; j++)
+			{
+				frameBuffer[pixel_index] += color[i + j];
+			}
+
+			frameBuffer[pixel_index] /= rpp;
+		}
+	}	
 
 	return EXIT_SUCCESS;
 }
@@ -198,13 +205,13 @@ Raytracer::render_helper(void* params)
 /**
 */
 bool
-Raytracer::raycast_spheres(size_t ray_index, HitResult& result)
+Raytracer::raycast_spheres(const vec3& point, const vec3& dir, HitResult& result)
 {
 	bool isHit = false;
 
 	for (size_t i = 0; i < spheres.size(); ++i)
 	{
-		if (spheres[i].intersect(rays[ray_index], result.dist, result))
+		if (spheres[i].intersect(point, dir, result.dist, result))
 		{
 			isHit = true;
 			result.index = i;
