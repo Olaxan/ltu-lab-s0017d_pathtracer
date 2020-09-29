@@ -24,8 +24,9 @@ void print_usage()
 {
 	printf("This utility renders a single frame of a raytraced scene, "
 			"optionally displaying it in an OpenGL window, and saving the finished result to a file.\n\n"
-			"usage: \ttrayracer [-h] [-s] [-w <wxh>] [-o <path>] [-r <rays>]\n"
-		       "\t[-n <name>] [-x <seed>] [-b <bounces>] [-t <threads>] <spheres>\n\n"
+			"usage: \ttrayracer [-h] [-s] [-w <wxh>] [-o <path>]\n"
+		       "\t[-r <rays>] [-n <name>] [-x <seed>] [-b <bounces>]\n"
+		       "\t[-t <threads>] [-m <memory>] <spheres>\n\n"
 		       "options:\n"
 		       "\t-h:\t\tShows this help.\n"
 		       "\t-s:\t\tRun without opening a render window. Use -o to specify an output path.\n"
@@ -36,6 +37,7 @@ void print_usage()
 		       "\t-x <seed>: \tAn optional seed for placing the spheres in the scene.\n"
 		       "\t-b <bounces>: \tThe number of bounces to perform per ray. Higher gives improved reflections.\n"
 		       "\t-t <threads>: \tThe number of threads available for tracing, 0 to disable. Default all cores.\n"
+		       "\t-m <memory>:\tSets the max amount of RAM (in GB) the pathfinder may use.\n"
 		       "\t<spheres>:\tThe number of spheres to render randomly.\n\nn"
 	      );
 }

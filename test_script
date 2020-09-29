@@ -9,3 +9,5 @@ for i in {0..5..1}
 do
 	./trayracer -s -w 500x500 -r 8 -b 5 8 >> $LOG_DIR
 done
+
+cat "$LOG_DIR"
