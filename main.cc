@@ -230,6 +230,7 @@ int main(int argc, char* argv[])
 	bool exit = false;	
 	
 	wnd.SetTitle(window_name == nullptr ? "TrayRacer" : window_name);
+	wnd.SetSize(width, height);
 	
 	if (!wnd.Open())
 		return 1;
