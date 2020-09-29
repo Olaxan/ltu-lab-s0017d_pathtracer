@@ -120,8 +120,6 @@ Raytracer::trace_helper(void* params)
 	for (size_t p = 0; p < owner->passes; p++)
 	{
 
-		printf("PASS %zu\n", p);
-
 		size_t x_offset = p * data->width;
 
 		for (size_t i = 0; i < ray_count; i++)
