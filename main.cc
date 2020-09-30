@@ -37,7 +37,7 @@ void print_usage()
 		       "\t-x <seed>: \tAn optional seed for placing the spheres in the scene.\n"
 		       "\t-b <bounces>: \tThe number of bounces to perform per ray. Higher gives improved reflections.\n"
 		       "\t-t <threads>: \tThe number of threads available for tracing, 0 to disable. Default all cores.\n"
-		       "\t-m <memory>:\tSets the max amount of RAM (in GB) the pathfinder may use.\n"
+		       "\t-m <memory>:\tSets the max amount of RAM (in GB) the pathfinder may use. Default is 4.\n"
 		       "\t<spheres>:\tThe number of spheres to render randomly.\n\nn"
 	      );
 }
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 	size_t bounces = 5;
 	size_t spheres = 8;
 	size_t max_threads = std::thread::hardware_concurrency();
-	size_t max_memory = 0;
+	size_t max_memory = 4;
 	
 	char* window_name = nullptr;
 	char* output_path = nullptr;
@@ -146,7 +146,6 @@ int main(int argc, char* argv[])
 	if (optind == argc - 1)
 		spheres = atoi(argv[optind]);
 
-	auto begin_time = clock::now();
 	rng.seed(seed);	
 
 	// camera
@@ -179,8 +178,24 @@ int main(int argc, char* argv[])
 
 	rt.add_sphere({0, -1000, -1}, 1000, rt.add_material(ground_mat));
 
-	// Random spheres
-	for (size_t i = 0; i < spheres; i++)
+	if (seed == 1337)
+	{
+		Material m1 = { MaterialType::Conductor, { 1.0f, 1.0f, 1.0f }, 0.2f };
+		rt.add_sphere({0, 1, 0}, 1, rt.add_material(m1));
+		
+		Material m2 = { MaterialType::Lambertian, { 0.0f, 0.4f, 0.6f }, 0.2f };
+		rt.add_sphere({-4, 1, 0}, 1, rt.add_material(m2));
+
+		Material m3 = { MaterialType::Dielectric, { 1.0f, 0.8f, 0.7f }, 0.95f, 1.65f };
+		rt.add_sphere({-4, 1, 2}, 1, rt.add_material(m3));
+		
+		Material m4 = { MaterialType::Lambertian, { 1.0f, 0.0f, 0.2f }, 0.04f };
+		rt.add_sphere({1, 1, -3}, 1, rt.add_material(m4));
+		
+		Material m5 = { MaterialType::Lambertian, { 1, 1, 1 }, 0.0f };
+		rt.add_sphere({4, 1, 0}, 1, rt.add_material(m5));
+	}
+	else for (size_t i = 0; i < spheres; i++)
 	{
 		Material mat = 
 		{
@@ -195,6 +210,7 @@ int main(int argc, char* argv[])
 
 	printf("Tracing %zu spheres to buffer of size %zux%zu with %zu rays, %zu bounces...\n", spheres, width, height, rays, bounces);
 
+	auto begin_time = clock::now();
 	rt.trace();
 	duration elapsed = clock::now() - begin_time;
 

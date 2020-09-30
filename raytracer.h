@@ -69,8 +69,8 @@ private:
 	size_t ray_count;
 	// max allowed concurrent threads
 	size_t max_threads;
-
-	unsigned passes;
+	// number of render passes to perform
+	size_t passes;
 	
 	const vec3 lowerLeftCorner = { -2.0, -1.0, -1.0 };
 	const vec3 horizontal = { 4.0, 0.0, 0.0 };
@@ -84,7 +84,12 @@ private:
 
 	std::vector<Color>& frameBuffer;
 	std::vector<Material> materials;
-	std::vector<Ray> rays;
+
+	// Ray data
+	std::vector<vec3> origins;
+	std::vector<vec3> directions;
+	std::vector<Color> colors;
+	std::vector<bool> finished;
 	
 	// Shape vectors
 	std::vector<Sphere> spheres;
