@@ -5,7 +5,6 @@
 
 #include "object.h"
 #include "mat4.h"
-#include "ray.h"
 #include "material.h"
 
 // a spherical object

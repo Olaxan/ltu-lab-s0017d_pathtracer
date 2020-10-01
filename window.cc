@@ -85,7 +85,7 @@ Window::~Window()
 void
 Window::StaticKeyPressCallback(GLFWwindow* win, int32_t key, int32_t scancode, int32_t action, int32_t mods)
 {
-	Window* window = (Window*)glfwGetWindowUserPointer(win);
+	Window* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if (nullptr != window->keyPressCallback)
 		window->keyPressCallback(key, scancode, action, mods);
 }
@@ -96,7 +96,7 @@ Window::StaticKeyPressCallback(GLFWwindow* win, int32_t key, int32_t scancode, i
 void
 Window::StaticMousePressCallback(GLFWwindow* win, int32_t button, int32_t action, int32_t mods)
 {
-	Window* window = (Window*)glfwGetWindowUserPointer(win);
+	Window* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if (nullptr != window->mousePressCallback)
 		window->mousePressCallback(button, action, mods);
 }
@@ -107,7 +107,7 @@ Window::StaticMousePressCallback(GLFWwindow* win, int32_t button, int32_t action
 void
 Window::StaticMouseMoveCallback(GLFWwindow* win, double x, double y)
 {
-	Window* window = (Window*)glfwGetWindowUserPointer(win);
+	Window* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if (nullptr != window->mouseMoveCallback)
 		window->mouseMoveCallback(x, y);
 }
@@ -118,7 +118,7 @@ Window::StaticMouseMoveCallback(GLFWwindow* win, double x, double y)
 void
 Window::StaticMouseEnterLeaveCallback(GLFWwindow* win, int32_t mode)
 {
-	Window* window = (Window*)glfwGetWindowUserPointer(win);
+	Window* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if (nullptr != window->mouseLeaveEnterCallback)
 		window->mouseLeaveEnterCallback(mode == 0);
 }
@@ -129,7 +129,7 @@ Window::StaticMouseEnterLeaveCallback(GLFWwindow* win, int32_t mode)
 void
 Window::StaticMouseScrollCallback(GLFWwindow* win, double x, double y)
 {
-	Window* window = (Window*)glfwGetWindowUserPointer(win);
+	Window* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
 	if (nullptr != window->mouseScrollCallback)
 		window->mouseScrollCallback(x, y);
 }
@@ -140,7 +140,7 @@ Window::StaticMouseScrollCallback(GLFWwindow* win, double x, double y)
 void
 Window::StaticWindowResizeCallback(GLFWwindow* win, int32_t x, int32_t y)
 {
-    Window* window = (Window*)glfwGetWindowUserPointer(win);
+    Window* window = static_cast<Window*>(glfwGetWindowUserPointer(win));
     window->width = x;
     window->height = y;
     window->Resize();
