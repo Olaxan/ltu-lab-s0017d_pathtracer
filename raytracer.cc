@@ -28,7 +28,7 @@ struct ThreadData
 //------------------------------------------------------------------------------
 /**
 */
-Raytracer::Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const TraceData& data) :
+Raytracer::Raytracer(const mat4& view, std::vector<vec3>& frameBuffer, const TraceData& data) :
 	rpp(data.rays_per_pixel),
 	bounces(data.bounces),
 	width(data.width),
@@ -244,12 +244,11 @@ Raytracer::raycast_spheres(const vec3& point, const vec3& dir, HitResult& result
 //------------------------------------------------------------------------------
 /**
 */
-Color
+vec3
 Raytracer::skybox(const vec3& direction) const
 {
 	float t = 0.5 * (direction.y + 1.0);
-	vec3 vec = vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t;
-    	return {(float)vec.x, (float)vec.y, (float)vec.z};	
+	return vec3(1.0, 1.0, 1.0) * (1.0 - t) + vec3(0.5, 0.7, 1.0) * t;
 }
 
 //------------------------------------------------------------------------------
@@ -258,11 +257,12 @@ Raytracer::skybox(const vec3& direction) const
 void
 Raytracer::clear()
 {
+	// Replace this with memset or something.
 	for (auto& color : this->frameBuffer)
 	{
-		color.r = 0.0f;
-		color.g = 0.0f;
-		color.b = 0.0f;
+		color.x = 0.0f;
+		color.y = 0.0f;
+		color.z = 0.0f;
 	}
 }
 

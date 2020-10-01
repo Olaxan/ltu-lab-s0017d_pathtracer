@@ -1,7 +1,5 @@
 #pragma once
 #include <cmath>
-#include <initializer_list>
-#include <assert.h>
 
 #define MPI 3.14159265358979323846
 
@@ -11,7 +9,7 @@ public:
 	vec3() : x(0), y(0), z(0)
 	{ }
 
-	vec3(double x, double y, double z) : x(x), y(y), z(z)
+	vec3(float x, float y, float z) : x(x), y(y), z(z)
 	{ }
 
 	~vec3()
@@ -33,6 +31,34 @@ public:
 		return *this;
 	}
 
+	void operator *= (vec3 const& rhs)
+	{
+		this->x *= rhs.x;
+		this->y *= rhs.y;
+		this->z *= rhs.z;
+	}
+
+	void operator += (vec3 const& rhs)
+	{
+		this->x += rhs.x;
+		this->y += rhs.y;
+		this->z += rhs.z;
+	}
+
+	void operator /= (vec3 const& rhs)
+	{
+		this->x /= rhs.x;
+		this->y /= rhs.y;
+		this->z /= rhs.z;
+	}
+
+	void operator /= (const float& rhs)
+	{
+		this->x /= rhs;
+		this->y /= rhs;
+		this->z /= rhs;
+	}
+
 	vec3 operator + (vec3 const& rhs) const 
 	{ return {x + rhs.x, y + rhs.y, z + rhs.z}; }
 	
@@ -48,25 +74,25 @@ public:
 	vec3 operator * (const float& c) const 
 	{ return {x * c, y * c, z * c}; }
 
-	double x, y, z;
+	float x, y, z;
 
 private:
 };
 
 // Get length of 3D vector
-inline double len(const vec3& v)
+inline float len(const vec3& v)
 {
-	double a = v.x * v.x;
+	float a = v.x * v.x;
 	a = a + v.y * v.y;
 	a = a + v.z * v.z;
-	double l = sqrt(a);
+	float l = sqrt(a);
 	return l;
 }
 
 // Get normalized version of v
 inline vec3 normalize(const vec3& v)
 {
-	double l = len(v);
+	float l = len(v);
 	if (l == 0)
 		return vec3(0, 0, 0);
 

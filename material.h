@@ -1,6 +1,5 @@
 #pragma once
 
-#include "color.h"
 #include "vec3.h"
 
 enum class MaterialType
@@ -22,7 +21,7 @@ struct Material
 		just because figuring out a good IOR for ex. plastics is too much work
 	*/
 	MaterialType type = MaterialType::Lambertian;
-	Color color = {0.5f,0.5f,0.5f};
+	vec3 color = {0.5f,0.5f,0.5f};
 	float roughness = 0.75;
 
 	// this is only needed for dielectric materials.

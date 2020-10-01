@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
 	cameraTransform.m31 = camPos.y;
 	cameraTransform.m32 = camPos.z;
 
-	std::vector<Color> framebuffer(width * height);
+	std::vector<vec3> framebuffer(width * height);
 	
 	TraceData data = {
 		width,
@@ -223,9 +223,9 @@ int main(int argc, char* argv[])
 		size_t index = 0;	
 		for (size_t i = 0; i < width * height; i++)
 		{
-			pixels[index++] = 255.0f * framebuffer[i].r;
-			pixels[index++] = 255.0f * framebuffer[i].g;
-			pixels[index++] = 255.0f * framebuffer[i].b;
+			pixels[index++] = 255.0f * framebuffer[i].x;
+			pixels[index++] = 255.0f * framebuffer[i].y;
+			pixels[index++] = 255.0f * framebuffer[i].z;
 		}
 
 		stbi_flip_vertically_on_write(1);

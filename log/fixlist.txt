@@ -18,7 +18,7 @@ PVS STUDIO:
 6. raytracer.cc and window.cc have members not being initialized in constructor; initialize to 0.
 
 CPP-CHECK:
-No errors.
+See log/cppcheck/
 
 CLANG-TIDY:
 Vec3 error (The left operand of '*' is a garbage value), disregarded for now.

@@ -27,7 +27,7 @@ struct TraceData
 class Raytracer
 {
 public:
-	Raytracer(const mat4& view, std::vector<Color>& frameBuffer, const TraceData& data);
+	Raytracer(const mat4& view, std::vector<vec3>& frameBuffer, const TraceData& data);
 	~Raytracer() = default;
 
 	// start raytracing!
@@ -36,7 +36,7 @@ public:
 	static void* trace_helper(void*);
 
 	// get the color of the skybox in a direction
-	Color skybox(const vec3& direction) const;
+	vec3 skybox(const vec3& direction) const;
 
 	// set camera matrix
 	void set_view_matrix(const mat4& val);
@@ -81,13 +81,13 @@ private:
 	// Go from canonical to view frustum
 	const mat4 frustum;
 
-	std::vector<Color>& frameBuffer;
+	std::vector<vec3>& frameBuffer;
 	std::vector<Material> materials;
 
 	// Ray data
 	std::vector<vec3> origins;
 	std::vector<vec3> directions;
-	std::vector<Color> colors;
+	std::vector<vec3> colors;
 	std::vector<bool> finished;
 	
 	// Shape vectors
