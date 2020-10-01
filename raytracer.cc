@@ -103,20 +103,22 @@ Raytracer::trace()
 void*
 Raytracer::trace_helper(void* params)
 {
-	ThreadData* data = (ThreadData*)params;
+	ThreadData* data = static_cast<ThreadData*>(params);
 	Raytracer* owner = data->owner;
 
 	vec3 cam_pos = get_position(owner->view);
 	
-	size_t& passes = owner->passes;
-	size_t& bounces = owner->bounces;
-	size_t& rpp = owner->rpp;
+	const size_t& passes = owner->passes;
+	const size_t& bounces = owner->bounces;
+	const size_t& rpp = owner->rpp;
 
-	size_t& data_offset = data->data_offset;
-	size_t& width = data->width;
-	size_t& x_mod = data->x_mod;
-	size_t& height = data->height;
-	size_t& y_offset = data->y_offset;
+	const float aspect = float(owner->height) / float(owner->width);
+
+	const size_t& data_offset = data->data_offset;
+	const size_t& width = data->width;
+	const size_t& x_mod = data->x_mod;
+	const size_t& height = data->height;
+	const size_t& y_offset = data->y_offset;
 	
 	auto& origin = owner->origins;
 	auto& direction = owner->directions;
@@ -133,16 +135,17 @@ Raytracer::trace_helper(void* params)
 		size_t x_offset = p * width;
 
 		// Expand width if this is the last pass in order to fill entire image.
-		width = width + (p == passes - 1) * x_mod;
-		size_t ray_count = width * height * rpp;
+		size_t pass_width = width + (p == passes - 1) * x_mod;
+		size_t ray_count = pass_width * height * rpp;
 
+		// Setup ray buffer for a new trace pass.
 		for (size_t i = 0; i < ray_count; i++)
 		{
-			int x = ((i / rpp) % width) + x_offset;
-			int y = ((i / rpp) / width) + y_offset;
+			int x = ((i / rpp) % pass_width) + x_offset;
+			int y = ((i / rpp) / pass_width) + y_offset;
 
 			float u = ((float(x + rng.fnext()) * (1.0f / owner->width)) * 2.0f) - 1.0f;
-			float v = ((float(y + rng.fnext()) * (1.0f / owner->height)) * 2.0f) - 1.0f;
+			float v = aspect * (((float(y + rng.fnext()) * (1.0f / owner->height)) * 2.0f) - 1.0f);
 
 			vec3 dir(u, v, -1.0f);
 			dir = transform(dir, owner->frustum);
@@ -153,6 +156,7 @@ Raytracer::trace_helper(void* params)
 			finished[i + data_offset] = false;	
 		}
 
+		// March all rays b times, where b is number of bounces.
 		for (size_t b = 0; b < bounces; b++)
 		{
 			int shadow_pass = (b < (bounces - 1));
@@ -190,17 +194,18 @@ Raytracer::trace_helper(void* params)
 						break;
 					}
 					default:
-						fprintf(stderr, "Undefined shape type %u hit!\n", res.shape);
+						fprintf(stderr, "Undefined shape type %i hit!\n", res.shape);
 					break;
 				}
 			}
 		}
-
+		
+		// Render to framebuffer (take average of pixel rays).
 		for (size_t i = 0; i < ray_count; i += rpp)
 		{
 
-			int x = ((i / rpp) % width) + x_offset;
-			int y = ((i / rpp) / width) + y_offset;
+			int x = ((i / rpp) % pass_width) + x_offset;
+			int y = ((i / rpp) / pass_width) + y_offset;
 
 			size_t pixel_index = x + owner->width * y;
 

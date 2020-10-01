@@ -293,3 +293,33 @@ inline mat4 get_frustum(const mat4& view)
 	mat4 inverseView = inverse(view); 
 	return transpose(inverseView);
 }
+
+inline mat4 get_perspective(const float& left, const float& right, const float& top, const float& bottom, const float& near, const float& far)
+{
+
+	return 
+	{
+		(2.0f * near) / (right - left), 0, 0, 0,
+		0, (2.0f * near) / (top - bottom), 0, 0,
+		-((right + left) / (right - left)), -((top + bottom) / (top - bottom)), -(far / (far - near)), -1.0,
+		0, 0, -((far * near) / (far - near)), 0
+	};
+
+	//mat(0, 0) = (2.0f * near) / (right - left);
+	//mat(0, 2) = -((right + left) / (right - left));
+	//mat(1, 1) = (2.0f * near) / (top - bottom);
+	//mat(1, 2) = -((top + bottom) / (top - bottom));
+	//mat(2, 2) = -(far / (far - near));
+	//mat(2, 3) = -((far * near) / (far - near));
+	//mat(3, 2) = -1.0f;
+}
+
+inline mat4 get_perspective(const float fov, const float aspect, const float near, const float far)
+{
+	const float top = tanf(fov / 2.0f) * near;
+	const float bottom = -top;
+	const float right = top * aspect;
+	const float left = bottom * aspect;
+
+	return get_perspective(left, right, top, bottom, near, far);
+}

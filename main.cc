@@ -91,11 +91,13 @@ int main(int argc, char* argv[])
 				output_path = optarg;
 				break;
 			case 'r':
-				if ((rays = atoi(optarg)) <= 0)
+				argval = atoi(optarg);
+				if (argval <= 0)
 				{
 					fprintf(stderr, "Invalid ray count for '-%c': Must be positive integer.\n", c);
 					return 1;
 				}
+				rays = argval;
 				break;
 			case 'n':
 				window_name = optarg;
@@ -169,12 +171,7 @@ int main(int argc, char* argv[])
 	Raytracer rt = Raytracer(cameraTransform, framebuffer, data);
 
 	// Ground plane
-	Material ground_mat = 
-	{
-		MaterialType::Lambertian,
-		{ 0.5,0.5,0.5 },
-		0.3
-	};
+	Material ground_mat = {MaterialType::Lambertian, { 0.5,0.5,0.5 }, 0.3 };
 
 	rt.add_sphere({0, -1000, -1}, 1000, rt.add_material(ground_mat));
 

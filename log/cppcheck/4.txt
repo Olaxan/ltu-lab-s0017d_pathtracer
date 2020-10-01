@@ -1,0 +1,109 @@
+Checking main.cc ...
+object.h:43:9: performance: Variable 'purpose' is assigned in constructor body. Consider performing initialization in initialization list. [useInitializationList]
+        purpose = std::string("I don't have a purpose at the moment, but hopefully the programmer that overrides me will give me one. :)");
+        ^
+object.h:33:9: warning: Class 'Object' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s). [noCopyConstructor]
+        name = new char[256];
+        ^
+object.h:33:9: warning: Class 'Object' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s). [noOperatorEq]
+        name = new char[256];
+        ^
+vec3.h:23:5: style: Class 'vec3' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    vec3(std::initializer_list<double> const il)
+    ^
+sphere.h:42:11: style: The function 'GetColor' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+    Color GetColor()
+          ^
+object.h:53:19: note: Virtual function in base class
+    virtual Color GetColor() = 0;
+                  ^
+sphere.h:42:11: note: Function in derived class
+    Color GetColor()
+          ^
+main.cc:169:13: style: Condition 'resetFramebuffer' is always false [knownConditionTrueFalse]
+        if (resetFramebuffer)
+            ^
+main.cc:144:28: note: Assignment 'resetFramebuffer=false', assigned value is 0
+        resetFramebuffer = false;
+                           ^
+main.cc:169:13: note: Condition 'resetFramebuffer' is always false
+        if (resetFramebuffer)
+            ^
+object.h:49:9: error: Mismatching allocation and deallocation: Object::name [mismatchAllocDealloc]
+        delete name;
+        ^
+vec3.h:131:26: performance: Function parameter 'v' should be passed by const reference. [passedByValue]
+inline vec3 reflect(vec3 v, vec3 n)
+                         ^
+vec3.h:131:34: performance: Function parameter 'n' should be passed by const reference. [passedByValue]
+inline vec3 reflect(vec3 v, vec3 n)
+                                 ^
+ray.h:10:14: performance: Function parameter 'startpoint' should be passed by const reference. [passedByValue]
+    Ray(vec3 startpoint, vec3 dir) :
+             ^
+ray.h:10:31: performance: Function parameter 'dir' should be passed by const reference. [passedByValue]
+    Ray(vec3 startpoint, vec3 dir) :
+                              ^
+raytracer.h:75:43: performance: Function parameter 'val' should be passed by const reference. [passedByValue]
+inline void Raytracer::SetViewMatrix(mat4 val)
+                                          ^
+pbr.h:53:14: performance: Function parameter 'v' should be passed by const reference. [passedByValue]
+Refract(vec3 v, vec3 n, float niOverNt, vec3& refracted)
+             ^
+pbr.h:53:22: performance: Function parameter 'n' should be passed by const reference. [passedByValue]
+Refract(vec3 v, vec3 n, float niOverNt, vec3& refracted)
+                     ^
+sphere.h:29:31: performance: Function parameter 'center' should be passed by const reference. [passedByValue]
+    Sphere(float radius, vec3 center, Material const* const material) :
+                              ^
+sphere.h:90:24: performance: Function parameter 'ray' should be passed by const reference. [passedByValue]
+    Ray ScatterRay(Ray ray, vec3 point, vec3 normal) override
+                       ^
+sphere.h:90:34: performance: Function parameter 'point' should be passed by const reference. [passedByValue]
+    Ray ScatterRay(Ray ray, vec3 point, vec3 normal) override
+                                 ^
+sphere.h:90:46: performance: Function parameter 'normal' should be passed by const reference. [passedByValue]
+    Ray ScatterRay(Ray ray, vec3 point, vec3 normal) override
+                                             ^
+1/5 files checked 23% done
+Checking material.cc ...
+material.cc:12:64: performance: Function parameter 'normal' should be passed by const reference. [passedByValue]
+BSDF(Material const* const material, Ray ray, vec3 point, vec3 normal)
+                                                               ^
+2/5 files checked 34% done
+Checking random.cc ...
+3/5 files checked 40% done
+Checking raytracer.cc ...
+raytracer.cc:7:12: warning: Member variable 'Raytracer::view' is not initialized in the constructor. [uninitMemberVar]
+Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces) :
+           ^
+raytracer.cc:7:12: warning: Member variable 'Raytracer::frustum' is not initialized in the constructor. [uninitMemberVar]
+Raytracer::Raytracer(unsigned w, unsigned h, std::vector<Color>& frameBuffer, unsigned rpp, unsigned bounces) :
+           ^
+4/5 files checked 58% done
+Checking window.cc ...
+window.cc:84:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:95:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:106:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:117:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:128:19: style: C-style pointer casting [cstyleCast]
+ Window* window = (Window*)glfwGetWindowUserPointer(win);
+                  ^
+window.cc:139:22: style: C-style pointer casting [cstyleCast]
+    Window* window = (Window*)glfwGetWindowUserPointer(win);
+                     ^
+Checking window.cc: _WIN32...
+5/5 files checked 100% done
+window.cc:277:0: style: The function 'MakeCurrent' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingIncludeSystem]
+

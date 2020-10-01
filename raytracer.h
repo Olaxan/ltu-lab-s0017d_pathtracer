@@ -58,17 +58,17 @@ public:
 private:
 
 	// rays per pixel
-	size_t rpp;
+	const size_t rpp;
 	// max number of bounces before termination
-	size_t bounces = 5;
+	const size_t bounces = 5;
 	// width of framebuffer
-	size_t width;
+	const size_t width;
 	// height of framebuffer
-	size_t height;
+	const size_t height;
 	// ray count for convenience
-	size_t ray_count;
+	const size_t ray_count;
 	// max allowed concurrent threads
-	size_t max_threads;
+	const size_t max_threads;
 	// number of render passes to perform
 	size_t passes;
 	
