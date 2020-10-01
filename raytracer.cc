@@ -57,8 +57,8 @@ void
 Raytracer::trace()
 {
 
-	std::vector<pthread_t> tids(max_threads);
-	std::vector<ThreadData> data(max_threads);
+	std::vector<pthread_t> t_id(max_threads);
+	std::vector<ThreadData> t_data(max_threads);
 
 	size_t p_width = this->width / passes;
 	size_t x_mod = this->width % passes;
@@ -79,9 +79,9 @@ Raytracer::trace()
 		for (size_t t = 0; t < max_threads; t++)
 		{
 			// Last thread gets some extra pixels to render in order to fill entire image.
-			data[t] = { this, t * t_rays, p_width, x_mod, t_height + (t == max_threads - 1) * y_mod, t * t_height };
+			t_data[t] = { this, t * t_rays, p_width, x_mod, t_height + (t == max_threads - 1) * y_mod, t * t_height };
 
-			int err = pthread_create(&tids[t], NULL, &trace_helper, &data[t]);
+			int err = pthread_create(&t_id[t], NULL, &trace_helper, &t_data[t]);
 
 			if (err > 0)
 				fprintf (stderr, "A thread error occured while tracing: %d\n", err);
@@ -90,7 +90,7 @@ Raytracer::trace()
 
 		for (size_t t = 0; t < max_threads; t++)
 		{
-			pthread_join(tids[t], NULL);
+			pthread_join(t_id[t], NULL);
 		}	
 	}
 	else
