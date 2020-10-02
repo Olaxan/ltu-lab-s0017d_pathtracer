@@ -37,11 +37,9 @@ SET(files
 		window.h
 		window.cc
 		vec3.h
-		color.h
 		mat4.h
 		object.h
 		pbr.h
-		ray.h
 		raytracer.h
 		raytracer.cc
 		sphere.h

@@ -2,6 +2,8 @@
 
 LOG_DIR="../log/run/1.txt"
 
+cp "$LOG_DIR" "$LOG_DIR".bak
+
 echo "Enter changes: "
 read MSG
 echo -e "\n${MSG}\n" >> "$LOG_DIR"
