@@ -1,8 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-#include "shared.h"
 #include "material.h"
-
+#include "xrng.h"
 #include "pbr.h"
 #include "mat4.h"
 
@@ -10,7 +9,7 @@
 /**
 */
 void
-BSDF(const Material& material, vec3& origin, vec3& dir, const vec3& point, const vec3& normal)
+BSDF(const Material& material, vec3& origin, vec3& dir, const vec3& point, const vec3& normal, xrng::xoshiro128_plus& rng)
 {
 	const float cosTheta = -dot(normalize(dir), normalize(normal));
 

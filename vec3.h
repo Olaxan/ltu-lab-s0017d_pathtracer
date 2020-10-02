@@ -1,5 +1,7 @@
 #pragma once
 #include <cmath>
+#include <cstring>
+#include <utility>
 
 #define MPI 3.14159265358979323846
 
@@ -21,6 +23,13 @@ public:
 		this->x = rhs.x;
 		this->y = rhs.y;
 		this->z = rhs.z;
+	}
+
+	vec3(vec3&& rhs) noexcept
+	{
+		this->x = std::move(rhs.x);
+		this->y = std::move(rhs.y);
+		this->z = std::move(rhs.z);
 	}
 
 	vec3& operator = (const vec3& rhs)

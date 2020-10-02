@@ -8,6 +8,7 @@
 #include "mat4.h"
 #include "object.h"
 #include "sphere.h"
+#include "xrng.h"
 
 #include <cstdio>
 
@@ -92,6 +93,7 @@ private:
 	
 	// Shape vectors
 	std::vector<Sphere> spheres;
+	size_t sphere_count;
 };
 
 inline size_t Raytracer::add_material(Material mat)
@@ -103,5 +105,5 @@ inline size_t Raytracer::add_material(Material mat)
 inline size_t Raytracer::add_sphere(const vec3& center, float radius, size_t material)
 {
 	this->spheres.push_back(Sphere(radius, center, material));
-	return spheres.size() - 1;
+	return ++sphere_count;
 }

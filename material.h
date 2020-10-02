@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vec3.h"
+#include "xrng.h"
 
 enum class MaterialType
 {
@@ -32,4 +33,4 @@ struct Material
 /**
 	Scatter ray against material
 */
-void BSDF(const Material& material, vec3& origin, vec3& dir, const vec3& point, const vec3& normal);
+void BSDF(const Material& material, vec3& origin, vec3& dir, const vec3& point, const vec3& normal, xrng::xoshiro128_plus& rng);

@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 #include "shared.h"
 #include "raytracer.h"
+#include "xrng.h"
 
 #include <cstdio>
 #include <thread>
@@ -37,7 +38,8 @@ Raytracer::Raytracer(const mat4& view, std::vector<vec3>& frameBuffer, const Tra
 	max_threads(data.max_threads),
 	view(view),
 	frustum(get_frustum(view)),
-	frameBuffer(frameBuffer)
+	frameBuffer(frameBuffer),
+	sphere_count(0)
 {
 	if (data.max_memory == 0)
 	{
@@ -106,6 +108,8 @@ Raytracer::trace_helper(void* params)
 	ThreadData* data = static_cast<ThreadData*>(params);
 	Raytracer* owner = data->owner;
 
+	xrng::xoshiro128_plus t_rng(666);
+
 	vec3 cam_pos = get_position(owner->view);
 	
 	const size_t& passes = owner->passes;
@@ -144,8 +148,8 @@ Raytracer::trace_helper(void* params)
 			int x = ((i / rpp) % pass_width) + x_offset;
 			int y = ((i / rpp) / pass_width) + y_offset;
 
-			float u = ((float(x + rng.fnext()) * (1.0f / owner->width)) * 2.0f) - 1.0f;
-			float v = aspect * (((float(y + rng.fnext()) * (1.0f / owner->height)) * 2.0f) - 1.0f);
+			float u = ((float(x + t_rng.fnext()) * (1.0f / owner->width)) * 2.0f) - 1.0f;
+			float v = aspect * (((float(y + t_rng.fnext()) * (1.0f / owner->height)) * 2.0f) - 1.0f);
 
 			vec3 dir(u, v, -1.0f);
 			dir = transform(dir, owner->frustum);
@@ -190,7 +194,7 @@ Raytracer::trace_helper(void* params)
 						Material& mat = owner->materials[obj.material_index];
 
 						color[ray_index] *= mat.color * shadow_pass;
-						BSDF(mat, origin[ray_index], direction[ray_index], res.p, res.normal);
+						BSDF(mat, origin[ray_index], direction[ray_index], res.p, res.normal, t_rng);
 						break;
 					}
 					default:
@@ -229,7 +233,7 @@ Raytracer::raycast_spheres(const vec3& point, const vec3& dir, HitResult& result
 {
 	bool isHit = false;
 
-	for (size_t i = 0; i < spheres.size(); ++i)
+	for (size_t i = 0; i < sphere_count; ++i)
 	{
 		if (spheres[i].intersect(point, dir, result.dist, result))
 		{
